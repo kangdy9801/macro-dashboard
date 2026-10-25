@@ -69,7 +69,8 @@
   }
   .ranges button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
   .ranges button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .chart { height: 340px; }
+  .chart { height: 360px; }
+  .chart tv-advanced-chart { display: block; width: 100%; height: 100%; }
   .gold { --accent: var(--gold); }
   .oil { --accent: var(--oil); }
   .rate { --accent: var(--rate); }
@@ -132,18 +133,17 @@
   <footer>차트 데이터는 TradingView 위젯으로 제공되며, 거래소 사정에 따라 실시간이 아닌 지연 시세일 수 있어요. 투자 판단의 참고용으로만 사용하세요.</footer>
 </div>
 
-<script src="https://s3.tradingview.com/tv.js"></script>
+<!-- TradingView 고급 차트 (2026년 10월부터 쓰는 새 웹 컴포넌트 방식) -->
+<script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-advanced-chart.js"></script>
 <script>
   // 심볼을 바꾸고 싶으면 여기만 수정하세요.
-  // 어떤 칸이 '애플 주식회사'로 뜨면 그 심볼을 위젯이 못 찾은 것이니 아래 대체 심볼로 바꿔 보세요.
+  // 어떤 칸에 엉뚱한 종목이 나오거나 오류가 뜨면 아래 대체 심볼로 바꿔 보세요.
   //   금: OANDA:XAUUSD → TVC:GOLD
   //   WTI: TVC:USOIL → FX:USOIL
   //   3년물: TVC:US03Y → FRED:DGS3
-  //   10년물: TVC:US10Y → FRED:DGS10 또는 CBOE:TNX(10배 값)
+  //   10년물: TVC:US10Y → FRED:DGS10
   //   S&P 500: FOREXCOM:SPXUSD → SP:SPX
   //   나스닥 100: FOREXCOM:NSXUSD → NASDAQ:NDX
-  // TradingView 무료 위젯은 CME 계열 선물(COMEX:GCZ2026, NYMEX:CL1! 등)을 지원하지 않아서
-  // 현물·CFD 심볼을 씁니다. 차트 안쪽 왼쪽 위 종목명이 제목과 같은지 확인하세요.
   const CHARTS = [
     { group: "g-commodity", cls: "gold",   title: "금",                    note: "현물 가격, 달러/온스 (GCZ6와 같은 방향)", symbol: "OANDA:XAUUSD" },
     { group: "g-commodity", cls: "oil",    title: "WTI 원유",              note: "CFD 가격, 달러/배럴", symbol: "TVC:USOIL" },
@@ -153,39 +153,11 @@
     { group: "g-equity",    cls: "equity", title: "나스닥 100",            note: "지수 CFD",            symbol: "FOREXCOM:NSXUSD" }
   ];
   // 봉 하나의 기준. 기본은 하루(1D) 봉이에요.
-  // range(기간)를 함께 넘기면 TradingView가 봉 기준을 자동으로 바꿔버려서(예: 2시간봉) 넘기지 않아요.
-  const INTERVALS = [["D", "1일"], ["W", "1주"], ["M", "1달"]];
-  const DEFAULT_INTERVAL = "D";
+  const INTERVALS = [["1D", "1일"], ["1W", "1주"], ["1M", "1달"]];
+  const DEFAULT_INTERVAL = "1D";
   const THEME = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
-  function drawChart(containerId, symbol, interval) {
-    const el = document.getElementById(containerId);
-    el.innerHTML = "";
-    if (typeof TradingView === "undefined") {
-      el.textContent = "차트를 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침하세요.";
-      return;
-    }
-    new TradingView.widget({
-      container_id: containerId,
-      autosize: true,
-      symbol: symbol,
-      interval: interval,
-      timezone: "Asia/Seoul",
-      theme: THEME,
-      style: "2",
-      locale: "kr",
-      toolbar_bg: "transparent",
-      hide_side_toolbar: true,
-      hide_top_toolbar: false,
-      hide_volume: true,
-      allow_symbol_change: false,
-      save_image: false,
-      enable_publishing: false
-    });
-  }
-
-  CHARTS.forEach((c, i) => {
-    const containerId = "tv-chart-" + i;
+  CHARTS.forEach((c) => {
     const tile = document.createElement("article");
     tile.className = "tile " + c.cls;
 
@@ -196,6 +168,11 @@
     const small = document.createElement("small");
     small.textContent = c.note + " · " + c.symbol;
     h3.append(small);
+
+    const chart = document.createElement("tv-advanced-chart");
+    chart.setAttribute("symbol", c.symbol);
+    chart.setAttribute("interval", DEFAULT_INTERVAL);
+    chart.setAttribute("theme", THEME);
 
     const rangesEl = document.createElement("div");
     rangesEl.className = "ranges";
@@ -208,7 +185,7 @@
       b.setAttribute("aria-pressed", value === DEFAULT_INTERVAL);
       b.addEventListener("click", () => {
         rangesEl.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", x === b));
-        drawChart(containerId, c.symbol, value);
+        chart.setAttribute("interval", value);
       });
       rangesEl.append(b);
     });
@@ -216,11 +193,10 @@
 
     const chartEl = document.createElement("div");
     chartEl.className = "chart";
-    chartEl.id = containerId;
+    chartEl.append(chart);
 
     tile.append(head, chartEl);
     document.getElementById(c.group).append(tile);
-    drawChart(containerId, c.symbol, DEFAULT_INTERVAL);
   });
 </script>
 </body>
