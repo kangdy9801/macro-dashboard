@@ -75,14 +75,25 @@
   .level { font-size: 0.8125rem; font-weight: 600; padding: 1px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
   .level.warn { color: var(--alert); border-color: var(--alert); }
   .level.alert { color: #fff; background: var(--alert); border-color: var(--alert); }
-  .gauge { padding: 2px 14px 10px; }
-  .gauge-bar { position: relative; display: grid; grid-template-columns: 25fr 20fr 10fr 20fr 25fr; height: 10px; border-radius: 5px; overflow: visible; }
-  .gauge-bar span:nth-child(1) { background: var(--fng-0); border-radius: 5px 0 0 5px; } .gauge-bar span:nth-child(2) { background: var(--fng-1); }
-  .gauge-bar span:nth-child(3) { background: var(--fng-2); } .gauge-bar span:nth-child(4) { background: var(--fng-3); }
-  .gauge-bar span:nth-child(5) { background: var(--fng-4); border-radius: 0 5px 5px 0; }
-  .gauge-bar i { position: absolute; top: -5px; width: 4px; height: 20px; margin-left: -2px; background: var(--ink); border-radius: 2px; box-shadow: 0 0 0 2px var(--panel); }
-  .gauge-scale { display: grid; grid-template-columns: 25fr 20fr 10fr 20fr 25fr; font-size: 0.75rem; color: var(--muted); margin-top: 6px; text-align: center; }
-  .gauge-past { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.8125rem; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .fng-board { display: grid; grid-template-columns: minmax(170px, 210px) 1fr; gap: 6px 18px; align-items: center; padding: 2px 14px 10px; }
+  @media (max-width: 460px) { .fng-board { grid-template-columns: 1fr; } }
+  .dial { width: 100%; max-width: 230px; margin: 0 auto; display: block; }
+  .dial text { fill: var(--ink); font-family: inherit; }
+  .dial .num { font-size: 30px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .dial .tick { font-size: 9px; fill: var(--muted); }
+  .fng-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+  .fng-table caption { text-align: left; color: var(--muted); font-size: 0.75rem; padding-bottom: 2px; }
+  .fng-table th { text-align: left; font-weight: 400; color: var(--muted); padding: 5px 0; }
+  .fng-table td { padding: 5px 0; text-align: right; }
+  .fng-table tr + tr th, .fng-table tr + tr td { border-top: 1px solid var(--line); }
+  .fng-table tr.now th, .fng-table tr.now td { font-weight: 600; color: var(--ink); }
+  .fng-num { display: inline-grid; place-items: center; min-width: 2.3em; height: 2.3em; border-radius: 50%; font-weight: 600; margin-left: 8px; border: 2px solid var(--c); color: var(--ink); }
+  .fng-rt { color: var(--muted); font-size: 0.8125rem; }
+  .fng-parts { margin: 0 14px 10px; border-top: 1px solid var(--line); padding-top: 6px; }
+  .fng-parts summary { cursor: pointer; font-size: 0.875rem; font-weight: 500; padding: 4px 0; }
+  .fng-parts summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .fng-parts .fng-table th small { display: block; font-size: 0.75rem; }
+  .fng-parts .fng-table td { white-space: nowrap; vertical-align: middle; }
   .matrix-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-top: 16px; }
   .matrix-card h3 { margin: 0; font-size: 1rem; font-weight: 600; }
   .matrix-card > p { margin: 2px 0 12px; color: var(--muted); font-size: 0.875rem; }
@@ -153,7 +164,7 @@
     <div class="grid" data-ids="vkospi fng" style="margin-top:16px"></div>
   </section>
 
-  <footer>데이터: Yahoo Finance(금·원유·주가지수·VIX·MOVE), 미국 재무부(국채 금리), 한국거래소(VKOSPI), CNN(공포·탐욕 지수). 매일 한 번 자동으로 갱신되는 종가 기준이며, 투자 판단의 참고용으로만 사용하세요.<br>화면 버전: v8 (변동성·심리 지표 추가)</footer>
+  <footer>데이터: Yahoo Finance(금·원유·주가지수·VIX·MOVE), 미국 재무부(국채 금리), 한국거래소(VKOSPI), CNN(공포·탐욕 지수). 매일 한 번 자동으로 갱신되는 종가 기준이며, 투자 판단의 참고용으로만 사용하세요.<br>화면 버전: v9 (공포·탐욕 지수를 CNN 표 기준으로 변경)</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
@@ -201,9 +212,13 @@
     },
   };
   const metaOf = (s) => META[s.id] || { dec: 2 };
-  function fngLabel(v) {
-    return v < 25 ? "극단적 공포" : v < 45 ? "공포" : v <= 55 ? "중립" : v <= 75 ? "탐욕" : "극단적 탐욕";
+  // CNN 구간: 0~24 극단적 공포, 25~44 공포, 45~55 중립, 56~75 탐욕, 76~100 극단적 탐욕
+  const FNG_BANDS = [[0, 25, "극단적 공포"], [25, 45, "공포"], [45, 56, "중립"], [56, 76, "탐욕"], [76, 101, "극단적 탐욕"]];
+  function fngBand(v) {
+    const r = Math.round(v);
+    return Math.max(0, FNG_BANDS.findIndex(([a, b]) => r >= a && r < b));
   }
+  function fngLabel(v) { return FNG_BANDS[fngBand(v)][2]; }
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const statusEl = document.getElementById("status");
   const noticeEl = document.getElementById("notice");
@@ -224,6 +239,12 @@
   }
 
   function lastAndChange(s) {
+    const t = s.id === "fng" && s.table ? Object.fromEntries(s.table.map((r) => [r.key, r])) : null;
+    if (t && t.now && t.previous_close) {
+      const diff = t.now.value - t.previous_close.value;
+      return { now: t.now.value, diff, pct: t.previous_close.value ? (diff / t.previous_close.value) * 100 : 0,
+               date: s.as_of || s.data[s.data.length - 1].time };
+    }
     const d = s.data;
     const val = (p) => (s.kind === "candle" ? p.close : p.value);
     const last = d[d.length - 1];
@@ -266,9 +287,10 @@
       : `${sign}${fmt(q.diff, m.dec)} (${sign}${q.pct.toFixed(2)}%)`;
     const date = document.createElement("span");
     date.className = "date";
-    date.textContent = q.date + (s.id === "fng" ? " 기준" : " 종가");
+    date.textContent = q.date + (s.id === "fng" ? (s.as_of ? " 기준 (미국 동부)" : " 기준") : " 종가");
     quote.append(price, chg);
-    const lv = m.gauge ? [fngLabel(q.now), q.now < 25 || q.now > 75 ? "warn" : ""] : m.level ? m.level(q.now) : null;
+    const fb = fngBand(q.now);
+    const lv = m.gauge ? [fngLabel(q.now), fb === 0 || fb === 4 ? "warn" : ""] : m.level ? m.level(q.now) : null;
     if (lv) {
       const badge = document.createElement("span");
       badge.className = "level " + lv[1];
@@ -284,7 +306,7 @@
     hint.className = "hint";
     hint.textContent = "하루 한 번 공시값이라, 전날 대비 오르내림으로 그린 캔들이에요.";
     tile.append(head, quote);
-    if (m.gauge) tile.append(buildGauge(s, q.now));
+    if (m.gauge) tile.append(...buildFng(s, q.now));
     tile.append(hint, chartEl);
 
     const chart = LightweightCharts.createChart(chartEl, {
@@ -348,33 +370,94 @@
     return { tile, draw, init: () => { draw(MODE); setRange(RANGES.find((r) => r[0] === DEFAULT_RANGE)[2]); } };
   }
 
-  function buildGauge(s, now) {
-    const g = document.createElement("div");
-    g.className = "gauge";
-    const bar = document.createElement("div");
-    bar.className = "gauge-bar";
-    bar.setAttribute("role", "img");
-    bar.setAttribute("aria-label", `공포·탐욕 지수 ${Math.round(now)}, ${fngLabel(now)}`);
-    for (let i = 0; i < 5; i++) bar.append(document.createElement("span"));
-    const pin = document.createElement("i");
-    pin.style.left = Math.max(0, Math.min(100, now)) + "%";
-    bar.append(pin);
-    const scale = document.createElement("div");
-    scale.className = "gauge-scale";
-    ["극단적 공포", "공포", "중립", "탐욕", "극단적 탐욕"].forEach((t) => {
-      const x = document.createElement("span"); x.textContent = t; scale.append(x);
+  // ── CNN 화면처럼: 반원 계기판 + 지난 값 표 + 세부 지표 7개 ──
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  const NS = "http://www.w3.org/2000/svg";
+  function svg(tag, attrs) {
+    const e = document.createElementNS(NS, tag);
+    Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+    return e;
+  }
+  function buildDial(now) {
+    const cx = 110, cy = 108, R = 84, w = 18;
+    const pt = (v, r) => { const a = Math.PI * (1 - v / 100); return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; };
+    const s = svg("svg", { viewBox: "0 0 220 150", class: "dial", role: "img",
+      "aria-label": `공포·탐욕 지수 ${Math.round(now)}, ${fngLabel(now)}` });
+    const band = fngBand(now);
+    FNG_BANDS.forEach(([a, b], i) => {
+      const [x1, y1] = pt(a + 0.6, R), [x2, y2] = pt(Math.min(b, 100) - 0.6, R);
+      s.append(svg("path", { d: `M${x1} ${y1} A${R} ${R} 0 0 1 ${x2} ${y2}`, fill: "none",
+        stroke: css("--fng-" + i), "stroke-width": w, opacity: i === band ? 1 : 0.35 }));
     });
-    const past = document.createElement("div");
-    past.className = "gauge-past";
-    const d = s.data, ago = (n) => (d.length > n ? Math.round(d[d.length - 1 - n].value) : null);
-    const parts = [["1주 전", ago(5)], ["1달 전", ago(21)], ["1년 전", ago(252)]].filter((x) => x[1] != null);
-    parts.forEach(([k, v]) => {
-      const x = document.createElement("span");
-      x.textContent = `${k} ${v} (${fngLabel(v)})`;
-      past.append(x);
+    [0, 25, 50, 75, 100].forEach((v) => {
+      const [x, y] = pt(v, R + w / 2 + 8);
+      const t = svg("text", { x, y: y + 3, "text-anchor": "middle", class: "tick" });
+      t.textContent = v; s.append(t);
     });
-    g.append(bar, scale, past);
-    return g;
+    const v = Math.max(0, Math.min(100, now));
+    const [nx, ny] = pt(v, R - w / 2 - 2);
+    s.append(svg("line", { x1: cx, y1: cy, x2: nx, y2: ny, stroke: css("--ink"), "stroke-width": 3, "stroke-linecap": "round" }));
+    s.append(svg("circle", { cx, cy, r: 6, fill: css("--ink") }));
+    const num = svg("text", { x: cx, y: cy + 36, "text-anchor": "middle", class: "num" });
+    num.textContent = Math.round(now);
+    s.append(num);
+    return s;
+  }
+  function numBadge(v) {
+    const b = el("span", "fng-num", Math.round(v));
+    b.style.setProperty("--c", css("--fng-" + fngBand(v)));
+    return b;
+  }
+  function tableRow(label, sub, v, rating, isNow) {
+    const tr = el("tr", isNow ? "now" : "");
+    const th = el("th", "", label);
+    th.scope = "row";
+    if (sub) th.append(el("small", "", sub));
+    const td = el("td");
+    td.append(el("span", "fng-rt", rating || fngLabel(v)), numBadge(v));
+    tr.append(th, td);
+    return tr;
+  }
+  // CNN 표가 없을 때(예전 데이터): 날짜로 찾아 계산
+  function pastFromHistory(s) {
+    const d = s.data, last = d[d.length - 1];
+    const before = (iso) => { for (let i = d.length - 1; i >= 0; i--) if (d[i].time <= iso) return d[i]; return null; };
+    const shift = (days, months) => {
+      const x = new Date(last.time + "T00:00:00Z");
+      x.setUTCDate(x.getUTCDate() - days); x.setUTCMonth(x.getUTCMonth() - months);
+      return x.toISOString().slice(0, 10);
+    };
+    const rows = [{ key: "now", label: "지금", value: last.value }];
+    if (d.length > 1) rows.push({ key: "previous_close", label: "전일 종가", value: d[d.length - 2].value });
+    [["previous_1_week", "1주 전", 7, 0], ["previous_1_month", "1달 전", 0, 1], ["previous_1_year", "1년 전", 0, 12]].forEach(([key, label, dd, mm]) => {
+      const p = before(shift(dd, mm));
+      if (p && p.time >= d[0].time) rows.push({ key, label, value: p.value });
+    });
+    return rows;
+  }
+  function buildFng(s, now) {
+    const board = el("div", "fng-board");
+    board.append(buildDial(now));
+    const rows = s.table && s.table.length ? s.table : pastFromHistory(s);
+    const tbl = el("table", "fng-table");
+    tbl.append(el("caption", "", "CNN 공포·탐욕 지수 비교"));
+    rows.forEach((r) => tbl.append(tableRow(r.label, null, r.value, r.rating, r.key === "now")));
+    board.append(tbl);
+    const out = [board];
+    if (s.parts && s.parts.length) {
+      const det = el("details", "fng-parts");
+      det.append(el("summary", "", `세부 지표 ${s.parts.length}개 보기`));
+      const pt = el("table", "fng-table");
+      s.parts.forEach((p) => pt.append(tableRow(p.title, p.note, p.value, p.rating)));
+      det.append(pt);
+      out.push(det);
+    }
+    return out;
   }
 
   function lastVal(s) {

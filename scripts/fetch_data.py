@@ -267,8 +267,70 @@ def ny_day(ts):
     return None if d.weekday() >= 5 else d.strftime("%Y-%m-%d")
 
 
+# CNN 화면의 '세부 지표 7개' (API 키, 한국어 이름, 설명)
+FNG_PARTS = [
+    ("market_momentum_sp500", "시장 모멘텀", "S&P 500과 125일 이동평균 비교"),
+    ("stock_price_strength", "주가 강도", "NYSE 52주 신고가 대 신저가 종목 수"),
+    ("stock_price_breadth", "주가 폭", "상승 종목 대 하락 종목 거래량 (맥클렐런)"),
+    ("put_call_options", "풋·콜 옵션", "5일 평균 풋/콜 비율"),
+    ("market_volatility_vix", "시장 변동성", "VIX와 50일 이동평균 비교"),
+    ("safe_haven_demand", "안전자산 수요", "주식과 국채의 최근 20일 수익률 차이"),
+    ("junk_bond_demand", "정크본드 수요", "투기등급과 투자등급 채권 금리 차이"),
+]
+# CNN 화면의 '지난 값' 표 (API 키, 한국어 이름)
+FNG_PAST = [
+    ("previous_close", "전일 종가"),
+    ("previous_1_week", "1주 전"),
+    ("previous_1_month", "1달 전"),
+    ("previous_1_year", "1년 전"),
+]
+
+
+def fng_label(v):
+    """CNN 기준 구간: 0~24 극단적 공포, 25~44 공포, 45~55 중립, 56~75 탐욕, 76~100 극단적 탐욕"""
+    v = round(v)
+    return "극단적 공포" if v < 25 else "공포" if v < 45 else "중립" if v <= 55 else "탐욕" if v <= 75 else "극단적 탐욕"
+
+
+def fng_ko(rating, value=None):
+    ko = FNG_KO.get(str(rating or "").strip().lower(), "")
+    return ko or (fng_label(value) if value is not None else "")
+
+
+def fng_table(j):
+    """CNN 화면 상단의 '지금 · 전일 종가 · 1주 전 · 1달 전 · 1년 전' 표와 세부 지표 7개."""
+    now = j.get("fear_and_greed") or {}
+    table = []
+    if now.get("score") is not None:
+        v = float(now["score"])
+        table.append({"key": "now", "label": "지금", "value": round(v, 1), "rating": fng_ko(now.get("rating"), v)})
+    for key, label in FNG_PAST:
+        if now.get(key) is not None:
+            v = float(now[key])
+            table.append({"key": key, "label": label, "value": round(v, 1), "rating": fng_label(v)})
+    parts = []
+    for key, title, note in FNG_PARTS:
+        p = j.get(key) or {}
+        if p.get("score") is None:
+            continue
+        v = float(p["score"])
+        parts.append({"key": key, "title": title, "note": note, "value": round(v, 1), "rating": fng_ko(p.get("rating"), v)})
+    updated = None
+    if now.get("timestamp"):
+        try:
+            ts = pd.Timestamp(now["timestamp"])
+            ts = ts.tz_localize("UTC") if ts.tzinfo is None else ts
+            updated = ts.tz_convert("America/New_York").strftime("%Y-%m-%d %H:%M")
+        except Exception:
+            pass
+    return {"table": table, "parts": parts, "as_of": updated}
+
+
 def fng_from_cnn():
-    """CNN 공포·탐욕 지수 일별 값. CNN은 최근 1년 남짓만 주므로 지난 데이터와 합쳐 쌓습니다."""
+    """CNN 공포·탐욕 지수. CNN은 최근 1년 남짓만 주므로 지난 데이터와 합쳐 쌓습니다.
+
+    반환: (rows, info) — info 에는 CNN 화면과 같은 표(지금/전일 종가/1주/1달/1년 전)와 세부 지표 7개
+    """
     for start in (START, (dt.date.today() - dt.timedelta(days=365)).isoformat(), None):
         url = f"{CNN_FNG_URL}/{start}" if start else CNN_FNG_URL
         try:
@@ -286,19 +348,13 @@ def fng_from_cnn():
             day = ny_day(pd.Timestamp(p["x"], unit="ms", tz="UTC"))
             if day:
                 by_date[day] = {"time": day, "value": round(float(p["y"]), 1)}
-        now = j.get("fear_and_greed") or {}
-        if now.get("score") is not None and now.get("timestamp"):
-            try:
-                day = ny_day(pd.Timestamp(now["timestamp"]))
-                if day:
-                    by_date[day] = {"time": day, "value": round(float(now["score"]), 1)}
-            except Exception:
-                pass
+        info = fng_table(j)
         rows = [by_date[d] for d in sorted(by_date)]
-        if rows:
-            print(f"[cnn] 공포·탐욕: {len(rows)}일, 현재 {rows[-1]['value']} ({now.get('rating')})")
-            return rows, FNG_KO.get(str(now.get("rating", "")).lower(), "")
-    return [], ""
+        if rows or info["table"]:
+            now = info["table"][0] if info["table"] else {}
+            print(f"[cnn] 공포·탐욕: {len(rows)}일, 지금 {now.get('value')} ({now.get('rating')}), 세부 지표 {len(info['parts'])}개")
+            return rows, info
+    return [], {}
 
 
 def main():
@@ -340,14 +396,19 @@ def main():
                        "source": "한국거래소 KRX", "kind": "candle", "data": rows, "skip": skip})
 
     # 공포·탐욕 지수 (CNN, 지난 데이터와 합쳐 쌓기)
-    rows, rating = fng_from_cnn()
+    rows, info = fng_from_cnn()
     prev = old.get("fng", {})
-    if rows or prev.get("data"):
-        if not rows:
+    if rows or info or prev.get("data"):
+        if not rows and not info:
             print("fng: 이번에 못 받아서 지난 데이터를 유지합니다")
+        table = info.get("table") or prev.get("table") or []
         series.append({"id": "fng", "title": "공포·탐욕 지수", "note": "0 극단적 공포 ~ 100 극단적 탐욕",
                        "source": "CNN Fear & Greed", "kind": "line",
-                       "rating": rating or prev.get("rating", ""), "data": merge_rows(prev.get("data"), rows)})
+                       "rating": table[0]["rating"] if table and table[0]["key"] == "now" else prev.get("rating", ""),
+                       "table": table, "parts": info.get("parts") or prev.get("parts") or [],
+                       "as_of": info.get("as_of") or prev.get("as_of"),
+                       # CNN이 준 기간은 CNN 값만 쓰고, 그보다 오래된 날짜만 지난 데이터에서 가져옴
+                       "data": merge_rows([r for r in prev.get("data") or [] if not rows or r["time"] < rows[0]["time"]], rows)})
 
     if not series:
         raise SystemExit("모든 데이터 받기에 실패했습니다")
