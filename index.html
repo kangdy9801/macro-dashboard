@@ -12,6 +12,8 @@
     --bg: #EDF0F3; --panel: #FFFFFF; --ink: #1B2733; --muted: #5A6875; --line: #D3DAE1;
     --gold: #A97A12; --oil: #3D5A80; --rate: #1F7A6D; --equity: #5146A8;
     --up: #D6453D; --down: #2F6BD8;
+    --vol: #B4532A; --mood: #2E7D4F; --alert: #C62828; --alert-bg: #FDECEA;
+    --fng-0: #C62828; --fng-1: #E58A3A; --fng-2: #A9B0B7; --fng-3: #6BAF7A; --fng-4: #2E7D4F;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
@@ -19,6 +21,8 @@
       --bg: #121A22; --panel: #1A242E; --ink: #E4E9EE; --muted: #9AA8B4; --line: #2C3946;
       --gold: #E0B54A; --oil: #8FB0D8; --rate: #5CC4B2; --equity: #A59CF0;
       --up: #F06A62; --down: #6B9BF2;
+      --vol: #EE9466; --mood: #6CC690; --alert: #FF6B6B; --alert-bg: #3A1F22;
+      --fng-0: #E05555; --fng-1: #E9A05A; --fng-2: #6E7A86; --fng-3: #6FBF85; --fng-4: #3FA56A;
       color-scheme: dark;
     }
   }
@@ -66,6 +70,30 @@
   .empty { padding: 40px 14px; color: var(--muted); text-align: center; }
   .gold { --accent: var(--gold); } .wti { --accent: var(--oil); }
   .us3y, .us10y { --accent: var(--rate); } .spx, .ndx { --accent: var(--equity); }
+  .vix, .move, .vkospi { --accent: var(--vol); } .fng { --accent: var(--mood); }
+  .tile.alerting { border-top-color: var(--alert); }
+  .level { font-size: 0.8125rem; font-weight: 600; padding: 1px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  .level.warn { color: var(--alert); border-color: var(--alert); }
+  .level.alert { color: #fff; background: var(--alert); border-color: var(--alert); }
+  .gauge { padding: 2px 14px 10px; }
+  .gauge-bar { position: relative; display: grid; grid-template-columns: 25fr 20fr 10fr 20fr 25fr; height: 10px; border-radius: 5px; overflow: visible; }
+  .gauge-bar span:nth-child(1) { background: var(--fng-0); border-radius: 5px 0 0 5px; } .gauge-bar span:nth-child(2) { background: var(--fng-1); }
+  .gauge-bar span:nth-child(3) { background: var(--fng-2); } .gauge-bar span:nth-child(4) { background: var(--fng-3); }
+  .gauge-bar span:nth-child(5) { background: var(--fng-4); border-radius: 0 5px 5px 0; }
+  .gauge-bar i { position: absolute; top: -5px; width: 4px; height: 20px; margin-left: -2px; background: var(--ink); border-radius: 2px; box-shadow: 0 0 0 2px var(--panel); }
+  .gauge-scale { display: grid; grid-template-columns: 25fr 20fr 10fr 20fr 25fr; font-size: 0.75rem; color: var(--muted); margin-top: 6px; text-align: center; }
+  .gauge-past { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.8125rem; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .matrix-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-top: 16px; }
+  .matrix-card h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+  .matrix-card > p { margin: 2px 0 12px; color: var(--muted); font-size: 0.875rem; }
+  .matrix { display: grid; grid-template-columns: auto 1fr 1fr; gap: 6px; align-items: stretch; }
+  .matrix .ax { color: var(--muted); font-size: 0.8125rem; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4px; }
+  .matrix .cell { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; color: var(--muted); font-size: 0.875rem; }
+  .matrix .cell b { display: block; color: var(--ink); font-weight: 600; font-size: 0.9375rem; }
+  .matrix .cell.now { border: 2px solid var(--vol); background: color-mix(in srgb, var(--vol) 10%, var(--panel)); color: var(--ink); }
+  .matrix .cell.now b::after { content: "지금"; margin-left: 8px; font-size: 0.75rem; font-weight: 600; color: #fff; background: var(--vol); padding: 1px 8px; border-radius: 999px; vertical-align: 2px; }
+  .matrix-now { margin-top: 10px; font-size: 0.875rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 520px) { .matrix { grid-template-columns: 1fr 1fr; } .matrix .ax.side { display: none; } .matrix .ax.corner { display: none; } }
   footer { margin-top: 40px; color: var(--muted); font-size: 0.8125rem; }
 </style>
 </head>
@@ -102,8 +130,30 @@
     <p>금리가 오를 때 성장주 비중이 큰 나스닥이 S&amp;P 500보다 더 크게 흔들리는 경우가 많아요.</p>
     <div class="grid" data-ids="spx ndx"></div>
   </section>
+  <section>
+    <h2>변동성 · 투자 심리</h2>
+    <p>옵션 가격에 담긴 ‘앞으로 얼마나 출렁일까’ 예상치예요. 숫자가 클수록 시장이 불안하다는 뜻이고, 점선은 평상시 범위와 경계선이에요.</p>
+    <div class="grid" data-ids="vix move"></div>
+    <div class="matrix-card" id="matrix" hidden>
+      <h3>VIX × MOVE로 본 지금 시장</h3>
+      <p>주식 변동성(VIX)과 채권 변동성(MOVE)을 함께 보면 불안이 어디에 몰려 있는지 알 수 있어요. 높음 기준: VIX <span data-th="vix"></span> 이상, MOVE <span data-th="move"></span> 이상.</p>
+      <div class="matrix" role="table" aria-label="VIX와 MOVE 조합">
+        <div class="ax corner" role="columnheader"></div>
+        <div class="ax" role="columnheader">VIX 낮음</div>
+        <div class="ax" role="columnheader">VIX 높음</div>
+        <div class="ax side" role="rowheader">MOVE<br>높음</div>
+        <div class="cell" data-q="lowvix-highmove" role="cell"><b>주식은 낙관, 채권은 불안</b>VIX는 낮은데 MOVE만 높아요.</div>
+        <div class="cell" data-q="highvix-highmove" role="cell"><b>시장 전체 변동성 확대</b>둘 다 높아 주식·채권이 같이 출렁여요.</div>
+        <div class="ax side" role="rowheader">MOVE<br>낮음</div>
+        <div class="cell" data-q="lowvix-lowmove" role="cell"><b>시장 전체 안정</b>둘 다 낮아 주식·채권이 같이 잠잠해요.</div>
+        <div class="cell" data-q="highvix-lowmove" role="cell"><b>주식은 불안, 채권은 안정</b>VIX는 높은데 MOVE는 낮아요.</div>
+      </div>
+      <div class="matrix-now" id="matrix-now"></div>
+    </div>
+    <div class="grid" data-ids="vkospi fng" style="margin-top:16px"></div>
+  </section>
 
-  <footer>데이터: Yahoo Finance(금·원유·주가지수), 미국 재무부(국채 금리). 매일 한 번 자동으로 갱신되는 종가 기준이며, 투자 판단의 참고용으로만 사용하세요.<br>화면 버전: v7 (차트·그래프 선택)</footer>
+  <footer>데이터: Yahoo Finance(금·원유·주가지수·VIX·MOVE), 미국 재무부(국채 금리), 한국거래소(VKOSPI), CNN(공포·탐욕 지수). 매일 한 번 자동으로 갱신되는 종가 기준이며, 투자 판단의 참고용으로만 사용하세요.<br>화면 버전: v8 (변동성·심리 지표 추가)</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
@@ -125,6 +175,35 @@
     return s.kind === "candle" ? s.data.map((p) => ({ time: p.time, value: p.close })) : s.data;
   }
   const DEFAULT_RANGE = "6M";
+
+  // 지표별 표시 방법. 기준선(lines)은 차트에 점선으로, alert 이상이면 '경계' 표시
+  const MATRIX_TH = { vix: 20, move: 100 }; // VIX×MOVE 표에서 '높음'으로 보는 기준
+  const META = {
+    us3y: { dec: 3, unit: "%", bp: true }, us10y: { dec: 3, unit: "%", bp: true },
+    vix: {
+      dec: 2, alert: 30,
+      lines: [{ v: 30, t: "경계 30", alert: true }, { v: 20, t: "평상 상단 20" }, { v: 12, t: "평상 하단 12" }],
+      level: (v) => v >= 30 ? ["경계", "alert"] : v > 20 ? ["평상보다 높음", "warn"] : v >= 12 ? ["평상 범위", ""] : ["매우 낮음", ""],
+    },
+    move: {
+      dec: 2,
+      lines: [{ v: MATRIX_TH.move, t: "높음 기준 " + MATRIX_TH.move }],
+      level: (v) => v >= MATRIX_TH.move ? ["채권 불안 (높음)", "warn"] : ["채권 안정 (낮음)", ""],
+    },
+    vkospi: {
+      dec: 2, alert: 40,
+      lines: [{ v: 40, t: "경계 40", alert: true }, { v: 20, t: "평상 20" }],
+      level: (v) => v >= 40 ? ["경계", "alert"] : v > 25 ? ["평상보다 높음", "warn"] : ["평상 수준", ""],
+    },
+    fng: {
+      dec: 0, gauge: true, fixed: [0, 100],
+      lines: [{ v: 25, t: "극단적 공포" }, { v: 75, t: "극단적 탐욕" }],
+    },
+  };
+  const metaOf = (s) => META[s.id] || { dec: 2 };
+  function fngLabel(v) {
+    return v < 25 ? "극단적 공포" : v < 45 ? "공포" : v <= 55 ? "중립" : v <= 75 ? "탐욕" : "극단적 탐욕";
+  }
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const statusEl = document.getElementById("status");
   const noticeEl = document.getElementById("notice");
@@ -140,8 +219,8 @@
     return d.toISOString().slice(0, 10);
   }
 
-  function fmt(v, isRate) {
-    return v.toLocaleString("ko-KR", { minimumFractionDigits: isRate ? 3 : 2, maximumFractionDigits: isRate ? 3 : 2 });
+  function fmt(v, dec) {
+    return v.toLocaleString("ko-KR", { minimumFractionDigits: dec, maximumFractionDigits: dec });
   }
 
   function lastAndChange(s) {
@@ -156,7 +235,7 @@
   }
 
   function buildTile(s) {
-    const isRate = s.kind === "line";
+    const m = metaOf(s);
     const tile = document.createElement("article");
     tile.className = "tile " + s.id;
 
@@ -178,24 +257,35 @@
     quote.className = "quote";
     const price = document.createElement("span");
     price.className = "price";
-    price.textContent = fmt(q.now, isRate) + (isRate ? "%" : "");
+    price.textContent = fmt(q.now, m.dec) + (m.unit || "");
     const chg = document.createElement("span");
     chg.className = "chg " + (q.diff >= 0 ? "up" : "down");
     const sign = q.diff >= 0 ? "+" : "";
-    chg.textContent = isRate
+    chg.textContent = m.bp
       ? `${sign}${(q.diff * 100).toFixed(1)}bp`
-      : `${sign}${fmt(q.diff, false)} (${sign}${q.pct.toFixed(2)}%)`;
+      : `${sign}${fmt(q.diff, m.dec)} (${sign}${q.pct.toFixed(2)}%)`;
     const date = document.createElement("span");
     date.className = "date";
-    date.textContent = q.date + " 종가";
-    quote.append(price, chg, date);
+    date.textContent = q.date + (s.id === "fng" ? " 기준" : " 종가");
+    quote.append(price, chg);
+    const lv = m.gauge ? [fngLabel(q.now), q.now < 25 || q.now > 75 ? "warn" : ""] : m.level ? m.level(q.now) : null;
+    if (lv) {
+      const badge = document.createElement("span");
+      badge.className = "level " + lv[1];
+      badge.textContent = lv[0];
+      quote.append(badge);
+    }
+    quote.append(date);
+    if (m.alert != null && q.now >= m.alert) tile.classList.add("alerting");
 
     const chartEl = document.createElement("div");
     chartEl.className = "chart";
     const hint = document.createElement("div");
     hint.className = "hint";
     hint.textContent = "하루 한 번 공시값이라, 전날 대비 오르내림으로 그린 캔들이에요.";
-    tile.append(head, quote, hint, chartEl);
+    tile.append(head, quote);
+    if (m.gauge) tile.append(buildGauge(s, q.now));
+    tile.append(hint, chartEl);
 
     const chart = LightweightCharts.createChart(chartEl, {
       autoSize: true,
@@ -210,16 +300,30 @@
       const accent = getComputedStyle(tile).getPropertyValue("--accent").trim() || css("--ink");
       const range = series ? chart.timeScale().getVisibleRange() : null;
       if (series) chart.removeSeries(series);
+      // 기준선이 항상 화면에 보이도록 세로 범위를 넓힘
+      const keep = m.fixed || (m.lines || []).map((l) => l.v);
+      const autoscaleInfoProvider = keep.length ? (orig) => {
+        const r = orig();
+        if (!r || !r.priceRange) return r;
+        r.priceRange.minValue = m.fixed ? m.fixed[0] : Math.min(r.priceRange.minValue, ...keep);
+        r.priceRange.maxValue = m.fixed ? m.fixed[1] : Math.max(r.priceRange.maxValue, ...keep);
+        return r;
+      } : undefined;
       if (mode === "candle") {
-        series = chart.addCandlestickSeries({
+        series = chart.addCandlestickSeries({ autoscaleInfoProvider,
           upColor: css("--up"), downColor: css("--down"), borderVisible: false,
           wickUpColor: css("--up"), wickDownColor: css("--down"),
         });
         series.setData(toCandles(s));
       } else {
-        series = chart.addLineSeries({ color: accent, lineWidth: 2 });
+        series = chart.addLineSeries({ color: accent, lineWidth: 2, autoscaleInfoProvider });
         series.setData(toLine(s));
       }
+      (m.lines || []).forEach((l) => series.createPriceLine({
+        price: l.v, title: l.t, lineWidth: l.alert ? 2 : 1, lineStyle: l.alert ? 0 : 2, axisLabelVisible: true,
+        color: l.alert ? css("--alert") : css("--muted"),
+      }));
+      if (m.fixed) series.priceScale().applyOptions({ scaleMargins: { top: 0.04, bottom: 0.04 } });
       if (range) chart.timeScale().setVisibleRange(range);
       hint.hidden = !(mode === "candle" && s.kind === "line");
     }
@@ -242,6 +346,56 @@
       ranges.append(b);
     });
     return { tile, draw, init: () => { draw(MODE); setRange(RANGES.find((r) => r[0] === DEFAULT_RANGE)[2]); } };
+  }
+
+  function buildGauge(s, now) {
+    const g = document.createElement("div");
+    g.className = "gauge";
+    const bar = document.createElement("div");
+    bar.className = "gauge-bar";
+    bar.setAttribute("role", "img");
+    bar.setAttribute("aria-label", `공포·탐욕 지수 ${Math.round(now)}, ${fngLabel(now)}`);
+    for (let i = 0; i < 5; i++) bar.append(document.createElement("span"));
+    const pin = document.createElement("i");
+    pin.style.left = Math.max(0, Math.min(100, now)) + "%";
+    bar.append(pin);
+    const scale = document.createElement("div");
+    scale.className = "gauge-scale";
+    ["극단적 공포", "공포", "중립", "탐욕", "극단적 탐욕"].forEach((t) => {
+      const x = document.createElement("span"); x.textContent = t; scale.append(x);
+    });
+    const past = document.createElement("div");
+    past.className = "gauge-past";
+    const d = s.data, ago = (n) => (d.length > n ? Math.round(d[d.length - 1 - n].value) : null);
+    const parts = [["1주 전", ago(5)], ["1달 전", ago(21)], ["1년 전", ago(252)]].filter((x) => x[1] != null);
+    parts.forEach(([k, v]) => {
+      const x = document.createElement("span");
+      x.textContent = `${k} ${v} (${fngLabel(v)})`;
+      past.append(x);
+    });
+    g.append(bar, scale, past);
+    return g;
+  }
+
+  function lastVal(s) {
+    const p = s.data[s.data.length - 1];
+    return { v: s.kind === "candle" ? p.close : p.value, date: p.time };
+  }
+
+  function buildMatrix(byId) {
+    const vix = byId.vix, move = byId.move, box = document.getElementById("matrix");
+    if (!vix || !move || !vix.data?.length || !move.data?.length) return;
+    box.querySelectorAll("[data-th]").forEach((el) => (el.textContent = MATRIX_TH[el.dataset.th]));
+    const a = lastVal(vix), b = lastVal(move);
+    const key = (a.v >= MATRIX_TH.vix ? "highvix" : "lowvix") + "-" + (b.v >= MATRIX_TH.move ? "highmove" : "lowmove");
+    box.querySelectorAll(".cell").forEach((c) => {
+      const on = c.dataset.q === key;
+      c.classList.toggle("now", on);
+      if (on) c.setAttribute("aria-current", "true");
+    });
+    document.getElementById("matrix-now").textContent =
+      `지금 VIX ${fmt(a.v, 2)} (${a.date}) · MOVE ${fmt(b.v, 2)} (${b.date})`;
+    box.hidden = false;
   }
 
   async function main() {
@@ -274,7 +428,9 @@
           empty.className = "tile " + id;
           const p = document.createElement("p");
           p.className = "empty";
-          p.textContent = "이 항목의 데이터를 받지 못했어요. Actions 실행 기록을 확인해 주세요.";
+          p.textContent = id === "vkospi"
+            ? "VKOSPI는 한국거래소 Open API 인증키가 있어야 받을 수 있어요. 저장소 Settings → Secrets에 KRX_API_KEY를 넣고 Actions를 한 번 실행해 주세요."
+            : "이 항목의 데이터를 받지 못했어요. Actions 실행 기록을 확인해 주세요.";
           empty.append(p);
           grid.append(empty);
           return;
@@ -285,6 +441,7 @@
         tiles.push(t);
       });
     });
+    buildMatrix(byId);
     requestAnimationFrame(() => inits.forEach((f) => f()));
   }
 
