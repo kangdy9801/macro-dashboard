@@ -7,13 +7,14 @@
 
 데이터 출처
 - 미국: FRED (세인트루이스 연은) — 인증키 없이 사용
-    CPI  : CPIAUCNS(전체), CPILFENS(근원) → 전년 같은 달 대비 %
-    PCE  : PCEPI(전체), PCEPILFE(근원)   → 전년 같은 달 대비 %
+    CPI  : 전년비 = 계절조정 전 CPIAUCNS(전체)·CPILFENS(근원)·CPIENGNS(에너지)
+           전월비 = 계절조정 CPIAUCSL(전체)·CPILFESL(근원)·CPIENGSL(에너지)  (BLS 발표 방식과 같음)
+    PCE  : PCEPI(전체), PCEPILFE(근원) → 전년비·전월비
     고용 : PAYEMS(비농업 일자리, 전월 대비 증감), UNRATE(실업률)
     금리 : DFEDTARU(연방기금금리 목표 상단)
 - 한국: 한국은행 ECOS Open API — 환경변수 ECOS_API_KEY 필요 (없으면 건너뜀)
     기준금리 : 722Y001 / 0101000
-    CPI      : 901Y009 (총지수) · 901Y010 (식료품 및 에너지 제외) → 전년 같은 달 대비 %
+    CPI      : 901Y009 (총지수) · 901Y010 (식료품 및 에너지 제외, 에너지) → 전년동월비·전월비 %
     고용     : '경제활동인구' 통계표의 취업자(전년 같은 달 대비 증감)·실업률
 - 미국 예상치: Forex Factory 이번 주 일정(JSON)에서 예상치가 비어 있는 칸만 채움 (실패해도 무시)
 """
@@ -72,6 +73,19 @@ def yoy(series, period):
     return round((now / before - 1) * 100, 1)
 
 
+def mom(series, period):
+    """월별 지수 → 전월 대비 % (소수 첫째 자리)."""
+    now, before = series.get(period), series.get(month_add(period, -1))
+    if now is None or not before:
+        return None
+    return round((now / before - 1) * 100, 1)
+
+
+def rates(nsa, sa, period, prefix=""):
+    """전년비(nsa)·전월비(sa) 두 값을 {prefix+'yoy', prefix+'mom'} 으로."""
+    return {prefix + "yoy": yoy(nsa, period), prefix + "mom": mom(sa, period)}
+
+
 def first_on_or_after(daily, iso_date):
     """날짜별 값에서 iso_date 이후 첫 값."""
     for d in sorted(daily):
@@ -114,9 +128,13 @@ def us_values(series_id, ev):
     """미국 지표 결과값 {metric_key: 값}. 아직 없으면 빈 dict."""
     p = ev.get("period")
     if series_id == "us_cpi":
-        return {"yoy": yoy(monthly(fred("CPIAUCNS")), p), "core_yoy": yoy(monthly(fred("CPILFENS")), p)}
+        m = lambda sid: monthly(fred(sid))
+        return {**rates(m("CPIAUCNS"), m("CPIAUCSL"), p),
+                **rates(m("CPILFENS"), m("CPILFESL"), p, "core_"),
+                **rates(m("CPIENGNS"), m("CPIENGSL"), p, "energy_")}
     if series_id == "us_pce":
-        return {"yoy": yoy(monthly(fred("PCEPI")), p), "core_yoy": yoy(monthly(fred("PCEPILFE")), p)}
+        pce, core = monthly(fred("PCEPI")), monthly(fred("PCEPILFE"))  # PCE는 계절조정 지수 하나로 둘 다 계산
+        return {**rates(pce, pce, p), **rates(core, core, p, "core_")}
     if series_id == "us_jobs":
         pay, ur = monthly(fred("PAYEMS")), monthly(fred("UNRATE"))
         prev = pay.get(month_add(p, -1))
@@ -201,6 +219,30 @@ def ecos_find_table(want):
     return None
 
 
+_kr_energy = None
+
+
+def kr_energy_code():
+    """CPI '에너지' 항목 (통계표, 코드). 특수분류 901Y010 에서 먼저 찾고, 없으면 다른 소비자물가 통계표를 뒤집니다."""
+    global _kr_energy
+    if _kr_energy is None:
+        _kr_energy = (None, None)
+        code = ecos_find_item("901Y010", "에너지", exact=True)
+        if code:
+            _kr_energy = ("901Y010", code)
+        else:
+            for r in ecos_rows(f"StatisticTableList/{ecos_key()}/json/kr/1/2000"):
+                stat = r.get("STAT_CODE")
+                if r.get("CYCLE") == "M" and "소비자물가지수" in norm(r.get("STAT_NAME")) and stat != "901Y010":
+                    code = ecos_find_item(stat, "에너지", exact=True)
+                    if code:
+                        _kr_energy = (stat, code)
+                        break
+        if not _kr_energy[0]:
+            print("[ecos] CPI '에너지' 항목을 못 찾았어요 (에너지 칸은 손으로 넣어 주세요)")
+    return _kr_energy
+
+
 _kr_jobs_codes = None
 
 
@@ -232,7 +274,10 @@ def kr_values(series_id, ev):
         total = ecos_series("901Y009", "M", "0", start, end)
         core_code = ecos_find_item("901Y010", "식료품 및 에너지제외")
         core = ecos_series("901Y010", "M", core_code, start, end) if core_code else {}
-        return {"yoy": yoy(total, p), "core_yoy": yoy(core, p)}
+        e_stat, e_code = kr_energy_code()
+        energy = ecos_series(e_stat, "M", e_code, start, end) if e_code else {}
+        # 한국 발표는 전월비도 계절조정 전 지수로 계산
+        return {**rates(total, total, p), **rates(core, core, p, "core_"), **rates(energy, energy, p, "energy_")}
     if series_id == "kr_jobs":
         stat, emp_code, ur_code = kr_jobs_codes()
         out = {}
@@ -249,9 +294,13 @@ def kr_values(series_id, ev):
 # ── 미국 예상치: Forex Factory 이번 주 일정 ─────────────
 FF_MAP = [  # (제목 정규식, series, metric)
     (r"^CPI y/y$", "us_cpi", "yoy"),
+    (r"^CPI m/m$", "us_cpi", "mom"),
     (r"^Core CPI y/y$", "us_cpi", "core_yoy"),
+    (r"^Core CPI m/m$", "us_cpi", "core_mom"),
     (r"^PCE Price Index y/y$", "us_pce", "yoy"),
+    (r"^PCE Price Index m/m$", "us_pce", "mom"),
     (r"^Core PCE Price Index y/y$", "us_pce", "core_yoy"),
+    (r"^Core PCE Price Index m/m$", "us_pce", "core_mom"),
     (r"^Non-Farm Employment Change$", "us_jobs", "nfp"),
     (r"^Unemployment Rate$", "us_jobs", "ur"),
     (r"^Federal Funds Rate$", "us_rate", "rate"),
@@ -308,6 +357,14 @@ def main():
     now = dt.datetime.now(KST)
     changed = 0
 
+    # 지표에 새 항목(metrics)을 추가하면 기존 일정에도 빈 칸을 만들어 둠
+    for ev in events:
+        have = {v["key"] for v in ev["values"]}
+        for m in cal["series"].get(ev["series"], {}).get("metrics", []):
+            if m["key"] not in have:
+                ev["values"].append({"key": m["key"], "forecast": None, "actual": None, "previous": None})
+                changed += 1
+
     for ev in events:
         if release_time(ev) + WAIT_AFTER_RELEASE > now:
             continue
@@ -338,6 +395,25 @@ def main():
                 if vb is not None and vb.get("previous") is None and va.get("actual") is not None:
                     vb["previous"] = va["actual"]
                     changed += 1
+
+    # 그래도 '이전'이 빈 칸(새로 추가한 항목, 목록의 첫 일정 등)은 전달 값을 직접 받아 채움
+    for ev in events:
+        empty = [v for v in ev["values"] if v.get("previous") is None]
+        if not ev.get("period") or not empty:
+            continue
+        sid = ev["series"]
+        before = dict(ev, period=month_add(ev["period"], -1))
+        try:
+            got = us_values(sid, before) if sid.startswith("us_") else kr_values(sid, before)
+        except Exception as e:
+            print(f"{ev['id']}: 이전 값 실패 {e}")
+            got = {}
+        for v in empty:
+            val = got.get(v["key"])
+            if val is not None:
+                v["previous"] = val
+                changed += 1
+                print(f"{ev['id']} {v['key']} 이전 {val}")
 
     changed += fill_ff_forecasts(events)
 
