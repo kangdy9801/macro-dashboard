@@ -57,17 +57,25 @@ def from_yahoo(tickers):
                 continue
             if isinstance(df.columns, pd.MultiIndex):
                 df.columns = df.columns.get_level_values(0)
-            df = df.dropna(subset=["Open", "High", "Low", "Close"])
-            rows = [
-                {
+            df = df.dropna(subset=["Close"])
+            rows = []
+            for idx, r in df.iterrows():
+                c = float(r["Close"])
+                if not c > 0:
+                    continue
+                o, h, l = (num(r[k]) for k in ("Open", "High", "Low"))
+                # 장중 값이 0·빈칸으로 오는 날(주로 마지막 날)은 전날 종가로 시가를 채웁니다.
+                if not (o and o > 0):
+                    o = rows[-1]["close"] if rows else c
+                h = h if h and h > 0 else max(o, c)
+                l = l if l and l > 0 else min(o, c)
+                rows.append({
                     "time": idx.strftime("%Y-%m-%d"),
-                    "open": round(float(r["Open"]), 4),
-                    "high": round(float(r["High"]), 4),
-                    "low": round(float(r["Low"]), 4),
-                    "close": round(float(r["Close"]), 4),
-                }
-                for idx, r in df.iterrows()
-            ]
+                    "open": round(o, 4),
+                    "high": round(max(h, o, c), 4),
+                    "low": round(min(l, o, c), 4),
+                    "close": round(c, 4),
+                })
             if rows:
                 print(f"[yahoo] {t}: {len(rows)}일")
                 return t, rows
