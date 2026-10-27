@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-27T11:01+09:00",
+ "updated": "2026-10-27T15:28+09:00",
  "about": "경제 일정(한국 시간). 일정·예상치는 손으로 고치고, 결과·이전 값은 매일 자동으로 채웁니다. 손으로 넣은 값은 덮어쓰지 않습니다.",
  "series": {
   "us_rate": {
@@ -209,20 +209,20 @@
     {
      "key": "mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 0.2,
+     "previous": -0.2
     },
     {
      "key": "core_yoy",
      "forecast": null,
      "actual": 3.4,
-     "previous": null
+     "previous": 2.6
     },
     {
      "key": "core_mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 0.2,
+     "previous": 0.4
     },
     {
      "key": "energy_yoy",
@@ -248,7 +248,7 @@
      "key": "nfp",
      "forecast": 5.6,
      "actual": 16.2,
-     "previous": null
+     "previous": -1.0
     },
     {
      "key": "ur",
@@ -274,7 +274,7 @@
      "key": "ur",
      "forecast": null,
      "actual": 2.0,
-     "previous": null
+     "previous": 2.8
     }
    ]
   },
@@ -293,32 +293,32 @@
     {
      "key": "mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 0.4,
+     "previous": 0.1
     },
     {
      "key": "core_yoy",
      "forecast": null,
      "actual": 2.4,
-     "previous": null
+     "previous": 2.5
     },
     {
      "key": "core_mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 0.3,
+     "previous": 0.2
     },
     {
      "key": "energy_yoy",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 16.3,
+     "previous": 14.7
     },
     {
      "key": "energy_mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 2.1,
+     "previous": -1.5
     }
    ]
   },
@@ -352,8 +352,8 @@
     {
      "key": "mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 0.3,
+     "previous": 0.1
     },
     {
      "key": "core_yoy",
@@ -364,8 +364,8 @@
     {
      "key": "core_mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 0.2,
+     "previous": 0.1
     }
    ]
   },
@@ -384,8 +384,8 @@
     {
      "key": "mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 0.3,
+     "previous": 0.2
     },
     {
      "key": "core_yoy",
@@ -396,8 +396,8 @@
     {
      "key": "core_mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": -0.1,
+     "previous": 0.2
     },
     {
      "key": "energy_yoy",
@@ -449,8 +449,8 @@
     {
      "key": "mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 0.6,
+     "previous": 0.4
     },
     {
      "key": "core_yoy",
@@ -461,20 +461,20 @@
     {
      "key": "core_mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 0.3,
+     "previous": 0.3
     },
     {
      "key": "energy_yoy",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 20.4,
+     "previous": 16.3
     },
     {
      "key": "energy_mom",
      "forecast": null,
-     "actual": null,
-     "previous": null
+     "actual": 5.2,
+     "previous": 2.1
     }
    ]
   },
@@ -544,7 +544,7 @@
      "key": "mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.3
     },
     {
      "key": "core_yoy",
@@ -554,9 +554,9 @@
     },
     {
      "key": "core_mom",
-     "forecast": null,
+     "forecast": 0.3,
      "actual": null,
-     "previous": null
+     "previous": 0.2
     }
    ],
    "forecast_note": "TD증권 등 전망치"
@@ -577,7 +577,7 @@
      "key": "mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.3
     },
     {
      "key": "core_yoy",
@@ -589,7 +589,7 @@
      "key": "core_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": -0.1
     },
     {
      "key": "energy_yoy",
@@ -641,7 +641,7 @@
      "key": "mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.6
     },
     {
      "key": "core_yoy",
@@ -653,19 +653,19 @@
      "key": "core_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.3
     },
     {
      "key": "energy_yoy",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 20.4
     },
     {
      "key": "energy_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 5.2
     }
    ]
   },
