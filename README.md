@@ -2,11 +2,47 @@
 
 금 선물(GCZ6), WTI 원유 선물, 미국 3년물·10년물 국채 금리, S&P 500, 나스닥, 그리고 변동성·심리 지표(VIX, MOVE, VKOSPI, 공포·탐욕 지수)를 하루(1D) 기준으로 한 페이지에서 보는 대시보드입니다.
 
+화면은 두 탭으로 나뉩니다.
+- **시장 흐름** : 맨 위에 그날의 한 줄 요약, 그 아래 차트
+- **경제 일정** : 한국·미국 기준금리 결정, CPI, PCE, 고용 발표의 일정·예상·결과 (주소 끝에 `#calendar`를 붙이면 바로 열림)
+
 ## 구성
 - `index.html` : 화면 (GitHub Pages)
 - `scripts/fetch_data.py` : 시세 받기 (Yahoo Finance, 미국 재무부/FRED, CBOE, 한국거래소 Open API, CNN)
-- `.github/workflows/update-data.yml` : 평일 장 마감 뒤 자동 실행 (한국 시간 화~토 오전 7시 30분, 9시 30분)
-- `data/market.json` : 받아 온 데이터 (자동 생성)
+- `scripts/update_calendar.py` : 경제 일정의 결과·이전 값 채우기 (FRED, 한국은행 ECOS)
+- `.github/workflows/update-data.yml` : 자동 실행 (한국 시간 화~토 오전 7시 30분, 월~금 오전 9시 30분)
+- `data/market.json` : 받아 온 시세 (자동 생성)
+- `data/calendar.json` : 경제 일정 (일정·예상은 손으로, 결과는 자동)
+
+## 오늘의 한 줄 요약 읽는 법
+가장 최근 미국 장 마감일의 움직임을 전날과 비교해 규칙으로 한 문장을 만듭니다. (AI가 쓰는 글이 아니라, 같은 숫자면 늘 같은 문장이 나옵니다.)
+- '움직였다'고 보는 기준: 유가 ±1.5%, 금 ±1%, 10년물 ±4bp, 주가 ±0.5%
+- 유가·금 동반 상승 → **불안 장세** / 금리↑·주식↓ → **금리 부담 장세** / 금리↓·주식↓ → **경기 걱정 장세**
+- 금리↓·주식↑ → **안도 장세** / 금리↑·주식↑ → **자신감 장세** / 그 밖에 주식 강세·약세, 금리 상승·하락, 관망
+- '최근 5거래일 한 줄 요약'을 펼치면 날짜별 요약이 나옵니다.
+- 기준값은 `index.html`의 `readDay` 함수에서 바꿀 수 있습니다.
+
+## 경제 일정 관리하기 (`data/calendar.json`)
+- 일정 하나는 `events` 안의 한 칸입니다. 시간은 모두 **한국 시간** (`release_kst`).
+- 값은 지표마다 `forecast`(예상) · `actual`(결과) · `previous`(이전)이 있습니다.
+  - **예상**은 손으로 넣습니다. 미국 지표는 발표 주에 Forex Factory 예상치로 빈칸을 자동으로 채우려고 시도합니다.
+  - **결과**는 발표 30분 뒤부터 자동으로 채웁니다. 미국은 FRED, 한국은 한국은행 ECOS(인증키 필요).
+  - 결과가 들어오면 같은 지표의 다음 일정 **이전** 칸도 채웁니다.
+  - 손으로 넣은 값은 자동 갱신이 덮어쓰지 않습니다. 고치고 싶으면 그 칸을 직접 수정하세요.
+- 단위: 금리·물가·실업률은 %, 일자리·취업자 증감은 **만 명** (미국 비농업 15만 명 → `15.0`). 미국 기준금리는 범위의 **상단**만 적습니다 (3.75~4.00% → `4.0`).
+- 날짜가 공식 발표 전 추정이면 `"tentative": true` → 화면에 '날짜 잠정' 표시.
+- 새 일정은 같은 지표의 기존 칸을 복사해 `id`, `release_kst`, `period`(기준월 `YYYY-MM`)만 바꾸면 됩니다.
+  - 미국: [Fed FOMC 일정](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm), [BLS 일정](https://www.bls.gov/schedule/), [BEA 일정](https://www.bea.gov/news/schedule)
+  - 한국: [한국은행 금통위 일정](https://www.bok.or.kr), [국가데이터처 공표 일정](https://mods.go.kr)
+- 자동으로 채워지는 결과는 최신 수정치 기준이라, 첫 발표 숫자와 조금 다를 수 있습니다 (특히 미국 고용).
+
+## 한국 경제지표 결과 자동 채우기 켜기 (ECOS, 한 번만)
+한국은행 ECOS 인증키가 있어야 한국 기준금리·CPI·고용 결과가 자동으로 들어옵니다. (무료, 없으면 손으로 넣은 값만 보여 줌)
+1. https://ecos.bok.or.kr/api → 회원가입 → 인증키 신청
+2. GitHub 저장소 Settings → Secrets and variables → Actions → New repository secret
+   - Name: `ECOS_API_KEY` / Secret: 발급받은 인증키
+3. Actions 탭 → 시세 데이터 업데이트 → Run workflow
+   - 실행 기록에 `[ecos] ... → 코드 (이름)` 줄이 찍히면, 어떤 항목을 읽었는지 확인할 수 있습니다.
 
 ## 변동성·심리 지표 읽는 법
 - **VIX** : 평상시 12~20, 30 이상이면 경계 표시

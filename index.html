@@ -105,6 +105,96 @@
   .matrix .cell.now b::after { content: "지금"; margin-left: 8px; font-size: 0.75rem; font-weight: 600; color: #fff; background: var(--vol); padding: 1px 8px; border-radius: 999px; vertical-align: 2px; }
   .matrix-now { margin-top: 10px; font-size: 0.875rem; color: var(--muted); font-variant-numeric: tabular-nums; }
   @media (max-width: 520px) { .matrix { grid-template-columns: 1fr 1fr; } .matrix .ax.side { display: none; } .matrix .ax.corner { display: none; } }
+
+  /* ── 탭 ── */
+  .tabs { display: flex; gap: 24px; margin-top: 18px; border-bottom: 1px solid var(--line); }
+  .tabs button { font: inherit; font-weight: 500; background: none; border: 0; padding: 8px 0 10px; margin-bottom: -1px;
+    color: var(--muted); border-bottom: 2px solid transparent; cursor: pointer; }
+  .tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+  .tabs button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  [role="tabpanel"][hidden] { display: none; }
+
+  /* ── 오늘의 한 줄 ── */
+  .brief { margin-top: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px 12px; }
+  .brief[hidden] { display: none; }
+  .brief-date { color: var(--muted); font-size: 0.8125rem; font-weight: 500; margin: 0; }
+  .brief-line { margin: 4px 0 10px; font-size: 1.125rem; line-height: 1.5; max-width: 70ch; }
+  .brief-line b { font-weight: 600; margin-right: 6px; }
+  .chain { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+  .chain span { padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
+  .chain span.quiet { color: var(--muted); }
+  .chain i { font-style: normal; color: var(--muted); }
+  .chain b { font-weight: 600; }
+  .chain .up { color: var(--up); } .chain .down { color: var(--down); }
+  .brief-meta { margin: 10px 0 0; color: var(--muted); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+  .brief-meta a { color: inherit; }
+  .brief details { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px; }
+  .brief summary { cursor: pointer; font-size: 0.875rem; font-weight: 500; padding: 4px 0; }
+  .brief summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .days { list-style: none; margin: 4px 0 0; padding: 0; font-size: 0.875rem; }
+  .days li { display: grid; grid-template-columns: 8em 1fr; gap: 4px 12px; padding: 7px 0; }
+  .days li + li { border-top: 1px solid var(--line); }
+  .days time { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .days b { font-weight: 600; }
+  .days .chain { margin-top: 4px; font-size: 0.8125rem; }
+
+  /* ── 경제 일정 ── */
+  .cal-intro { margin: 16px 0 0; color: var(--muted); font-size: 0.9375rem; max-width: 70ch; }
+  .soon { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 14px; }
+  .soon article { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .soon .dday { font-size: 0.8125rem; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .soon .dday.hot { color: var(--alert); }
+  .soon h3 { margin: 2px 0 0; font-size: 1rem; font-weight: 600; }
+  .soon p { margin: 2px 0 0; color: var(--muted); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+  .soon .exp { color: var(--ink); font-size: 0.875rem; margin-top: 6px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 20px; }
+  .cal-month { margin-top: 24px; }
+  .cal-month h3 { font-size: 1rem; font-weight: 600; margin: 0 0 6px; }
+  .ev { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 4px 16px; background: var(--panel);
+    border: 1px solid var(--line); border-left: 4px solid var(--k); border-radius: 0 10px 10px 0; padding: 12px 14px; }
+  .ev + .ev { margin-top: 8px; }
+  .ev.past { opacity: 0.88; }
+  .ev.k-rate { --k: var(--rate); } .ev.k-cpi { --k: var(--gold); } .ev.k-pce { --k: var(--vol); } .ev.k-jobs { --k: var(--equity); }
+  .ev-when { font-variant-numeric: tabular-nums; }
+  .ev-when b { display: block; font-weight: 600; }
+  .ev-when small { color: var(--muted); font-size: 0.8125rem; }
+  .ev-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .ev-head h4 { margin: 0; font-size: 1rem; font-weight: 600; }
+  .ev-head small { color: var(--muted); font-size: 0.8125rem; }
+  .flag { font-size: 0.75rem; font-weight: 600; padding: 0 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  .flag.wait { border-color: var(--k); color: var(--ink); }
+  .flag.tent { border-style: dashed; }
+  .mt { width: 100%; max-width: 760px; table-layout: fixed; border-collapse: collapse; margin-top: 6px; font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+  .mt thead th:nth-child(1) { width: 30%; } .mt thead th:nth-child(2) { width: 18%; }
+  .mt thead th:nth-child(3) { width: 34%; } .mt thead th:nth-child(4) { width: 18%; }
+  .mt th, .mt td { padding: 4px 0 4px 8px; text-align: right; font-weight: 400; }
+  .mt td { white-space: nowrap; }
+  .mt th:first-child { padding-left: 0; }
+  .mt th:first-child { text-align: left; color: var(--muted); }
+  .mt thead th { color: var(--muted); font-size: 0.75rem; padding-bottom: 2px; }
+  .mt tbody tr + tr > * { border-top: 1px solid var(--line); }
+  .mt td.act { font-weight: 600; }
+  .mt td.empty { color: var(--muted); }
+  .sur { display: inline-block; margin-left: 6px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+  .sur.up { color: var(--up); } .sur.down { color: var(--down); } .sur.eq { color: var(--muted); }
+  .ev-note { grid-column: 2; margin: 2px 0 0; color: var(--muted); font-size: 0.8125rem; }
+  .now-line { display: flex; align-items: center; gap: 10px; margin: 14px 0; color: var(--alert); font-size: 0.8125rem; font-weight: 600; }
+  .now-line::after { content: ""; flex: 1; border-top: 2px solid var(--alert); }
+  .cal-empty { margin-top: 20px; color: var(--muted); }
+  .more { font: inherit; font-size: 0.875rem; margin-top: 18px; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--line);
+    background: var(--panel); color: var(--ink); cursor: pointer; }
+  .more:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  @media (max-width: 560px) {
+    .ev { grid-template-columns: 1fr; }
+    .ev-when { display: flex; gap: 8px; align-items: baseline; }
+    .ev-when b { display: inline; }
+    .ev-note { grid-column: 1; }
+    .mt { font-size: 0.8125rem; }
+    .mt thead th:nth-child(1) { width: 28%; } .mt thead th:nth-child(2) { width: 22%; }
+    .mt thead th:nth-child(3) { width: 28%; } .mt thead th:nth-child(4) { width: 22%; }
+    .sur { display: block; margin-left: 0; }
+    .days li { grid-template-columns: 1fr; gap: 0; }
+  }
   footer { margin-top: 40px; color: var(--muted); font-size: 0.8125rem; }
 </style>
 </head>
@@ -117,6 +207,22 @@
   <div class="flow" aria-label="자산 연결 흐름">
     <span>유가</span><i>→</i><span>물가</span><i>→</i><span>금리</span><i>→</i><span>금 · 채권 · 주식</span>
   </div>
+  <div class="tabs" role="tablist" aria-label="화면 고르기">
+    <button type="button" role="tab" id="tab-market" aria-controls="panel-market" aria-selected="true">시장 흐름</button>
+    <button type="button" role="tab" id="tab-calendar" aria-controls="panel-calendar" aria-selected="false" tabindex="-1">경제 일정</button>
+  </div>
+
+  <div role="tabpanel" id="panel-market" aria-labelledby="tab-market">
+  <section class="brief" id="brief" aria-labelledby="brief-title" hidden>
+    <h2 class="brief-date" id="brief-title"></h2>
+    <p class="brief-line" id="brief-line"></p>
+    <div class="chain" id="brief-chain" aria-label="그날 움직임"></div>
+    <p class="brief-meta" id="brief-meta"></p>
+    <details>
+      <summary>최근 5거래일 한 줄 요약</summary>
+      <ol class="days" id="brief-days"></ol>
+    </details>
+  </section>
   <div class="toolbar">
     <span class="status" id="status">데이터를 불러오는 중…</span>
     <div class="mode" role="group" aria-label="차트 모양">
@@ -163,8 +269,30 @@
     </div>
     <div class="grid" data-ids="vkospi fng" style="margin-top:16px"></div>
   </section>
+  </div>
 
-  <footer>데이터: Yahoo Finance(금·원유·주가지수·VIX·MOVE), 미국 재무부(국채 금리), 한국거래소(VKOSPI), CNN(공포·탐욕 지수). 매일 한 번 자동으로 갱신되는 종가 기준이며, 투자 판단의 참고용으로만 사용하세요.<br>화면 버전: v9 (공포·탐욕 지수를 CNN 표 기준으로 변경)</footer>
+  <div role="tabpanel" id="panel-calendar" aria-labelledby="tab-calendar" hidden>
+    <p class="cal-intro">한국과 미국의 기준금리 결정, 소비자물가(CPI), 개인소비지출(PCE) 물가, 고용 발표를 한국 시간으로 모았어요. 예상은 발표 전 시장 전망치이고, 결과는 발표 뒤 자동으로 채워져요.</p>
+    <div class="soon" id="cal-soon" aria-label="다가오는 발표"></div>
+    <div class="filters">
+      <div class="mode" role="group" aria-label="나라" id="f-country">
+        <button type="button" data-v="all" aria-pressed="true">전체</button>
+        <button type="button" data-v="KR" aria-pressed="false">한국</button>
+        <button type="button" data-v="US" aria-pressed="false">미국</button>
+      </div>
+      <div class="mode" role="group" aria-label="지표" id="f-kind">
+        <button type="button" data-v="all" aria-pressed="true">전체</button>
+        <button type="button" data-v="rate" aria-pressed="false">금리</button>
+        <button type="button" data-v="cpi" aria-pressed="false">CPI</button>
+        <button type="button" data-v="pce" aria-pressed="false">PCE</button>
+        <button type="button" data-v="jobs" aria-pressed="false">고용</button>
+      </div>
+    </div>
+    <div id="cal-list"></div>
+    <p class="status" id="cal-status" style="margin-top:16px"></p>
+  </div>
+
+  <footer>데이터: Yahoo Finance(금·원유·주가지수·VIX·MOVE), 미국 재무부(국채 금리), 한국거래소(VKOSPI), CNN(공포·탐욕 지수). 경제 일정: 미국 연준·BLS·BEA, 한국은행, 국가데이터처 발표 (결과는 FRED·한국은행 ECOS에서 자동으로 채움). 매일 한 번 자동으로 갱신되는 종가 기준이며, 투자 판단의 참고용으로만 사용하세요.<br>화면 버전: v10 (오늘의 한 줄 요약, 경제 일정 탭 추가)</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
@@ -525,10 +653,338 @@
       });
     });
     buildMatrix(byId);
-    requestAnimationFrame(() => inits.forEach((f) => f()));
+    buildBrief(byId);
+    pendingInits = inits;
+    if (!document.getElementById("panel-market").hidden) runInits();
   }
 
-  const modeButtons = document.querySelectorAll(".mode button");
+
+  // ── 오늘의 한 줄 요약: 그날 유가·금·금리·주식 움직임을 규칙으로 읽어 한 문장으로 ──
+  let pendingInits = [];
+  function runInits() {
+    const list = pendingInits; pendingInits = [];
+    if (list.length) requestAnimationFrame(() => list.forEach((f) => f()));
+  }
+  const WEEK = ["일", "월", "화", "수", "목", "금", "토"];
+  function koDate(iso, withYear) {
+    const d = new Date(iso + "T00:00:00Z");
+    return (withYear ? d.getUTCFullYear() + "년 " : "") + (d.getUTCMonth() + 1) + "월 " + d.getUTCDate() + "일 (" + WEEK[d.getUTCDay()] + ")";
+  }
+  function valueOn(s, iso) { // iso 날짜 또는 그 이전 마지막 값
+    if (!s || !s.data) return null;
+    for (let i = s.data.length - 1; i >= 0; i--) {
+      const p = s.data[i];
+      if (p.time <= iso) return s.kind === "candle" ? p.close : p.value;
+    }
+    return null;
+  }
+  const signOf = (x, th) => (x == null || Math.abs(x) < th ? 0 : x > 0 ? 1 : -1);
+  const pctTxt = (x) => (Math.abs(x) < 0.05 ? "0.0" : (x > 0 ? "+" : "") + x.toFixed(1)) + "%";
+  const bpTxt = (x) => (Math.round(x) === 0 ? "0" : (x > 0 ? "+" : "") + Math.round(x)) + "bp";
+
+  function readDay(byId, d, prev) {
+    const pct = (id) => { const a = valueOn(byId[id], prev), b = valueOn(byId[id], d); return a && b != null ? (b / a - 1) * 100 : null; };
+    const bp = (id) => { const a = valueOn(byId[id], prev), b = valueOn(byId[id], d); return a != null && b != null ? (b - a) * 100 : null; };
+    const m = { oil: pct("wti"), gold: pct("gold"), r10: bp("us10y"), spx: pct("spx"), ndx: pct("ndx") };
+    const oil = signOf(m.oil, 1.5), gold = signOf(m.gold, 1), rate = signOf(m.r10, 4);
+    const big = Math.max(Math.abs(m.spx || 0), Math.abs(m.ndx || 0));
+    const stock = big >= 0.5 ? (((m.spx || 0) + (m.ndx || 0)) >= 0 ? 1 : -1) : 0;
+
+    let label, text;
+    if (oil > 0 && gold > 0) {
+      label = "불안 장세";
+      text = "유가와 금이 함께 올랐어요. 전쟁 같은 공포가 커질 때 나오는 조합이에요.";
+    } else if (rate > 0 && stock < 0) {
+      label = "금리 부담 장세";
+      text = (oil > 0 ? "유가가 물가 걱정을 키우며 금리를 밀어 올렸고, " : "금리가 오르며 ") + "주식이 눌렸어요.";
+    } else if (rate < 0 && stock < 0) {
+      label = "경기 걱정 장세";
+      text = "금리가 내렸는데도 주식이 빠졌어요. 금리보다 경기·실적 걱정이 앞섰다는 신호예요.";
+    } else if (rate < 0 && stock > 0) {
+      label = "안도 장세";
+      text = (oil < 0 ? "유가가 내려 물가 걱정이 줄고, " : "") + "금리가 내려가며 주식이 숨을 돌렸어요.";
+    } else if (rate > 0 && stock > 0) {
+      label = "자신감 장세";
+      text = "금리와 주식이 함께 올랐어요. 경기 기대가 금리 부담을 이긴 하루예요.";
+    } else if (stock < 0) {
+      label = "주식 약세";
+      text = "금리는 크게 안 움직였는데 주식이 빠졌어요." + (oil > 0 ? " 유가 상승이 부담이 됐어요." : "");
+    } else if (stock > 0) {
+      label = "주식 강세";
+      text = "금리가 조용한 가운데 주식이 올랐어요." + (oil < 0 ? " 유가 하락도 도움이 됐어요." : "");
+    } else if (rate > 0) {
+      label = "금리 상승";
+      text = "주식은 버텼지만 채권 쪽 부담은 커졌어요." + (oil > 0 ? " 유가 상승이 금리를 밀었어요." : "");
+    } else if (rate < 0) {
+      label = "금리 하락";
+      text = "금리가 내렸지만 주식은 큰 반응이 없었어요.";
+    } else {
+      label = "관망";
+      text = oil ? (oil > 0 ? "유가만 올랐을 뿐, 금리와 주식은 조용했어요." : "유가만 내렸을 뿐, 금리와 주식은 조용했어요.")
+                 : "유가·금리·주식 모두 큰 움직임 없이 지나갔어요.";
+    }
+    if (m.spx != null && m.ndx != null && stock !== 0) {
+      const gap = m.ndx - m.spx;
+      if (stock < 0 && gap <= -0.5) text += " 성장주가 많은 나스닥이 더 크게 밀렸어요.";
+      else if (stock > 0 && gap >= 0.5) text += " 나스닥이 상승을 이끌었어요.";
+    }
+    const chain = [
+      ["유가", m.oil, pctTxt, oil, 0], ["금", m.gold, pctTxt, gold, 0], ["10년물", m.r10, bpTxt, rate, 1],
+      ["S&P 500", m.spx, pctTxt, signOf(m.spx, 0.5), 2], ["나스닥", m.ndx, pctTxt, signOf(m.ndx, 0.5), 2],
+    ].filter((c) => c[1] != null);
+    return { label, text, chain };
+  }
+
+  function chainEl(items) { // [원자재] → [금리] → [주식] 순서로, 무리가 바뀔 때 화살표
+    const box = el("div", "chain");
+    let lastGroup = null;
+    items.forEach(([name, v, f, sig, group]) => {
+      if (lastGroup !== null && group !== lastGroup) box.append(el("i", "", "→"));
+      lastGroup = group;
+      const span = el("span", sig ? "" : "quiet", name + " ");
+      const t = f(v);
+      span.append(el("b", /^\+/.test(t) ? "up" : /^-/.test(t) ? "down" : "", t));
+      box.append(span);
+    });
+    return box;
+  }
+
+  function buildBrief(byId) {
+    const spx = byId.spx;
+    if (!spx || !spx.data || spx.data.length < 7) return;
+    const days = spx.data.map((p) => p.time);
+    const d = days[days.length - 1], prev = days[days.length - 2];
+    const r = readDay(byId, d, prev);
+    document.getElementById("brief-title").textContent = koDate(d, true) + " 미국 장 마감 기준";
+    const line = document.getElementById("brief-line");
+    line.replaceChildren(el("b", "", r.label), document.createTextNode(r.text));
+    document.getElementById("brief-chain").replaceWith(Object.assign(chainEl(r.chain), { id: "brief-chain" }));
+
+    // 변동성·심리 한 줄
+    const meta = [];
+    const vix = valueOn(byId.vix, d), move = valueOn(byId.move, d), fng = byId.fng;
+    if (vix != null && move != null) {
+      const q = (vix >= MATRIX_TH.vix ? "highvix" : "lowvix") + "-" + (move >= MATRIX_TH.move ? "highmove" : "lowmove");
+      const name = document.querySelector(`.cell[data-q="${q}"] b`);
+      meta.push(`VIX ${fmt(vix, 1)} · MOVE ${fmt(move, 0)}${name ? " → " + name.textContent : ""}`);
+    }
+    if (fng && fng.data && fng.data.length) {
+      const now = (fng.table && fng.table[0] && fng.table[0].key === "now") ? fng.table[0].value : fng.data[fng.data.length - 1].value;
+      meta.push(`공포·탐욕 ${Math.round(now)} (${fngLabel(now)})`);
+    }
+    const metaEl = document.getElementById("brief-meta");
+    metaEl.textContent = meta.join("   ·   ");
+    briefMetaEl = metaEl;
+
+    // 최근 5거래일
+    const ol = document.getElementById("brief-days");
+    ol.replaceChildren();
+    for (let i = days.length - 1; i >= Math.max(1, days.length - 5); i--) {
+      const x = readDay(byId, days[i], days[i - 1]);
+      const li = el("li");
+      const t = el("time", "", koDate(days[i]));
+      t.dateTime = days[i];
+      const body = el("div");
+      body.append(el("b", "", x.label + " "), document.createTextNode(x.text), chainEl(x.chain));
+      li.append(t, body);
+      ol.append(li);
+    }
+    document.getElementById("brief").hidden = false;
+    if (nextEventText) appendNextEvent();
+  }
+
+  // ── 경제 일정 ──
+  const KIND = { rate: "금리", cpi: "CPI", pce: "PCE", jobs: "고용" };
+  const COUNTRY = { KR: "한국", US: "미국" };
+  let CAL = null, showOld = false, calFilter = { country: "all", kind: "all" }, briefMetaEl = null, nextEventText = "";
+  const kstTime = (ev) => Date.parse(ev.release_kst + ":00+09:00");
+
+  function fmtVal(v, m, signed) {
+    if (v == null || v === "") return "–";
+    if (typeof v !== "number") return String(v);
+    if (m.range) return fmt(v - m.range, 2) + "~" + fmt(v, 2) + "%";
+    if (m.unit === "만명") return (v > 0 ? "+" : "") + fmt(v, 1) + "만 명";
+    if (m.unit === "%") return fmt(v, m.key === "rate" ? 2 : 1) + "%";
+    return (signed && v > 0 ? "+" : "") + fmt(v, 1) + (m.unit || "");
+  }
+  function kstParts(ev) {
+    const [d, t] = ev.release_kst.split("T");
+    const dd = new Date(d + "T00:00:00Z");
+    return { md: (dd.getUTCMonth() + 1) + "/" + dd.getUTCDate() + " (" + WEEK[dd.getUTCDay()] + ")", time: t,
+             month: dd.getUTCFullYear() + "년 " + (dd.getUTCMonth() + 1) + "월", ymd: d };
+  }
+  function periodTxt(p) { if (!p) return ""; const [y, m] = p.split("-"); return `${+m}월분`; }
+  function decisionWord(ev, sMeta) {
+    const v = ev.values[0];
+    if (sMeta.kind !== "rate" || v.actual == null || v.previous == null) return null;
+    const diff = Math.round((v.actual - v.previous) * 100);
+    return diff > 0 ? `${diff}bp 인상` : diff < 0 ? `${-diff}bp 인하` : "동결";
+  }
+  function daysUntil(t) {
+    const k = (x) => { const d = new Date(x + 9 * 3600e3); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()); };
+    return Math.round((k(t) - k(Date.now())) / 86400e3);
+  }
+
+  function buildEvent(ev, now) {
+    const sm = CAL.series[ev.series], t = kstTime(ev), past = t <= now, pr = kstParts(ev);
+    const box = el("article", "ev k-" + sm.kind + (past ? " past" : ""));
+    const when = el("div", "ev-when");
+    when.append(el("b", "", pr.md), el("small", "", pr.time + " 한국 시간"));
+    const body = el("div");
+    const head = el("div", "ev-head");
+    head.append(el("h4", "", sm.title));
+    head.append(el("small", "", [COUNTRY[sm.country], periodTxt(ev.period)].filter(Boolean).join(" · ")));
+    const word = decisionWord(ev, sm);
+    if (word) head.append(el("span", "flag", word));
+    const waiting = past && ev.values.every((v) => v.actual == null);
+    if (waiting) head.append(el("span", "flag wait", "결과 기다리는 중"));
+    if (ev.tentative && !past) head.append(el("span", "flag tent", "날짜 잠정"));
+    body.append(head);
+
+    const tbl = el("table", "mt");
+    const thead = el("thead"), hr = el("tr");
+    ["", "예상", "결과", "이전"].forEach((h) => { const th = el("th", "", h); th.scope = "col"; hr.append(th); });
+    thead.append(hr);
+    const tb = el("tbody");
+    sm.metrics.forEach((m) => {
+      const v = ev.values.find((x) => x.key === m.key) || {};
+      const tr = el("tr");
+      const th = el("th", "", m.label); th.scope = "row";
+      const tdF = el("td", v.forecast == null ? "empty" : "", fmtVal(v.forecast, m));
+      const tdA = el("td", "act" + (v.actual == null ? " empty" : ""), fmtVal(v.actual, m));
+      if (typeof v.actual === "number" && typeof v.forecast === "number") {
+        const d = Math.round((v.actual - v.forecast) * 100) / 100;
+        tdA.append(el("span", "sur " + (d > 0 ? "up" : d < 0 ? "down" : "eq"), d > 0 ? "▲ 예상 상회" : d < 0 ? "▼ 예상 하회" : "= 예상 부합"));
+      }
+      const tdP = el("td", v.previous == null ? "empty" : "", fmtVal(v.previous, m));
+      tr.append(th, tdF, tdA, tdP);
+      tb.append(tr);
+    });
+    tbl.append(thead, tb);
+    body.append(tbl);
+    box.append(when, body);
+    const notes = [ev.forecast_note && "예상: " + ev.forecast_note, ev.note].filter(Boolean);
+    if (notes.length) box.append(el("p", "ev-note", notes.join(" · ")));
+    return box;
+  }
+
+  function renderCalendar() {
+    if (!CAL) return;
+    const now = Date.now();
+    let evs = CAL.events.slice().sort((a, b) => kstTime(a) - kstTime(b))
+      .filter((e) => { const sm = CAL.series[e.series];
+        return (calFilter.country === "all" || sm.country === calFilter.country) && (calFilter.kind === "all" || sm.kind === calFilter.kind); });
+
+    // 다가오는 발표 (필터와 상관없이 4개)
+    const soon = document.getElementById("cal-soon");
+    soon.replaceChildren();
+    CAL.events.filter((e) => kstTime(e) > now).sort((a, b) => kstTime(a) - kstTime(b)).slice(0, 4).forEach((e) => {
+      const sm = CAL.series[e.series], pr = kstParts(e), n = daysUntil(kstTime(e));
+      const a = el("article");
+      a.append(el("div", "dday" + (n <= 1 ? " hot" : ""), n === 0 ? "오늘" : n === 1 ? "내일" : "D-" + n));
+      a.append(el("h3", "", sm.title));
+      a.append(el("p", "", `${pr.md} ${pr.time}${e.period ? " · " + periodTxt(e.period) : ""}${e.tentative ? " · 날짜 잠정" : ""}`));
+      const m = sm.metrics[0], v = e.values[0];
+      a.append(el("p", "exp", v.forecast != null ? `예상 ${m.label} ${fmtVal(v.forecast, m)}` : `이전 ${m.label} ${fmtVal(v.previous, m)}`));
+      soon.append(a);
+    });
+
+    const list = document.getElementById("cal-list");
+    list.replaceChildren();
+    const cut = now - 21 * 86400e3; // 기본은 최근 3주 + 앞으로
+    const old = evs.filter((e) => kstTime(e) < cut).length;
+    if (old) {
+      const b = el("button", "more", showOld ? "지난 일정 접기" : `지난 일정 ${old}개 더 보기`);
+      b.type = "button";
+      b.setAttribute("aria-expanded", showOld);
+      b.addEventListener("click", () => { showOld = !showOld; renderCalendar(); });
+      list.append(b);
+    }
+    if (!showOld) evs = evs.filter((e) => kstTime(e) >= cut);
+    if (!evs.length) { list.append(el("p", "cal-empty", "이 조건에 맞는 일정이 없어요. 위에서 나라나 지표를 바꿔 보세요.")); return; }
+    let month = "", group = null, nowShown = false;
+    evs.forEach((e) => {
+      const pr = kstParts(e);
+      if (pr.month !== month) {
+        month = pr.month;
+        group = el("section", "cal-month");
+        group.append(el("h3", "", month));
+        list.append(group);
+      }
+      if (!nowShown && kstTime(e) > now) {
+        group.append(el("div", "now-line", "지금"));
+        nowShown = true;
+      }
+      group.append(buildEvent(e, now));
+    });
+    const up = CAL.updated ? new Date(CAL.updated) : null;
+    document.getElementById("cal-status").textContent =
+      (up ? "일정 데이터 갱신: " + up.toLocaleString("ko-KR", { dateStyle: "medium", timeStyle: "short" }) + ". " : "") +
+      "‘날짜 잠정’은 공식 공표 일정으로 다시 확인해야 하는 날짜예요.";
+  }
+
+  function appendNextEvent() {
+    if (!briefMetaEl || !nextEventText || briefMetaEl.dataset.next) return;
+    briefMetaEl.dataset.next = "1";
+    briefMetaEl.append(document.createTextNode("   ·   다음 발표: "));
+    const a = el("a", "", nextEventText);
+    a.href = "#calendar";
+    briefMetaEl.append(a);
+  }
+
+  async function loadCalendar() {
+    try {
+      const res = await fetch("data/calendar.json?t=" + Date.now(), { cache: "no-store" });
+      if (!res.ok) throw new Error(res.status);
+      CAL = await res.json();
+    } catch (e) {
+      document.getElementById("cal-list").replaceChildren(el("p", "cal-empty", "경제 일정 파일(data/calendar.json)을 읽지 못했어요. 저장소에 파일이 있는지 확인해 주세요."));
+      return;
+    }
+    renderCalendar();
+    const next = CAL.events.filter((e) => kstTime(e) > Date.now()).sort((a, b) => kstTime(a) - kstTime(b))[0];
+    if (next) {
+      const sm = CAL.series[next.series], pr = kstParts(next), v = next.values[0], m = sm.metrics[0];
+      nextEventText = `${sm.title} ${pr.md} ${pr.time}` + (v.forecast != null ? ` (예상 ${fmtVal(v.forecast, m)})` : "");
+      appendNextEvent();
+    }
+  }
+  ["f-country", "f-kind"].forEach((id) => {
+    const group = document.getElementById(id);
+    group.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      group.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+      calFilter[id === "f-country" ? "country" : "kind"] = b.dataset.v;
+      renderCalendar();
+    });
+  });
+
+  // ── 탭 (주소 끝 #calendar 로 바로 열 수 있음) ──
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  function showTab(name, push) {
+    tabs.forEach((t) => {
+      const on = t.id === "tab-" + name;
+      t.setAttribute("aria-selected", on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+    if (name === "market") runInits();
+    if (push) history.replaceState(null, "", name === "calendar" ? "#calendar" : location.pathname + location.search);
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => showTab(t.id.slice(4), true));
+    t.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      const n = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
+      n.focus(); showTab(n.id.slice(4), true);
+    });
+  });
+  window.addEventListener("hashchange", () => showTab(location.hash === "#calendar" ? "calendar" : "market", false));
+  showTab(location.hash === "#calendar" ? "calendar" : "market", false);
+  loadCalendar();
+
+  const modeButtons = document.querySelectorAll(".toolbar .mode button");
   function markMode() {
     modeButtons.forEach((b) => b.setAttribute("aria-pressed", b.dataset.mode === MODE));
   }

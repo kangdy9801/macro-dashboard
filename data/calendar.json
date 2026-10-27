@@ -1,0 +1,654 @@
+{
+ "updated": "2026-10-26T10:00+09:00",
+ "about": "경제 일정(한국 시간). 일정·예상치는 손으로 고치고, 결과·이전 값은 매일 자동으로 채웁니다. 손으로 넣은 값은 덮어쓰지 않습니다.",
+ "series": {
+  "us_rate": {
+   "country": "US",
+   "kind": "rate",
+   "title": "FOMC 기준금리 결정",
+   "source": "미국 연준(Fed)",
+   "metrics": [
+    {
+     "key": "rate",
+     "label": "기준금리 (상단)",
+     "unit": "%",
+     "range": 0.25
+    }
+   ]
+  },
+  "us_cpi": {
+   "country": "US",
+   "kind": "cpi",
+   "title": "미국 소비자물가(CPI)",
+   "source": "미국 노동통계국(BLS)",
+   "metrics": [
+    {
+     "key": "yoy",
+     "label": "전년비",
+     "unit": "%"
+    },
+    {
+     "key": "core_yoy",
+     "label": "근원 전년비",
+     "unit": "%"
+    }
+   ]
+  },
+  "us_pce": {
+   "country": "US",
+   "kind": "pce",
+   "title": "미국 개인소비지출(PCE) 물가",
+   "source": "미국 경제분석국(BEA)",
+   "metrics": [
+    {
+     "key": "yoy",
+     "label": "전년비",
+     "unit": "%"
+    },
+    {
+     "key": "core_yoy",
+     "label": "근원 전년비",
+     "unit": "%"
+    }
+   ]
+  },
+  "us_jobs": {
+   "country": "US",
+   "kind": "jobs",
+   "title": "미국 고용보고서",
+   "source": "미국 노동통계국(BLS)",
+   "metrics": [
+    {
+     "key": "nfp",
+     "label": "비농업 일자리 (전월비)",
+     "unit": "만명"
+    },
+    {
+     "key": "ur",
+     "label": "실업률",
+     "unit": "%"
+    }
+   ]
+  },
+  "kr_rate": {
+   "country": "KR",
+   "kind": "rate",
+   "title": "한국은행 기준금리 결정",
+   "source": "한국은행 금융통화위원회",
+   "metrics": [
+    {
+     "key": "rate",
+     "label": "기준금리",
+     "unit": "%"
+    }
+   ]
+  },
+  "kr_cpi": {
+   "country": "KR",
+   "kind": "cpi",
+   "title": "한국 소비자물가동향",
+   "source": "국가데이터처",
+   "metrics": [
+    {
+     "key": "yoy",
+     "label": "전년동월비",
+     "unit": "%"
+    },
+    {
+     "key": "core_yoy",
+     "label": "근원 (식료품·에너지 제외)",
+     "unit": "%"
+    }
+   ]
+  },
+  "kr_jobs": {
+   "country": "KR",
+   "kind": "jobs",
+   "title": "한국 고용동향",
+   "source": "국가데이터처",
+   "metrics": [
+    {
+     "key": "emp",
+     "label": "취업자 (전년동월비)",
+     "unit": "만명"
+    },
+    {
+     "key": "ur",
+     "label": "실업률",
+     "unit": "%"
+    }
+   ]
+  }
+ },
+ "events": [
+  {
+   "id": "kr_rate-2026-08-27",
+   "series": "kr_rate",
+   "release_kst": "2026-08-27T10:00",
+   "period": null,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": 3.0,
+     "actual": 3.0,
+     "previous": 2.75
+    }
+   ],
+   "forecast_note": "연속 인상 예상이 우세했음"
+  },
+  {
+   "id": "kr_cpi-2026-08",
+   "series": "kr_cpi",
+   "release_kst": "2026-09-02T08:00",
+   "period": "2026-08",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": 3.1,
+     "previous": 2.8
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_jobs-2026-08",
+   "series": "us_jobs",
+   "release_kst": "2026-09-04T21:30",
+   "period": "2026-08",
+   "values": [
+    {
+     "key": "nfp",
+     "forecast": 5.6,
+     "actual": 16.2,
+     "previous": null
+    },
+    {
+     "key": "ur",
+     "forecast": 4.1,
+     "actual": 4.1,
+     "previous": 4.1
+    }
+   ]
+  },
+  {
+   "id": "kr_jobs-2026-08",
+   "series": "kr_jobs",
+   "release_kst": "2026-09-09T08:00",
+   "period": "2026-08",
+   "values": [
+    {
+     "key": "emp",
+     "forecast": null,
+     "actual": 18.4,
+     "previous": 10.8
+    },
+    {
+     "key": "ur",
+     "forecast": null,
+     "actual": 2.0,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_cpi-2026-08",
+   "series": "us_cpi",
+   "release_kst": "2026-09-11T21:30",
+   "period": "2026-08",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": 3.4,
+     "previous": 3.4
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": 2.4,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_rate-2026-09-17",
+   "series": "us_rate",
+   "release_kst": "2026-09-17T03:00",
+   "period": null,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": 4.0,
+     "actual": 4.0,
+     "previous": 3.75
+    }
+   ],
+   "forecast_note": "시장은 인상 가능성을 60%대로 반영"
+  },
+  {
+   "id": "us_pce-2026-08",
+   "series": "us_pce",
+   "release_kst": "2026-09-30T21:30",
+   "period": "2026-08",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": 3.4,
+     "previous": 3.7
+    },
+    {
+     "key": "core_yoy",
+     "forecast": 3.3,
+     "actual": 3.0,
+     "previous": 3.3
+    }
+   ]
+  },
+  {
+   "id": "kr_cpi-2026-09",
+   "series": "kr_cpi",
+   "release_kst": "2026-10-02T08:00",
+   "period": "2026-09",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": 2.9,
+     "actual": 2.9,
+     "previous": 3.1
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": 2.8,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_jobs-2026-09",
+   "series": "us_jobs",
+   "release_kst": "2026-10-02T21:30",
+   "period": "2026-09",
+   "values": [
+    {
+     "key": "nfp",
+     "forecast": 9.0,
+     "actual": 2.9,
+     "previous": 13.3
+    },
+    {
+     "key": "ur",
+     "forecast": 4.1,
+     "actual": 4.2,
+     "previous": 4.1
+    }
+   ],
+   "note": "8월 일자리는 16.2만 → 13.3만 명으로 하향 수정"
+  },
+  {
+   "id": "us_cpi-2026-09",
+   "series": "us_cpi",
+   "release_kst": "2026-10-14T21:30",
+   "period": "2026-09",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": 3.6,
+     "actual": 3.7,
+     "previous": 3.4
+    },
+    {
+     "key": "core_yoy",
+     "forecast": 2.5,
+     "actual": 2.6,
+     "previous": 2.4
+    }
+   ]
+  },
+  {
+   "id": "kr_jobs-2026-09",
+   "series": "kr_jobs",
+   "release_kst": "2026-10-16T08:00",
+   "period": "2026-09",
+   "values": [
+    {
+     "key": "emp",
+     "forecast": null,
+     "actual": 11.3,
+     "previous": 18.4
+    },
+    {
+     "key": "ur",
+     "forecast": null,
+     "actual": 2.0,
+     "previous": 2.0
+    }
+   ]
+  },
+  {
+   "id": "kr_rate-2026-10-22",
+   "series": "kr_rate",
+   "release_kst": "2026-10-22T10:00",
+   "period": null,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": 3.0,
+     "actual": 3.0,
+     "previous": 3.0
+    }
+   ],
+   "note": "만장일치 동결. 11월 추가 인상 가능성 열어 둠"
+  },
+  {
+   "id": "us_rate-2026-10-29",
+   "series": "us_rate",
+   "release_kst": "2026-10-29T03:00",
+   "period": null,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": 4.0,
+     "actual": null,
+     "previous": 4.0
+    }
+   ],
+   "forecast_note": "동결 예상이 우세 (예측시장 동결 90% 안팎)"
+  },
+  {
+   "id": "us_pce-2026-09",
+   "series": "us_pce",
+   "release_kst": "2026-10-29T21:30",
+   "period": "2026-09",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": 3.6,
+     "actual": null,
+     "previous": 3.4
+    },
+    {
+     "key": "core_yoy",
+     "forecast": 3.1,
+     "actual": null,
+     "previous": 3.0
+    }
+   ],
+   "forecast_note": "TD증권 등 전망치"
+  },
+  {
+   "id": "kr_cpi-2026-10",
+   "series": "kr_cpi",
+   "release_kst": "2026-11-03T08:00",
+   "period": "2026-10",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": 2.9
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": 2.8
+    }
+   ]
+  },
+  {
+   "id": "us_jobs-2026-10",
+   "series": "us_jobs",
+   "release_kst": "2026-11-06T22:30",
+   "period": "2026-10",
+   "values": [
+    {
+     "key": "nfp",
+     "forecast": null,
+     "actual": null,
+     "previous": 2.9
+    },
+    {
+     "key": "ur",
+     "forecast": null,
+     "actual": null,
+     "previous": 4.2
+    }
+   ]
+  },
+  {
+   "id": "us_cpi-2026-10",
+   "series": "us_cpi",
+   "release_kst": "2026-11-10T22:30",
+   "period": "2026-10",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": 3.7
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": 2.6
+    }
+   ]
+  },
+  {
+   "id": "kr_jobs-2026-10",
+   "series": "kr_jobs",
+   "release_kst": "2026-11-11T08:00",
+   "period": "2026-10",
+   "values": [
+    {
+     "key": "emp",
+     "forecast": null,
+     "actual": null,
+     "previous": 11.3
+    },
+    {
+     "key": "ur",
+     "forecast": null,
+     "actual": null,
+     "previous": 2.0
+    }
+   ],
+   "tentative": true
+  },
+  {
+   "id": "us_pce-2026-10",
+   "series": "us_pce",
+   "release_kst": "2026-11-25T22:30",
+   "period": "2026-10",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "kr_rate-2026-11-26",
+   "series": "kr_rate",
+   "release_kst": "2026-11-26T10:00",
+   "period": null,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": 3.25,
+     "actual": null,
+     "previous": 3.0
+    }
+   ],
+   "forecast_note": "전문가 다수가 0.25%p 인상 전망"
+  },
+  {
+   "id": "kr_cpi-2026-11",
+   "series": "kr_cpi",
+   "release_kst": "2026-12-02T08:00",
+   "period": "2026-11",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ],
+   "tentative": true
+  },
+  {
+   "id": "us_jobs-2026-11",
+   "series": "us_jobs",
+   "release_kst": "2026-12-04T22:30",
+   "period": "2026-11",
+   "values": [
+    {
+     "key": "nfp",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "ur",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "kr_jobs-2026-11",
+   "series": "kr_jobs",
+   "release_kst": "2026-12-09T08:00",
+   "period": "2026-11",
+   "values": [
+    {
+     "key": "emp",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "ur",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ],
+   "tentative": true
+  },
+  {
+   "id": "us_rate-2026-12-10",
+   "series": "us_rate",
+   "release_kst": "2026-12-10T04:00",
+   "period": null,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": 4.25,
+     "actual": null,
+     "previous": null
+    }
+   ],
+   "forecast_note": "시장은 인상 가능성을 70%대로 반영"
+  },
+  {
+   "id": "us_cpi-2026-11",
+   "series": "us_cpi",
+   "release_kst": "2026-12-10T22:30",
+   "period": "2026-11",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2026-11",
+   "series": "us_pce",
+   "release_kst": "2026-12-23T22:30",
+   "period": "2026-11",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_cpi-2026-12",
+   "series": "us_cpi",
+   "release_kst": "2027-01-13T22:30",
+   "period": "2026-12",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_rate-2027-01-28",
+   "series": "us_rate",
+   "release_kst": "2027-01-28T04:00",
+   "period": null,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  }
+ ]
+}
