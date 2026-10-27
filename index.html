@@ -628,7 +628,8 @@
 
     const byId = Object.fromEntries((payload.series || []).map((s) => [s.id, s]));
     const updated = new Date(payload.updated);
-    statusEl.textContent = "마지막 데이터 갱신: " + updated.toLocaleString("ko-KR", { dateStyle: "medium", timeStyle: "short" });
+    statusEl.textContent = "마지막 데이터 갱신: " + updated.toLocaleString("ko-KR", { dateStyle: "medium", timeStyle: "short" }) +
+      " · 다음 자동 업데이트: " + nextRunText();
 
     const inits = [];
     document.querySelectorAll(".grid").forEach((grid) => {
@@ -659,6 +660,24 @@
   }
 
 
+
+  // 자동 업데이트 예정 시각 (.github/workflows/update-data.yml 의 cron 과 같게 유지)
+  // 한국 시간 화~토 07:30 (미국 장 마감 후), 월~금 09:30 (한국 경제지표 발표 후)
+  const RUNS_KST = [{ days: [2, 3, 4, 5, 6], h: 7, m: 30 }, { days: [1, 2, 3, 4, 5], h: 9, m: 30 }];
+  function nextRunText() {
+    const nowK = new Date(Date.now() + 9 * 3600e3); // 한국 시간을 UTC 필드로
+    for (let add = 0; add < 8; add++) {
+      const d = new Date(Date.UTC(nowK.getUTCFullYear(), nowK.getUTCMonth(), nowK.getUTCDate() + add));
+      const hits = RUNS_KST.filter((r) => r.days.includes(d.getUTCDay()))
+        .map((r) => Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), r.h, r.m))
+        .filter((t) => t > nowK.getTime()).sort((a, b) => a - b);
+      if (hits.length) {
+        const t = new Date(hits[0]);
+        return `${t.getUTCMonth() + 1}/${t.getUTCDate()} (${WEEK[t.getUTCDay()]}) ${String(t.getUTCHours()).padStart(2, "0")}:${String(t.getUTCMinutes()).padStart(2, "0")} 예정 (몇십 분 늦어질 수 있어요)`;
+      }
+    }
+    return "—";
+  }
   // ── 오늘의 한 줄 요약: 그날 유가·금·금리·주식 움직임을 규칙으로 읽어 한 문장으로 ──
   let pendingInits = [];
   function runInits() {

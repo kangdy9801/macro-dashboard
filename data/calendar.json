@@ -129,12 +129,12 @@
    "values": [
     {
      "key": "rate",
-     "forecast": 3.0,
+     "forecast": null,
      "actual": 3.0,
      "previous": 2.75
     }
    ],
-   "forecast_note": "연속 인상 예상이 우세했음"
+   "forecast_note": "인상·동결 전망이 팽팽했음"
   },
   {
    "id": "kr_cpi-2026-08",
