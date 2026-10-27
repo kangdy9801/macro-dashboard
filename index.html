@@ -272,7 +272,7 @@
   </div>
 
   <div role="tabpanel" id="panel-calendar" aria-labelledby="tab-calendar" hidden>
-    <p class="cal-intro">한국과 미국의 기준금리 결정, 소비자물가(CPI), 개인소비지출(PCE) 물가, 고용 발표를 한국 시간으로 모았어요. 예상은 발표 전 시장 전망치이고, 결과는 발표 뒤 자동으로 채워져요. 물가는 전년비와 전월비를 함께 보여 주고, 근원은 식료품·에너지를 뺀 값이에요. 미국 CPI 전월비는 계절조정 기준이에요.</p>
+    <p class="cal-intro">한국과 미국의 기준금리 결정, 소비자물가(CPI), 개인소비지출(PCE) 물가, 고용 발표를 한국 시간으로 모았어요. 예상은 발표 전 시장 전망치이고, 결과는 발표 뒤 자동으로 채워져요. 물가는 전년비와 전월비(전월 대비)를 함께 보여 줘요. 근원은 식료품·에너지를 뺀 값이에요. 미국 CPI 전월비는 계절조정 기준이에요.</p>
     <div class="soon" id="cal-soon" aria-label="다가오는 발표"></div>
     <div class="filters">
       <div class="mode" role="group" aria-label="나라" id="f-country">
@@ -829,7 +829,7 @@
     if (typeof v !== "number") return String(v);
     if (m.range) return fmt(v - m.range, 2) + "~" + fmt(v, 2) + "%";
     if (m.unit === "만명") return (v > 0 ? "+" : "") + fmt(v, 1) + "만 명";
-    if (m.unit === "%") return (m.sign && v > 0 ? "+" : "") + fmt(v, m.key === "rate" ? 2 : 1) + "%";
+    if (m.unit === "%") return fmt(v, m.key === "rate" ? 2 : 1) + "%";
     return (signed && v > 0 ? "+" : "") + fmt(v, 1) + (m.unit || "");
   }
   function kstParts(ev) {
