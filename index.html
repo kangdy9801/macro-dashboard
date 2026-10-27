@@ -304,7 +304,13 @@
 
   // 캔들용 데이터: 시가·고가·저가가 없는 금리는 전날 종가 → 오늘 종가로 만든 캔들
   function toCandles(s) {
-    if (s.kind === "candle") return s.data;
+    if (s.kind === "candle") return s.data.map((p, i) => {
+      // 시가·고가·저가가 0으로 들어온 날은 전날 종가 기준으로 바로잡아 그림
+      const open = p.open > 0 ? p.open : (i ? s.data[i - 1].close : p.close);
+      const high = Math.max(p.high > 0 ? p.high : 0, open, p.close);
+      const low = Math.min(p.low > 0 ? p.low : Infinity, open, p.close);
+      return { time: p.time, open, high, low, close: p.close };
+    });
     return s.data.map((p, i) => {
       const open = i ? s.data[i - 1].value : p.value;
       return { time: p.time, open, close: p.value, high: Math.max(open, p.value), low: Math.min(open, p.value) };
