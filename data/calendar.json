@@ -28,9 +28,32 @@
      "unit": "%"
     },
     {
+     "key": "mom",
+     "label": "전월비",
+     "unit": "%",
+     "sign": true
+    },
+    {
      "key": "core_yoy",
      "label": "근원 전년비",
      "unit": "%"
+    },
+    {
+     "key": "core_mom",
+     "label": "근원 전월비",
+     "unit": "%",
+     "sign": true
+    },
+    {
+     "key": "energy_yoy",
+     "label": "에너지 전년비",
+     "unit": "%"
+    },
+    {
+     "key": "energy_mom",
+     "label": "에너지 전월비",
+     "unit": "%",
+     "sign": true
     }
    ]
   },
@@ -46,9 +69,21 @@
      "unit": "%"
     },
     {
+     "key": "mom",
+     "label": "전월비",
+     "unit": "%",
+     "sign": true
+    },
+    {
      "key": "core_yoy",
      "label": "근원 전년비",
      "unit": "%"
+    },
+    {
+     "key": "core_mom",
+     "label": "근원 전월비",
+     "unit": "%",
+     "sign": true
     }
    ]
   },
@@ -95,9 +130,32 @@
      "unit": "%"
     },
     {
+     "key": "mom",
+     "label": "전월비",
+     "unit": "%",
+     "sign": true
+    },
+    {
      "key": "core_yoy",
-     "label": "근원 (식료품·에너지 제외)",
+     "label": "근원 전년동월비",
      "unit": "%"
+    },
+    {
+     "key": "core_mom",
+     "label": "근원 전월비",
+     "unit": "%",
+     "sign": true
+    },
+    {
+     "key": "energy_yoy",
+     "label": "에너지 전년동월비",
+     "unit": "%"
+    },
+    {
+     "key": "energy_mom",
+     "label": "에너지 전월비",
+     "unit": "%",
+     "sign": true
     }
    ]
   },
@@ -149,9 +207,33 @@
      "previous": 2.8
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
      "forecast": null,
      "actual": 3.4,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_mom",
+     "forecast": null,
+     "actual": null,
      "previous": null
     }
    ]
@@ -209,9 +291,33 @@
      "previous": 3.4
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
      "forecast": null,
      "actual": 2.4,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_mom",
+     "forecast": null,
+     "actual": null,
      "previous": null
     }
    ]
@@ -244,10 +350,22 @@
      "previous": 3.7
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
      "forecast": 3.3,
      "actual": 3.0,
      "previous": 3.3
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
     }
    ]
   },
@@ -264,10 +382,34 @@
      "previous": 3.1
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
      "forecast": null,
      "actual": 2.8,
      "previous": 3.4
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
     }
    ]
   },
@@ -305,10 +447,34 @@
      "previous": 3.4
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
      "forecast": 2.5,
      "actual": 2.6,
      "previous": 2.4
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
     }
    ]
   },
@@ -375,10 +541,22 @@
      "previous": 3.4
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
      "forecast": 3.1,
      "actual": null,
      "previous": 3.0
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
     }
    ],
    "forecast_note": "TD증권 등 전망치"
@@ -396,10 +574,34 @@
      "previous": 2.9
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
      "forecast": null,
      "actual": null,
      "previous": 2.8
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
     }
    ]
   },
@@ -436,10 +638,34 @@
      "previous": 3.7
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
      "forecast": null,
      "actual": null,
      "previous": 2.6
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
     }
    ]
   },
@@ -477,7 +703,19 @@
      "previous": null
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
      "forecast": null,
      "actual": null,
      "previous": null
@@ -512,7 +750,31 @@
      "previous": null
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_mom",
      "forecast": null,
      "actual": null,
      "previous": null
@@ -589,7 +851,31 @@
      "previous": null
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_mom",
      "forecast": null,
      "actual": null,
      "previous": null
@@ -609,7 +895,19 @@
      "previous": null
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
      "forecast": null,
      "actual": null,
      "previous": null
@@ -629,7 +927,31 @@
      "previous": null
     },
     {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
      "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "energy_mom",
      "forecast": null,
      "actual": null,
      "previous": null
