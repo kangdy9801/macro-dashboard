@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-27T15:28+09:00",
+ "updated": "2026-10-30T11:08+09:00",
  "about": "경제 일정(한국 시간). 일정·예상치는 손으로 고치고, 결과·이전 값은 매일 자동으로 채웁니다. 손으로 넣은 값은 덮어쓰지 않습니다.",
  "series": {
   "us_rate": {
@@ -522,7 +522,7 @@
     {
      "key": "rate",
      "forecast": 4.0,
-     "actual": null,
+     "actual": 4.0,
      "previous": 4.0
     }
    ],
@@ -537,25 +537,25 @@
     {
      "key": "yoy",
      "forecast": 3.6,
-     "actual": null,
+     "actual": 3.6,
      "previous": 3.4
     },
     {
      "key": "mom",
      "forecast": 0.5,
-     "actual": null,
+     "actual": 0.5,
      "previous": 0.3
     },
     {
      "key": "core_yoy",
      "forecast": 3.1,
-     "actual": null,
+     "actual": 3.1,
      "previous": 3.0
     },
     {
      "key": "core_mom",
      "forecast": 0.3,
-     "actual": null,
+     "actual": 0.3,
      "previous": 0.2
     }
    ],
@@ -700,25 +700,25 @@
      "key": "yoy",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 3.6
     },
     {
      "key": "mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.5
     },
     {
      "key": "core_yoy",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 3.1
     },
     {
      "key": "core_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.3
     }
    ]
   },
@@ -833,7 +833,7 @@
      "key": "rate",
      "forecast": 4.25,
      "actual": null,
-     "previous": null
+     "previous": 4.0
     }
    ],
    "forecast_note": "시장은 인상 가능성을 70%대로 반영"
