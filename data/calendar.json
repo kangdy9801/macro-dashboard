@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T13:30+09:00",
+ "updated": "2026-11-09T15:07+09:00",
  "about": "경제 일정(한국 시간). 일정·예상치는 손으로 고치고, 결과·이전 값은 매일 자동으로 채웁니다. 손으로 넣은 값은 덮어쓰지 않습니다.",
  "series": {
   "us_rate": {
@@ -759,6 +759,28 @@
    "forecast_note": "동결 예상이 우세 (예측시장 동결 90% 안팎)"
   },
   {
+   "id": "us_gdp-2026-Q3a",
+   "series": "us_gdp",
+   "release_kst": "2026-10-29T21:30",
+   "period": "2026-Q3",
+   "values": [
+    {
+     "key": "gdp",
+     "forecast": 3.1,
+     "actual": 3.4,
+     "previous": 2.2
+    },
+    {
+     "key": "consumption",
+     "forecast": null,
+     "actual": 3.8,
+     "previous": 3.8
+    }
+   ],
+   "estimate": "속보치",
+   "note": "설비투자 급증(AI·데이터센터)과 재고(+1.6%p)가 성장을 끌어올림"
+  },
+  {
    "id": "us_pce-2026-09",
    "series": "us_pce",
    "release_kst": "2026-10-29T21:30",
@@ -803,28 +825,6 @@
    ],
    "forecast_note": "TD증권 등 전망치",
    "revisions": []
-  },
-  {
-   "id": "us_gdp-2026-Q3a",
-   "series": "us_gdp",
-   "release_kst": "2026-10-29T21:30",
-   "period": "2026-Q3",
-   "values": [
-    {
-     "key": "gdp",
-     "forecast": 3.1,
-     "actual": 3.4,
-     "previous": 2.2
-    },
-    {
-     "key": "consumption",
-     "forecast": null,
-     "actual": 3.8,
-     "previous": 3.8
-    }
-   ],
-   "estimate": "속보치",
-   "note": "설비투자 급증(AI·데이터센터)과 재고(+1.6%p)가 성장을 끌어올림"
   },
   {
    "id": "kr_cpi-2026-10",
@@ -1009,6 +1009,27 @@
    ]
   },
   {
+   "id": "us_gdp-2026-Q3s",
+   "series": "us_gdp",
+   "release_kst": "2026-11-25T22:30",
+   "period": "2026-Q3",
+   "values": [
+    {
+     "key": "gdp",
+     "forecast": null,
+     "actual": null,
+     "previous": 3.4
+    },
+    {
+     "key": "consumption",
+     "forecast": null,
+     "actual": null,
+     "previous": 3.8
+    }
+   ],
+   "estimate": "잠정치"
+  },
+  {
    "id": "us_pce-2026-10",
    "series": "us_pce",
    "release_kst": "2026-11-25T22:30",
@@ -1050,28 +1071,9 @@
      "actual": null,
      "previous": 0.5
     }
-   ]
-  },
-  {
-   "id": "us_gdp-2026-Q3s",
-   "series": "us_gdp",
-   "release_kst": "2026-11-25T22:30",
-   "period": "2026-Q3",
-   "values": [
-    {
-     "key": "gdp",
-     "forecast": null,
-     "actual": null,
-     "previous": 3.4
-    },
-    {
-     "key": "consumption",
-     "forecast": null,
-     "actual": null,
-     "previous": 3.8
-    }
    ],
-   "estimate": "잠정치"
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA"
   },
   {
    "id": "kr_rate-2026-11-26",
@@ -1199,7 +1201,9 @@
      "previous": 4.0
     }
    ],
-   "forecast_note": "시장은 인상 가능성을 70%대로 반영"
+   "forecast_note": "시장은 인상 가능성을 70%대로 반영",
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "schedule_source": "FOMC"
   },
   {
    "id": "us_cpi-2026-11",
@@ -1273,6 +1277,28 @@
    "tentative": true
   },
   {
+   "id": "us_gdp-2026-Q3t",
+   "series": "us_gdp",
+   "release_kst": "2026-12-23T22:30",
+   "period": "2026-Q3",
+   "values": [
+    {
+     "key": "gdp",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "consumption",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ],
+   "estimate": "확정치",
+   "tentative": true
+  },
+  {
    "id": "us_pce-2026-11",
    "series": "us_pce",
    "release_kst": "2026-12-23T22:30",
@@ -1314,29 +1340,9 @@
      "actual": null,
      "previous": null
     }
-   ]
-  },
-  {
-   "id": "us_gdp-2026-Q3t",
-   "series": "us_gdp",
-   "release_kst": "2026-12-23T22:30",
-   "period": "2026-Q3",
-   "values": [
-    {
-     "key": "gdp",
-     "forecast": null,
-     "actual": null,
-     "previous": null
-    },
-    {
-     "key": "consumption",
-     "forecast": null,
-     "actual": null,
-     "previous": null
-    }
    ],
-   "estimate": "확정치",
-   "tentative": true
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA"
   },
   {
    "id": "us_cpi-2026-12",
@@ -1390,6 +1396,679 @@
    "values": [
     {
      "key": "rate",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ],
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "schedule_source": "FOMC"
+  },
+  {
+   "id": "us_pce-2026-12",
+   "series": "us_pce",
+   "release_kst": "2027-01-28T22:30",
+   "period": "2026-12",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-01",
+   "series": "us_pce",
+   "release_kst": "2027-02-25T22:30",
+   "period": "2027-01",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_rate-2027-03-18",
+   "series": "us_rate",
+   "release_kst": "2027-03-18T03:00",
+   "period": null,
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "schedule_source": "FOMC",
+   "tentative": true,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-02",
+   "series": "us_pce",
+   "release_kst": "2027-03-31T21:30",
+   "period": "2027-02",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_rate-2027-04-29",
+   "series": "us_rate",
+   "release_kst": "2027-04-29T03:00",
+   "period": null,
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "schedule_source": "FOMC",
+   "tentative": true,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-03",
+   "series": "us_pce",
+   "release_kst": "2027-04-29T21:30",
+   "period": "2027-03",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-04",
+   "series": "us_pce",
+   "release_kst": "2027-05-27T21:30",
+   "period": "2027-04",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_rate-2027-06-10",
+   "series": "us_rate",
+   "release_kst": "2027-06-10T03:00",
+   "period": null,
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "schedule_source": "FOMC",
+   "tentative": true,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-05",
+   "series": "us_pce",
+   "release_kst": "2027-06-25T21:30",
+   "period": "2027-05",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_rate-2027-07-29",
+   "series": "us_rate",
+   "release_kst": "2027-07-29T03:00",
+   "period": null,
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "schedule_source": "FOMC",
+   "tentative": true,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-06",
+   "series": "us_pce",
+   "release_kst": "2027-07-29T21:30",
+   "period": "2027-06",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-07",
+   "series": "us_pce",
+   "release_kst": "2027-08-25T21:30",
+   "period": "2027-07",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_rate-2027-09-16",
+   "series": "us_rate",
+   "release_kst": "2027-09-16T03:00",
+   "period": null,
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "schedule_source": "FOMC",
+   "tentative": true,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-08",
+   "series": "us_pce",
+   "release_kst": "2027-09-30T21:30",
+   "period": "2027-08",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_rate-2027-10-28",
+   "series": "us_rate",
+   "release_kst": "2027-10-28T03:00",
+   "period": null,
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "schedule_source": "FOMC",
+   "tentative": true,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-09",
+   "series": "us_pce",
+   "release_kst": "2027-10-28T21:30",
+   "period": "2027-09",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-10",
+   "series": "us_pce",
+   "release_kst": "2027-11-24T22:30",
+   "period": "2027-10",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_rate-2027-12-09",
+   "series": "us_rate",
+   "release_kst": "2027-12-09T04:00",
+   "period": null,
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "schedule_source": "FOMC",
+   "tentative": true,
+   "values": [
+    {
+     "key": "rate",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_pce-2027-11",
+   "series": "us_pce",
+   "release_kst": "2027-12-22T22:30",
+   "period": "2027-11",
+   "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
+   "schedule_source": "BEA",
+   "values": [
+    {
+     "key": "yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_yoy",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "core_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "income_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    },
+    {
+     "key": "spending_mom",
      "forecast": null,
      "actual": null,
      "previous": null
