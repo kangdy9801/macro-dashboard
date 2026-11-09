@@ -10,8 +10,14 @@
     CPI  : 전년비 = 계절조정 전 CPIAUCNS(전체)·CPILFENS(근원)·CPIENGNS(에너지)
            전월비 = 계절조정 CPIAUCSL(전체)·CPILFESL(근원)·CPIENGSL(에너지)  (BLS 발표 방식과 같음)
     PCE  : PCEPI(전체), PCEPILFE(근원) → 전년비·전월비
-    고용 : PAYEMS(비농업 일자리, 전월 대비 증감), UNRATE(실업률)
+    PCE  : (소득·지출) PI(개인소득), PCE(개인지출, 명목) → 전월비
+    고용 : PAYEMS(비농업 일자리, 전월 대비 증감), UNRATE(실업률), CES0500000003(평균 시급 → 전월비·전년비)
+    소매 : RSAFS(전체)에서 RSMVPD(자동차·부품)·RSGASS(주유소)·RSBMGESD(건축자재)·RSFSDP(외식)를 빼서
+           '자동차·주유소 제외'와 '통제그룹'을 계산 → 전월비. 항목별 기여도(drivers)도 함께 저장
+    GDP  : A191RL1Q225SBEA(실질 GDP), DPCERL1Q225SBEA(실질 개인소비) — 전기비 연율 %, 기간은 '2026-Q3' 형식
     금리 : DFEDTARU(연방기금금리 목표 상단)
+- 수정치(revisions): 발표 뒤 10일 안에, 지난 1~2개월 값이 처음 기록과 달라졌으면 {기간, 항목, 전, 후}로 남김
+  (고용·소매는 2개월, PCE는 1개월). 화면의 '이전 수치와 수정치' 점검에 쓰입니다.
 - 한국: 한국은행 ECOS Open API — 환경변수 ECOS_API_KEY 필요 (없으면 건너뜀)
     기준금리 : 722Y001 / 0101000
     CPI      : 901Y009 (총지수) · 901Y010 (식료품 및 에너지 제외, 에너지) → 전년동월비·전월비 %
@@ -36,6 +42,7 @@ FRED_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}&cosd={start
 ECOS_URL = "https://ecos.bok.or.kr/api"
 FF_URL = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
 WAIT_AFTER_RELEASE = dt.timedelta(minutes=30)  # 발표 직후 데이터가 올라올 시간
+REVISION_WINDOW = dt.timedelta(days=10)  # 이 기간 안에서만 수정치를 계산 (FRED는 늘 최신 수정본이라)
 
 
 # ── 공통 ──────────────────────────────────────────────
@@ -63,6 +70,17 @@ def month_add(period, n):
     y += (m - 1) // 12
     m = (m - 1) % 12 + 1
     return f"{y:04d}-{m:02d}"
+
+
+def period_add(period, n):
+    """'2026-09' 은 달, '2026-Q3' 은 분기 단위로 n 만큼 옮깁니다."""
+    if "-Q" in period:
+        y, q = period.split("-Q")
+        q = int(q) + n
+        y = int(y) + (q - 1) // 4
+        q = (q - 1) % 4 + 1
+        return f"{y:04d}-Q{q}"
+    return month_add(period, n)
 
 
 def yoy(series, period):
@@ -124,6 +142,58 @@ def monthly(daily):
     return {d[:7]: v for d, v in daily.items()}
 
 
+def quarterly(daily):
+    """'2026-07-01' → '2026-Q3'"""
+    return {f"{d[:4]}-Q{(int(d[5:7]) - 1) // 3 + 1}": v for d, v in daily.items()}
+
+
+# 소매판매 세부 항목 (FRED 코드). 전체에서 이 네 가지를 빼면 '통제그룹'
+RETAIL_PARTS = [("자동차·부품", "RSMVPD"), ("주유소", "RSGASS"), ("건축자재", "RSBMGESD"), ("외식", "RSFSDP")]
+
+
+def retail_levels():
+    return monthly(fred("RSAFS")), {name: monthly(fred(sid)) for name, sid in RETAIL_PARTS}
+
+
+def retail_values(p):
+    total, parts = retail_levels()
+
+    def level(per, drop):
+        if per not in total:
+            return None
+        v = total[per]
+        for name in drop:
+            x = parts[name].get(per)
+            if x is None:
+                return None
+            v -= x
+        return v
+
+    def change(drop):
+        a, b = level(p, drop), level(month_add(p, -1), drop)
+        return round((a / b - 1) * 100, 1) if a is not None and b else None
+
+    return {"mom": change([]), "exautogas_mom": change(["자동차·부품", "주유소"]),
+            "control_mom": change([name for name, _ in RETAIL_PARTS])}
+
+
+def retail_drivers(p):
+    """전체 증감을 항목별 기여도(%p)로 나눔. 크게 움직인 순서."""
+    total, parts = retail_levels()
+    prev = month_add(p, -1)
+    if p not in total or prev not in total or not total[prev]:
+        return None
+    out, rest_now, rest_prev = [], total[p], total[prev]
+    for name, _ in RETAIL_PARTS:
+        a, b = parts[name].get(p), parts[name].get(prev)
+        if a is None or b is None:
+            return None
+        out.append({"label": name, "pp": round((a - b) / total[prev] * 100, 2)})
+        rest_now, rest_prev = rest_now - a, rest_prev - b
+    out.append({"label": "그 밖의 소매(통제그룹)", "pp": round((rest_now - rest_prev) / total[prev] * 100, 2)})
+    return sorted(out, key=lambda d: -abs(d["pp"]))
+
+
 def us_values(series_id, ev):
     """미국 지표 결과값 {metric_key: 값}. 아직 없으면 빈 dict."""
     p = ev.get("period")
@@ -134,12 +204,19 @@ def us_values(series_id, ev):
                 **rates(m("CPIENGNS"), m("CPIENGSL"), p, "energy_")}
     if series_id == "us_pce":
         pce, core = monthly(fred("PCEPI")), monthly(fred("PCEPILFE"))  # PCE는 계절조정 지수 하나로 둘 다 계산
-        return {**rates(pce, pce, p), **rates(core, core, p, "core_")}
+        income, spending = monthly(fred("PI")), monthly(fred("PCE"))
+        return {**rates(pce, pce, p), **rates(core, core, p, "core_"),
+                "income_mom": mom(income, p), "spending_mom": mom(spending, p)}
     if series_id == "us_jobs":
-        pay, ur = monthly(fred("PAYEMS")), monthly(fred("UNRATE"))
+        pay, ur, ahe = monthly(fred("PAYEMS")), monthly(fred("UNRATE")), monthly(fred("CES0500000003"))
         prev = pay.get(month_add(p, -1))
         nfp = round((pay[p] - prev) / 10, 1) if p in pay and prev is not None else None  # 천 명 → 만 명
-        return {"nfp": nfp, "ur": ur.get(p)}
+        return {"nfp": nfp, "ur": ur.get(p), "ahe_mom": mom(ahe, p), "ahe_yoy": yoy(ahe, p)}
+    if series_id == "us_retail":
+        return retail_values(p)
+    if series_id == "us_gdp":
+        gdp, cons = quarterly(fred("A191RL1Q225SBEA")), quarterly(fred("DPCERL1Q225SBEA"))
+        return {"gdp": gdp.get(p), "consumption": cons.get(p)}
     if series_id == "us_rate":
         # 한국 시간 발표일 = 미국 결정일 다음 날 = 새 금리가 적용되는 날
         effective = release_time(ev).date().isoformat()
@@ -304,6 +381,11 @@ FF_MAP = [  # (제목 정규식, series, metric)
     (r"^Non-Farm Employment Change$", "us_jobs", "nfp"),
     (r"^Unemployment Rate$", "us_jobs", "ur"),
     (r"^Federal Funds Rate$", "us_rate", "rate"),
+    (r"^Average Hourly Earnings m/m$", "us_jobs", "ahe_mom"),
+    (r"^Retail Sales m/m$", "us_retail", "mom"),
+    (r"^Personal Income m/m$", "us_pce", "income_mom"),
+    (r"^Personal Spending m/m$", "us_pce", "spending_mom"),
+    (r"^(Advance|Prelim|Final) GDP q/q$", "us_gdp", "gdp"),
 ]
 
 
@@ -346,6 +428,76 @@ def fill_ff_forecasts(events):
                             v["forecast"] = val
                             n += 1
                             print(f"[ff] {ev['id']} {key} 예상치 {val}")
+    return n
+
+
+# ── 수정치·세부 항목 ────────────────────────────────────
+# (지표, 몇 달 전까지, 볼 항목)
+REVISE = {
+    "us_jobs": (2, ["nfp"]),
+    "us_retail": (2, ["mom", "control_mom"]),
+    "us_pce": (1, ["yoy", "core_yoy", "income_mom", "spending_mom"]),
+}
+
+
+def is_later_estimate(ev):
+    """GDP 잠정치·확정치: '이전'이 같은 분기의 앞선 추정치."""
+    return ev.get("estimate") not in (None, "속보치")
+
+
+def known_value(evs, upto, per, key):
+    """upto 일정 전까지 기록된 per 기간 key 의 마지막 값 (첫 발표 → 다음 일정의 '이전' → 수정 기록 순)."""
+    val = None
+    for e in evs:
+        if e is upto:
+            break
+        v = next((x for x in e["values"] if x["key"] == key), {})
+        if e.get("period") == per and v.get("actual") is not None:
+            val = v["actual"]
+        if e.get("period") and not is_later_estimate(e) and period_add(e["period"], -1) == per \
+                and v.get("previous") is not None:
+            val = v["previous"]
+        for r in e.get("revisions") or []:
+            if r.get("period") == per and r.get("key") == key:
+                val = r["to"]
+    return val
+
+
+def fill_revisions(events, now):
+    n = 0
+    for sid, (depth, keys) in REVISE.items():
+        evs = sorted((e for e in events if e["series"] == sid), key=release_time)
+        for ev in evs:
+            t = release_time(ev)
+            if "revisions" in ev or not ev.get("period") or not (t + WAIT_AFTER_RELEASE <= now <= t + REVISION_WINDOW):
+                continue
+            own = us_values(sid, ev)
+            if all(own.get(k) is None for k in keys):
+                continue  # FRED에 아직 이번 발표가 안 올라옴 → 다음 실행에서
+            revs = []
+            for k in range(1, depth + 1):
+                per = period_add(ev["period"], -k)
+                fresh = us_values(sid, dict(ev, period=per))
+                for key in keys:
+                    old, new = known_value(evs, ev, per, key), fresh.get(key)
+                    if old is not None and new is not None and abs(new - old) >= 0.05:
+                        revs.append({"period": per, "key": key, "from": old, "to": new})
+            ev["revisions"] = revs
+            n += 1
+            print(f"{ev['id']} 수정치 {revs or '없음'}")
+    return n
+
+
+def fill_retail_drivers(events, now):
+    n = 0
+    for ev in events:
+        if ev["series"] != "us_retail" or "drivers" in ev or release_time(ev) + WAIT_AFTER_RELEASE > now:
+            continue
+        d = retail_drivers(ev["period"])
+        if d:
+            ev["drivers"] = d
+            n += 1
+            print(f"{ev['id']} 항목별 기여도 {d}")
     return n
 
 
@@ -399,10 +551,11 @@ def main():
     # 그래도 '이전'이 빈 칸(새로 추가한 항목, 목록의 첫 일정 등)은 전달 값을 직접 받아 채움
     for ev in events:
         empty = [v for v in ev["values"] if v.get("previous") is None]
-        if not ev.get("period") or not empty:
+        # GDP 잠정치·확정치의 '이전'은 바로 앞 추정치 결과에서만 가져옴 (위 단계)
+        if not ev.get("period") or not empty or is_later_estimate(ev):
             continue
         sid = ev["series"]
-        before = dict(ev, period=month_add(ev["period"], -1))
+        before = dict(ev, period=period_add(ev["period"], -1))
         try:
             got = us_values(sid, before) if sid.startswith("us_") else kr_values(sid, before)
         except Exception as e:
@@ -415,6 +568,8 @@ def main():
                 changed += 1
                 print(f"{ev['id']} {v['key']} 이전 {val}")
 
+    changed += fill_revisions(events, now)
+    changed += fill_retail_drivers(events, now)
     changed += fill_ff_forecasts(events)
 
     if changed:

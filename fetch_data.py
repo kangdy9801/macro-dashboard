@@ -4,6 +4,7 @@
 - 미국 3년물·10년물 국채 금리: 미국 재무부 공식 금리표 → 실패 시 FRED → (10년물만) Yahoo ^TNX
 - VIX: Yahoo ^VIX → 실패 시 CBOE 공식 CSV
 - MOVE: Yahoo ^MOVE
+- 달러 인덱스: Yahoo DX-Y.NYB (경제 일정의 시장 반응 점검용)
 - VKOSPI: 한국거래소(KRX) Open API 파생상품지수 시세 (환경변수 KRX_API_KEY 필요)
 - 공포·탐욕 지수: CNN Fear & Greed 데이터
 """
@@ -29,6 +30,8 @@ YAHOO = [
     ("ndx", "나스닥 종합", "나스닥 상장 전 종목 지수", ["^IXIC"]),
     ("vix", "VIX", "S&P 500 옵션으로 본 미국 주식 30일 기대 변동성", ["^VIX"]),
     ("move", "MOVE", "미국 국채 옵션으로 본 채권 1개월 기대 변동성", ["^MOVE"]),
+    # 차트에는 안 나오고, 경제 일정 '시장 반응' 점검에만 씀
+    ("dxy", "달러 인덱스", "주요 6개 통화 대비 달러 가치", ["DX-Y.NYB"]),
 ]
 VIX_CBOE_CSV = "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv"
 KRX_DRV_URL = "https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd"

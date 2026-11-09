@@ -147,14 +147,15 @@
   .soon h3 { margin: 2px 0 0; font-size: 1rem; font-weight: 600; }
   .soon p { margin: 2px 0 0; color: var(--muted); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
   .soon .exp { color: var(--ink); font-size: 0.875rem; margin-top: 6px; }
-  .filters { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 20px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 10px; }
   .cal-month { margin-top: 24px; }
   .cal-month h3 { font-size: 1rem; font-weight: 600; margin: 0 0 6px; }
   .ev { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 4px 16px; background: var(--panel);
     border: 1px solid var(--line); border-left: 4px solid var(--k); border-radius: 0 10px 10px 0; padding: 12px 14px; }
   .ev + .ev { margin-top: 8px; }
   .ev.past { opacity: 0.88; }
-  .ev.k-rate { --k: var(--rate); } .ev.k-cpi { --k: var(--gold); } .ev.k-pce { --k: var(--vol); } .ev.k-jobs { --k: var(--equity); }
+  .k-rate { --k: var(--rate); } .k-cpi { --k: var(--gold); } .k-pce { --k: var(--vol); } .k-jobs { --k: var(--equity); }
+  .k-retail { --k: var(--oil); } .k-gdp { --k: var(--mood); } .k-gdppce { --k: var(--mood); }
   .ev-when { font-variant-numeric: tabular-nums; }
   .ev-when b { display: block; font-weight: 600; }
   .ev-when small { color: var(--muted); font-size: 0.8125rem; }
@@ -178,6 +179,41 @@
   .sur { display: inline-block; margin-left: 6px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
   .sur.up { color: var(--up); } .sur.down { color: var(--down); } .sur.eq { color: var(--muted); }
   .ev-note { grid-column: 2; margin: 2px 0 0; color: var(--muted); font-size: 0.8125rem; }
+  .ev-check { grid-column: 2; margin-top: 4px; border-top: 1px solid var(--line); padding-top: 4px; }
+  .ev-check summary { cursor: pointer; font-size: 0.875rem; font-weight: 500; padding: 4px 0; }
+  .ev-check summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* ── 지표 점검 ── */
+  .big3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 900px) { .big3 { grid-template-columns: 1fr; } }
+  .qcard { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .qcard h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+  .ans { margin: 8px 0 6px; font-size: 1.125rem; font-weight: 600; line-height: 1.4; }
+  .ans::before { content: "→"; margin-right: 8px; color: var(--tone, var(--muted)); }
+  .qcard p, .rcard p { margin: 0; font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+  .src { color: var(--muted); font-size: 0.8125rem !important; margin-top: 8px !important; }
+  .reports { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 900px) { .reports { grid-template-columns: 1fr; } }
+  .rcard { background: var(--panel); border: 1px solid var(--line); border-top: 4px solid var(--k); border-radius: 0 0 10px 10px; padding: 12px 16px 6px; }
+  .rcard h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+  .rcard h3 small { color: var(--muted); font-weight: 400; font-size: 0.8125rem; margin-left: 6px; }
+  .rq { margin: 8px 0 0 !important; font-weight: 500; }
+  .qlabel { display: inline-block; margin-right: 6px; font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+  .rcard h4 { margin: 12px 0 0; font-size: 0.875rem; font-weight: 600; }
+  .t-up { --tone: var(--up); } .t-down { --tone: var(--down); } .t-mix { --tone: var(--fng-1); }
+  .t-ok { --tone: var(--mood); } .t-eq, .t-na { --tone: var(--muted); }
+  .verdict { display: inline-block; font-size: 0.8125rem; font-weight: 600; padding: 0 9px; margin-right: 6px; border-radius: 999px;
+    border: 1px solid var(--tone, var(--line)); color: var(--tone, var(--muted)); }
+  .verdict.t-na { border-style: dashed; }
+  .lens { margin: 6px 0 0; }
+  .lens-row { display: grid; grid-template-columns: 10.5em minmax(0, 1fr); gap: 2px 14px; padding: 8px 0; font-size: 0.875rem; font-variant-numeric: tabular-nums; }
+  .lens-row + .lens-row { border-top: 1px solid var(--line); }
+  .lens dt { font-weight: 600; }
+  .lens dt small { display: block; color: var(--muted); font-weight: 400; font-size: 0.75rem; line-height: 1.4; }
+  .lens dd { margin: 0; }
+  .lens dd::before { content: "→ "; color: var(--muted); }
+  @media (max-width: 560px) { .lens-row { grid-template-columns: 1fr; } .ev-check { grid-column: 1; } }
+
   .now-line { display: flex; align-items: center; gap: 10px; margin: 14px 0; color: var(--alert); font-size: 0.8125rem; font-weight: 600; }
   .now-line::after { content: ""; flex: 1; border-top: 2px solid var(--alert); }
   .cal-empty { margin-top: 20px; color: var(--muted); }
@@ -272,8 +308,20 @@
   </div>
 
   <div role="tabpanel" id="panel-calendar" aria-labelledby="tab-calendar" hidden>
-    <p class="cal-intro">한국과 미국의 기준금리 결정, 소비자물가(CPI), 개인소비지출(PCE) 물가, 고용 발표를 한국 시간으로 모았어요. 예상은 발표 전 시장 전망치이고, 결과는 발표 뒤 자동으로 채워져요. 물가는 전년비와 전월비(전월 대비)를 함께 보여 줘요. 근원은 식료품·에너지를 뺀 값이에요. 미국 CPI 전월비는 계절조정 기준이에요.</p>
+    <p class="cal-intro">한국과 미국의 기준금리 결정, 소비자물가(CPI), 개인소비지출(PCE) 물가·소득·지출, 고용, 미국 소매판매·GDP 발표를 한국 시간으로 모았어요. 예상은 발표 전 시장 전망치이고, 결과는 발표 뒤 자동으로 채워져요. 물가는 전년비와 전월비(전월 대비)를 함께 보여 줘요. 근원은 식료품·에너지를 뺀 값이에요. 미국 CPI 전월비는 계절조정 기준이에요.</p>
     <div class="soon" id="cal-soon" aria-label="다가오는 발표"></div>
+    <section id="check" aria-labelledby="check-title" hidden>
+      <h2 id="check-title">지표 점검: 세 가지 질문</h2>
+      <p>가장 최근에 나온 미국 지표로 답해요. 같은 숫자면 늘 같은 답이 나오는 규칙이고, 새 발표가 들어오면 답도 바뀌어요.</p>
+      <div class="big3" id="check-big"></div>
+    </section>
+    <section aria-labelledby="reports-title" id="check-reports-wrap" hidden>
+      <h2 id="reports-title">보고서별 확인 결과</h2>
+      <p>보고서마다 핵심 질문에 답한 뒤, 예상치와 실제치 · 이전 수치와 수정치 · 세부 항목 · 시장 반응 네 가지로 확인해요.</p>
+      <div class="reports" id="check-reports"></div>
+    </section>
+    <section aria-labelledby="list-title">
+    <h2 id="list-title">전체 일정</h2>
     <div class="filters">
       <div class="mode" role="group" aria-label="나라" id="f-country">
         <button type="button" data-v="all" aria-pressed="true">전체</button>
@@ -286,13 +334,16 @@
         <button type="button" data-v="cpi" aria-pressed="false">CPI</button>
         <button type="button" data-v="pce" aria-pressed="false">PCE</button>
         <button type="button" data-v="jobs" aria-pressed="false">고용</button>
+        <button type="button" data-v="retail" aria-pressed="false">소매판매</button>
+        <button type="button" data-v="gdp" aria-pressed="false">GDP</button>
       </div>
     </div>
     <div id="cal-list"></div>
     <p class="status" id="cal-status" style="margin-top:16px"></p>
+    </section>
   </div>
 
-  <footer>데이터: Yahoo Finance(금·원유·주가지수·VIX·MOVE), 미국 재무부(국채 금리), 한국거래소(VKOSPI), CNN(공포·탐욕 지수). 경제 일정: 미국 연준·BLS·BEA, 한국은행, 국가데이터처 발표 (결과는 FRED·한국은행 ECOS에서 자동으로 채움). 매일 한 번 자동으로 갱신되는 종가 기준이며, 투자 판단의 참고용으로만 사용하세요.<br>화면 버전: v10 (오늘의 한 줄 요약, 경제 일정 탭 추가)</footer>
+  <footer>데이터: Yahoo Finance(금·원유·주가지수·VIX·MOVE), 미국 재무부(국채 금리), 한국거래소(VKOSPI), CNN(공포·탐욕 지수). 경제 일정: 미국 연준·BLS·BEA·인구조사국, 한국은행, 국가데이터처 발표 (결과는 FRED·한국은행 ECOS에서 자동으로 채움). 매일 한 번 자동으로 갱신되는 종가 기준이며, 투자 판단의 참고용으로만 사용하세요.<br>화면 버전: v11 (경제 일정에 소매판매·GDP, 지표 점검 추가)</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
@@ -616,11 +667,6 @@
   }
 
   async function main() {
-    if (typeof LightweightCharts === "undefined") {
-      statusEl.textContent = "";
-      showNotice("차트 그리기 도구를 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침하세요.");
-      return;
-    }
     let payload;
     try {
       const res = await fetch("data/market.json?t=" + Date.now(), { cache: "no-store" });
@@ -633,6 +679,13 @@
     }
 
     const byId = Object.fromEntries((payload.series || []).map((s) => [s.id, s]));
+    MKT = byId;
+    if (CAL) renderCalendar();
+    if (typeof LightweightCharts === "undefined") {
+      statusEl.textContent = "";
+      showNotice("차트 그리기 도구를 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침하세요.");
+      return;
+    }
     const updated = new Date(payload.updated);
     statusEl.textContent = "마지막 데이터 갱신: " + updated.toLocaleString("ko-KR", { dateStyle: "medium", timeStyle: "short" }) +
       " · 다음 자동 업데이트: " + nextRunText();
@@ -819,7 +872,7 @@
   }
 
   // ── 경제 일정 ──
-  const KIND = { rate: "금리", cpi: "CPI", pce: "PCE", jobs: "고용" };
+  const KIND = { rate: "금리", cpi: "CPI", pce: "PCE", jobs: "고용", retail: "소매판매", gdp: "GDP" };
   const COUNTRY = { KR: "한국", US: "미국" };
   let CAL = null, showOld = false, calFilter = { country: "all", kind: "all" }, briefMetaEl = null, nextEventText = "";
   const kstTime = (ev) => Date.parse(ev.release_kst + ":00+09:00");
@@ -829,7 +882,7 @@
     if (typeof v !== "number") return String(v);
     if (m.range) return fmt(v - m.range, 2) + "~" + fmt(v, 2) + "%";
     if (m.unit === "만명") return (v > 0 ? "+" : "") + fmt(v, 1) + "만 명";
-    if (m.unit === "%") return fmt(v, m.key === "rate" ? 2 : 1) + "%";
+    if (m.unit === "%") return ((m.sign || signed) && v > 0 ? "+" : "") + fmt(v, m.key === "rate" ? 2 : 1) + "%";
     return (signed && v > 0 ? "+" : "") + fmt(v, 1) + (m.unit || "");
   }
   function kstParts(ev) {
@@ -838,7 +891,14 @@
     return { md: (dd.getUTCMonth() + 1) + "/" + dd.getUTCDate() + " (" + WEEK[dd.getUTCDay()] + ")", time: t,
              month: dd.getUTCFullYear() + "년 " + (dd.getUTCMonth() + 1) + "월", ymd: d };
   }
-  function periodTxt(p) { if (!p) return ""; const [y, m] = p.split("-"); return `${+m}월분`; }
+  function perAdd(p, n) { // '2026-09' 은 달, '2026-Q3' 은 분기 단위로 이동
+    if (!p) return null;
+    if (p.includes("-Q")) { let [y, q] = p.split("-Q").map(Number); q += n; y += Math.floor((q - 1) / 4); q = ((q - 1) % 4 + 4) % 4 + 1; return `${y}-Q${q}`; }
+    let [y, m] = p.split("-").map(Number); m += n; y += Math.floor((m - 1) / 12); m = ((m - 1) % 12 + 12) % 12 + 1;
+    return `${y}-${String(m).padStart(2, "0")}`;
+  }
+  function perName(p) { if (!p) return ""; return p.includes("-Q") ? +p.split("-Q")[1] + "분기" : +p.split("-")[1] + "월"; }
+  function periodTxt(p) { if (!p) return ""; return p.includes("-Q") ? perName(p) : perName(p) + "분"; }
   function decisionWord(ev, sMeta) {
     const v = ev.values[0];
     if (sMeta.kind !== "rate" || v.actual == null || v.previous == null) return null;
@@ -858,7 +918,7 @@
     const body = el("div");
     const head = el("div", "ev-head");
     head.append(el("h4", "", sm.title));
-    head.append(el("small", "", [COUNTRY[sm.country], periodTxt(ev.period)].filter(Boolean).join(" · ")));
+    head.append(el("small", "", [COUNTRY[sm.country], periodTxt(ev.period), ev.estimate].filter(Boolean).join(" · ")));
     const word = decisionWord(ev, sm);
     if (word) head.append(el("span", "flag", word));
     const waiting = past && ev.values.every((v) => v.actual == null);
@@ -890,7 +950,502 @@
     box.append(when, body);
     const notes = [ev.forecast_note && "예상: " + ev.forecast_note, ev.note].filter(Boolean);
     if (notes.length) box.append(el("p", "ev-note", notes.join(" · ")));
+    if (hasResult(ev)) {
+      const det = el("details", "ev-check");
+      det.append(el("summary", "", "확인 결과 보기"), lensList(ev));
+      box.append(det);
+    }
     return box;
+  }
+
+  // ── 지표 점검: 경제 일정 숫자를 규칙으로 읽어 질문에 답하기 ──
+  // AI가 쓰는 글이 아니라 규칙이에요. 같은 숫자면 늘 같은 답이 나옵니다. 기준값은 여기서 바꿀 수 있어요.
+  const CHECK = {
+    flat: 0.05,     // 이보다 작은 차이는 '같음'
+    bp: 3,          // 시장 반응: 국채금리가 이만큼(bp) 움직여야 '움직였다'
+    spx: 0.3,       // 시장 반응: S&P 500 %
+    dxy: 0.2,       // 시장 반응: 달러 인덱스 %
+    jobsOk: 5,      // 일자리 '유지' 기준: 최근 3개월 평균 증가 (만 명)
+    urRise: 0.2,    // 실업률이 3개월 새 이만큼 오르면 '약해지는 중'
+    gasGap: 0.3,    // 소매판매 전체와 자동차·주유소 제외의 차이가 이 이상이면 '두 항목이 이끌었다'
+    retailOk: 0.4,  // 소매판매 통제그룹이 이 이상이면 '탄탄'
+  };
+  let MKT = null; // data/market.json (시장 반응 점검용)
+  const POL = { ur: -1 }; // 숫자가 클수록 '약한' 지표
+  const ACTIVITY = new Set(["income_mom", "spending_mom"]);
+  const num = (x) => typeof x === "number" && isFinite(x);
+  const sgn = (x, th = CHECK.flat) => (!num(x) || Math.abs(x) < th ? 0 : x > 0 ? 1 : -1);
+  const toneOf = (s) => (s > 0 ? "up" : s < 0 ? "down" : "eq");
+  const vOf = (ev, key) => ev.values.find((x) => x.key === key) || {};
+  const mOf = (ev, key) => CAL.series[ev.series].metrics.find((m) => m.key === key) || { key, label: key };
+  const fv = (ev, key, v) => fmtVal(v, mOf(ev, key)); // 전월비처럼 sign 이 있는 항목만 + 표시
+  const laterEstimate = (ev) => ev.estimate && ev.estimate !== "속보치";
+  const hasResult = (ev) => kstTime(ev) <= Date.now() && ev.values.some((v) => num(v.actual));
+  function seriesEvents(sid) { return CAL.events.filter((e) => e.series === sid).sort((a, b) => kstTime(a) - kstTime(b)); }
+  function latestOf(sid, before) {
+    const l = seriesEvents(sid).filter((e) => hasResult(e) && (before == null || kstTime(e) <= before));
+    return l[l.length - 1] || null;
+  }
+  const eventFor = (sid, period) => seriesEvents(sid).filter((e) => hasResult(e) && e.period === period && !laterEstimate(e)).pop() || null;
+  const nextOf = (sid) => seriesEvents(sid).find((e) => kstTime(e) > Date.now()) || null;
+  function mType(sm, key) { // 'price' 물가 · 'rate' 금리 · 'act' 경기(일자리·소비·성장·임금)
+    if (sm.kind === "rate") return "rate";
+    if ((sm.kind === "cpi" || sm.kind === "pce") && !ACTIVITY.has(key)) return "price";
+    return "act";
+  }
+  const WORD = {
+    surprise: { act: ["예상보다 강했어요", "예상보다 약했어요"], price: ["예상보다 높았어요", "예상보다 낮았어요"],
+                rate: ["예상보다 높았어요", "예상보다 낮았어요"], same: "예상과 같았어요" },
+    trend: { act: ["강해졌어요", "약해졌어요"], price: ["높아졌어요", "낮아졌어요"], rate: ["올랐어요", "내렸어요"], same: "비슷해요" },
+    tag: { act: ["강함", "약함"], price: ["높음", "낮음"], rate: ["높음", "낮음"], same: "같음" },
+    ttag: { act: ["강해짐", "약해짐"], price: ["높아짐", "낮아짐"], rate: ["상승", "하락"], same: "비슷" },
+  };
+  const word = (set, type, s) => (s === 0 ? WORD[set].same : WORD[set][type][s > 0 ? 0 : 1]);
+  const R = (tone, verdict, text) => ({ tone, verdict, text });
+  function revisedPrev(ev, key) { // 이번 발표에서 수정된 지난번 값 (없으면 '이전' 그대로)
+    const r = revisionsOf(ev).list.find((x) => x.key === key && x.period === perAdd(ev.period, -1));
+    return r ? r.to : vOf(ev, key).previous;
+  }
+  function knownValues(sid, key) { // 기간별로 가장 최근에 알려진 값 (첫 발표 → 다음 일정의 '이전' → 수정 기록)
+    const out = {};
+    seriesEvents(sid).filter((e) => kstTime(e) <= Date.now() && e.period).forEach((e) => {
+      const v = vOf(e, key);
+      if (num(v.actual)) out[e.period] = v.actual;
+      if (!laterEstimate(e) && num(v.previous)) out[perAdd(e.period, -1)] = v.previous;
+      (e.revisions || []).forEach((r) => { if (r.key === key) out[r.period] = r.to; });
+    });
+    return out;
+  }
+  function revisionsOf(ev) { // { list: [{period, key, from, to}], known: 수정 여부를 알 수 있는지 }
+    if (Array.isArray(ev.revisions)) return { list: ev.revisions, known: true };
+    if (!ev.period || laterEstimate(ev)) return { list: [], known: false };
+    const evs = seriesEvents(ev.series);
+    const prior = evs.slice(0, evs.indexOf(ev)).reverse().find((e) => e.period === perAdd(ev.period, -1));
+    if (!prior) return { list: [], known: false };
+    const list = []; let compared = 0;
+    ev.values.forEach((v) => {
+      const a = vOf(prior, v.key).actual;
+      if (!num(a) || !num(v.previous)) return;
+      compared++;
+      if (Math.abs(a - v.previous) >= CHECK.flat) list.push({ period: prior.period, key: v.key, from: a, to: v.previous });
+    });
+    return { list, known: compared > 0 };
+  }
+
+  // ① 예상치와 실제치
+  function lensSurprise(ev) {
+    const sm = CAL.series[ev.series];
+    const items = sm.metrics.map((m, i) => {
+      const v = vOf(ev, m.key);
+      if (!num(v.actual) || !num(v.forecast)) return null;
+      return { m, v, i, type: mType(sm, m.key), s: sgn(v.actual - v.forecast) * (POL[m.key] || 1) };
+    }).filter(Boolean);
+    if (!items.length) return R("na", "비교할 예상치 없음", "발표 전 시장 예상치가 기록되지 않아 비교할 수 없어요.");
+    const headType = mType(sm, sm.metrics[0].key);
+    const main = items.filter((x) => x.type === headType), other = items.filter((x) => x.type !== headType);
+    const judge = (list) => {
+      const score = list.reduce((a, x) => a + x.s * (x.i === 0 ? 2 : 1), 0);
+      const pos = list.some((x) => x.s > 0), neg = list.some((x) => x.s < 0);
+      if (!pos && !neg) return { s: 0, mixed: false };
+      return { s: Math.sign(score) || (pos ? 1 : -1), mixed: pos && neg };
+    };
+    const j = judge(main.length ? main : other), t = main.length ? headType : other[0].type;
+    let verdict = word("surprise", t, j.s), tone = toneOf(j.s);
+    if (sm.kind === "rate") verdict = j.s === 0 ? "예상대로 결정" : j.s > 0 ? "예상보다 매파적" : "예상보다 비둘기파적";
+    if (j.mixed) { verdict = "엇갈렸어요 (" + (j.s > 0 ? WORD.tag[t][0] : WORD.tag[t][1]) + " 쪽)"; tone = "mix"; }
+    const parts = items.slice(0, 4).map((x) =>
+      `${x.m.label} ${fv(ev, x.m.key, x.v.actual)}(예상 ${fv(ev, x.m.key, x.v.forecast)}, ${word("tag", x.type, x.s)})`);
+    let text = parts.join(" · ") + ".";
+    if (main.length && other.length) {
+      const o = judge(other);
+      text += ` 소득·지출은 ${o.mixed ? "엇갈렸어요" : word("surprise", "act", o.s)}.`;
+    }
+    return R(tone, verdict, text);
+  }
+
+  // ② 이전 수치와 수정치
+  function lensPrior(ev) {
+    const sm = CAL.series[ev.series];
+    if (sm.kind === "rate") return null;
+    const m0 = sm.metrics[0], v0 = vOf(ev, m0.key), t0 = mType(sm, m0.key);
+    if (laterEstimate(ev)) { // GDP 잠정치·확정치: 앞선 추정치에서 얼마나 바뀌었나
+      const items = sm.metrics.filter((m) => num(vOf(ev, m.key).actual) && num(vOf(ev, m.key).previous));
+      if (!items.length) return null;
+      const s = sgn(v0.actual - v0.previous);
+      return R(toneOf(s), s > 0 ? "상향 수정" : s < 0 ? "하향 수정" : "수정 없음",
+        "앞선 추정치 대비: " + items.map((m) => `${m.label} ${fv(ev, m.key, vOf(ev, m.key).previous)} → ${fv(ev, m.key, vOf(ev, m.key).actual)}`).join(" · ") + ".");
+    }
+    const { list, known } = revisionsOf(ev);
+    const prev = revisedPrev(ev, m0.key);
+    const ts = num(v0.actual) && num(prev) ? sgn(v0.actual - prev) * (POL[m0.key] || 1) : null;
+    const revScore = list.reduce((a, r) => a + sgn(r.to - r.from) * (POL[r.key] || 1) * (r.key === m0.key ? 2 : 1), 0);
+    const bits = [];
+    if (list.length) bits.push(revScore > 0 ? "상향 수정" : revScore < 0 ? "하향 수정" : "수정 엇갈림");
+    else if (known) bits.push("수정 없음");
+    if (ts != null) bits.push(word("ttag", t0, ts));
+    if (!bits.length) return null;
+    let text = "";
+    if (list.length) {
+      text += "수정: " + list.map((r) => `${perName(r.period)} ${mOf(ev, r.key).label} ${fv(ev, r.key, r.from)} → ${fv(ev, r.key, r.to)}`).join(", ") + ". ";
+      if (revScore) text += revScore > 0 ? "지난 흐름이 처음 발표보다 강했어요. " : "지난 흐름이 처음 발표보다 약했어요. ";
+    } else text += known ? "지난번 숫자는 수정되지 않았어요. " : "지난번 숫자의 수정 기록은 없어요. ";
+    if (ts != null) {
+      const unit = ev.period.includes("-Q") ? "분기" : "달";
+      text += `${m0.label}: ${perName(perAdd(ev.period, -1))} ${fv(ev, m0.key, prev)} → ${perName(ev.period)} ${fv(ev, m0.key, v0.actual)}, 지난${unit}보다 ${word("trend", t0, ts)}`;
+    }
+    const tone = ts ? toneOf(ts) : list.length ? toneOf(revScore) : "eq";
+    return R(tone, bits.join(" · "), text.trim());
+  }
+
+  // ③ 세부 항목: 전체(첫 항목)와 내부 항목이 같은 방향인지
+  const DETAIL = {
+    us_jobs: ["ur", "ahe_mom"], us_cpi: ["core_yoy", "energy_yoy"], us_pce: ["core_yoy"],
+    us_retail: ["exautogas_mom", "control_mom"], us_gdp: ["consumption"],
+    kr_cpi: ["core_yoy", "energy_yoy"], kr_jobs: ["ur"],
+  };
+  function lensDetail(ev) {
+    const keys = DETAIL[ev.series];
+    if (!keys) return null;
+    const sm = CAL.series[ev.series], m0 = sm.metrics[0];
+    const has = (k, f) => num(vOf(ev, k).actual) && num(f === "previous" ? revisedPrev(ev, k) : vOf(ev, k)[f]);
+    const inner = keys.filter((k) => num(vOf(ev, k).actual));
+    if (!num(vOf(ev, m0.key).actual) || !inner.length) return null;
+    // 기준: 전체와 내부 항목 모두 예상치가 있으면 '예상 대비', 아니면 '지난번 대비'
+    const byF = has(m0.key, "forecast") && inner.every((k) => has(k, "forecast"));
+    const base = byF ? "forecast" : "previous";
+    const items = [m0.key, ...inner].filter((k) => has(k, base)).map((k) => {
+      const v = vOf(ev, k), ref = byF ? v.forecast : revisedPrev(ev, k);
+      return { k, m: mOf(ev, k), v, ref, type: mType(sm, k), s: sgn(v.actual - ref) * (POL[k] || 1) };
+    });
+    if (items.length < 2 || items[0].k !== m0.key) return null;
+    const head = items[0].s, rest = items.slice(1).map((x) => x.s);
+    let verdict, tone;
+    if (head === 0 && rest.every((x) => x === 0)) { verdict = "모두 비슷"; tone = "eq"; }
+    else if (rest.every((x) => x === head)) { verdict = "같은 방향"; tone = toneOf(head); }
+    else if (rest.some((x) => x !== 0 && x === -head) || head === 0) { verdict = "엇갈림"; tone = "mix"; }
+    else { verdict = "일부만 같은 방향"; tone = "mix"; }
+    const tag = (x) => byF ? word("tag", x.type, x.s) : word("ttag", x.type, x.s);
+    let text = items.map((x) => `${x.m.label} ${fv(ev, x.k, x.v.actual)}(${byF ? "예상" : "지난번"} ${fv(ev, x.k, x.ref)}, ${tag(x)})`).join(" · ") + ".";
+    text += " " + detailExtra(ev);
+    return R(tone, verdict, text.trim());
+  }
+  function detailExtra(ev) {
+    const a = (k) => vOf(ev, k).actual;
+    if (ev.series === "us_retail") {
+      if (Array.isArray(ev.drivers) && ev.drivers.length) {
+        const top = ev.drivers.slice(0, 2).map((d) => `${d.label} ${d.pp > 0 ? "+" : ""}${fmt(d.pp, 2)}%p`).join(", ");
+        return `전체 변화를 가장 크게 움직인 항목: ${top}.`;
+      }
+      if (num(a("mom")) && num(a("exautogas_mom")) && Math.abs(a("mom") - a("exautogas_mom")) >= CHECK.gasGap)
+        return `자동차·주유소를 빼면 ${fv(ev, "exautogas_mom", a("exautogas_mom"))}라서, 전체 숫자는 두 항목이 ${a("mom") > a("exautogas_mom") ? "끌어올렸어요" : "끌어내렸어요"}.`;
+      return "";
+    }
+    if (ev.series === "us_pce" && num(a("income_mom")) && num(a("spending_mom"))) {
+      const d = a("spending_mom") - a("income_mom");
+      return `지출(${fv(ev, "spending_mom", a("spending_mom"))})이 소득(${fv(ev, "income_mom", a("income_mom"))})보다 ` +
+        (d >= 0.1 ? "더 늘어, 저축을 줄여 쓰는 흐름이에요." : d <= -0.1 ? "덜 늘어, 여력이 쌓이는 흐름이에요." : "비슷하게 늘었어요.");
+    }
+    if (ev.series === "us_jobs") {
+      const w = a("ahe_yoy"), cpi = latestOf("us_cpi", kstTime(ev));
+      if (!num(w)) return "임금 전년비는 다음 자동 업데이트에서 채워져요.";
+      const c = cpi && vOf(cpi, "yoy").actual;
+      if (!num(c)) return "";
+      return `시급 전년비 ${fmt(w, 1)}%는 직전 CPI ${fmt(c, 1)}%보다 ${w >= c ? "높아 실질 임금이 늘고 있어요." : "낮아 물가를 빼면 실질 임금은 줄고 있어요."}`;
+    }
+    if (ev.series === "us_cpi" && num(a("core_mom"))) return `전월비로는 전체 ${fv(ev, "mom", a("mom"))}, 근원 ${fv(ev, "core_mom", a("core_mom"))}.`;
+    return "";
+  }
+
+  // ④ 시장 반응: 발표 날 미국 장 마감 기준 3년물·10년물 금리, 달러, S&P 500
+  function usDateOf(ev) { return new Date(kstTime(ev) - 5 * 3600e3).toISOString().slice(0, 10); } // 대략 미국 동부 날짜
+  function dayMove(id, date) {
+    const s = MKT && MKT[id];
+    if (!s || !s.data || !s.data.length) return null;
+    const i = s.data.findIndex((p) => p.time >= date);
+    if (i < 1) return null;
+    const val = (p) => (s.kind === "candle" ? p.close : p.value);
+    return { date: s.data[i].time, d: val(s.data[i]) - val(s.data[i - 1]), pct: (val(s.data[i]) / val(s.data[i - 1]) - 1) * 100 };
+  }
+  function lensMarket(ev) {
+    const sm = CAL.series[ev.series];
+    if (sm.country !== "US") return null;
+    if (!MKT) return R("na", "불러오는 중", "시세 데이터를 불러오면 함께 보여 줘요.");
+    const date = usDateOf(ev);
+    const r3 = dayMove("us3y", date), r10 = dayMove("us10y", date), spx = dayMove("spx", date), usd = dayMove("dxy", date);
+    if (!spx || spx.date > date && (Date.parse(spx.date) - Date.parse(date)) > 4 * 86400e3)
+      return R("na", "아직 반응 없음", "발표 날 미국 장 마감 시세가 아직 들어오지 않았어요.");
+    const b3 = r3 ? r3.d * 100 : null, b10 = r10 ? r10.d * 100 : null;
+    const rs = sgn(b3, CHECK.bp) || sgn(b10, CHECK.bp), ss = sgn(spx.pct, CHECK.spx), us = usd ? sgn(usd.pct, CHECK.dxy) : null;
+    const type = mType(sm, sm.metrics[0].key);
+    let verdict, tone = toneOf(rs);
+    if (type === "rate") verdict = rs > 0 ? "매파적으로 해석" : rs < 0 ? "비둘기파적으로 해석" : "금리 반응 작음";
+    else if (type === "price") verdict = rs > 0 ? "물가 부담으로 해석" : rs < 0 ? "물가 완화로 해석" : "금리 반응 작음";
+    else verdict = rs > 0 ? "강한 지표로 해석" : rs < 0 ? "약한 지표로 해석" : "금리 반응 작음";
+    const nums = [b3 != null && `3년물 ${bpTxt(b3)}`, b10 != null && `10년물 ${bpTxt(b10)}`,
+      usd && `달러 ${pctTxt(usd.pct)}`, `S&P 500 ${pctTxt(spx.pct)}`].filter(Boolean).join(" · ");
+    const md = (() => { const d = new Date(spx.date + "T00:00:00Z"); return `${d.getUTCMonth() + 1}/${d.getUTCDate()}`; })();
+    let text = `${md} 미국 장 마감 기준 ${nums}. `;
+    if (rs > 0) text += ss < 0 ? "금리가 오르자 주가는 부담을 느꼈어요. " : ss > 0 ? "금리와 주가가 함께 올라 경기 자신감이 앞섰어요. " : "주가는 크게 움직이지 않았어요. ";
+    else if (rs < 0) text += ss > 0 ? "금리가 내리자 주가가 반겼어요. " : ss < 0 ? "금리가 내렸는데도 주가가 빠져 경기 걱정이 앞섰어요. " : "주가는 크게 움직이지 않았어요. ";
+    else text += ss ? `금리는 조용했고 주가만 ${ss > 0 ? "올랐어요" : "내렸어요"}. ` : "금리와 주가 모두 조용했어요. ";
+    if (us == null) text += "달러는 다음 시세 업데이트부터 함께 봐요. ";
+    else if (rs && us) text += us === rs ? "달러도 금리와 같은 쪽으로 움직였어요. " : "달러는 금리와 반대로 움직였어요. ";
+    else if (rs) text += "달러는 조용했어요. ";
+    // 숫자(예상 대비)와 시장 해석이 같은 쪽인지
+    const sur = lensSurprise(ev);
+    const ss1 = sur.tone === "up" ? 1 : sur.tone === "down" ? -1 : 0;
+    if (rs && ss1 && type !== "rate") text += rs === ss1 ? "예상 대비 숫자와 시장 해석이 같은 쪽이에요. "
+      : "예상 대비 숫자와 반대로 움직여, 세부 내용이나 같은 날 다른 소식에 더 무게를 둔 것으로 보여요. ";
+    const same = CAL.events.filter((e) => e !== ev && CAL.series[e.series].country === "US" && usDateOf(e) === date && hasResult(e));
+    if (same.length) text += `같은 날 ${same.map((e) => CAL.series[e.series].title.replace(/^미국 /, "")).join(", ")}도 나와 반응이 섞여 있어요. `;
+    text += "(하루 종가 기준이라 다른 뉴스도 섞여 있어요.)";
+    return R(rs ? tone : "eq", verdict, text);
+  }
+
+  const LENSES = [
+    ["예상치와 실제치", "시장이 예상한 것보다 강했는지, 약했는지", lensSurprise],
+    ["이전 수치와 수정치", "지난달 흐름이 달라졌는지", lensPrior],
+    ["세부 항목", "전체 숫자와 내부 내용이 같은 방향인지", lensDetail],
+    ["시장 반응", "국채금리·달러·주가가 어떤 해석을 반영하는지", lensMarket],
+  ];
+  function lensList(ev) {
+    const dl = el("dl", "lens");
+    LENSES.forEach(([label, desc, f]) => {
+      const r = f(ev);
+      if (!r) return;
+      const row = el("div", "lens-row");
+      const dt = el("dt", "", label);
+      dt.append(el("small", "", desc));
+      const dd = el("dd");
+      dd.append(el("span", "verdict t-" + r.tone, r.verdict), document.createTextNode(r.text));
+      row.append(dt, dd);
+      dl.append(row);
+    });
+    return dl;
+  }
+
+  // ── 질문별 답 ──
+  const evLabel = (ev) => {
+    const sm = CAL.series[ev.series], pr = kstParts(ev);
+    return `${sm.title.replace(/^미국 /, "")} ${periodTxt(ev.period)}${ev.estimate ? " " + ev.estimate : ""} (${pr.md} 발표)`;
+  };
+  const nextLine = (sids) => {
+    const n = sids.map(nextOf).filter(Boolean).sort((a, b) => kstTime(a) - kstTime(b))[0];
+    if (!n) return "";
+    const pr = kstParts(n);
+    return ` 다음 확인: ${pr.md} ${pr.time} ${CAL.series[n.series].title.replace(/^미국 /, "")} ${periodTxt(n.period)}${n.estimate ? " " + n.estimate : ""}.`;
+  };
+  const WAIT = (msg) => ({ tone: "na", verdict: "결과 기다리는 중", text: msg, src: "" });
+
+  function jobsView(ev) { // 최근 3개월 일자리(수정치 반영), 실업률 변화
+    const nfp = knownValues("us_jobs", "nfp"), ur = knownValues("us_jobs", "ur");
+    const per = [0, -1, -2].map((k) => perAdd(ev.period, k));
+    const three = per.map((p) => nfp[p]).filter(num);
+    const avg = three.length ? three.reduce((a, b) => a + b, 0) / three.length : null;
+    const old = [-3, -2, -1].map((k) => perAdd(ev.period, k)).find((p) => num(ur[p]));
+    const urNow = vOf(ev, "ur").actual;
+    return { avg, n: three.length, urNow, urOld: old ? ur[old] : null, urOldPer: old, urChg: old && num(urNow) ? urNow - ur[old] : null };
+  }
+  function answerJobsHeld() {
+    const ev = latestOf("us_jobs");
+    if (!ev) return WAIT("고용보고서 결과가 아직 없어요.");
+    const j = jobsView(ev), d = vOf(ev, "nfp").actual;
+    const urUp = num(j.urChg) && j.urChg >= CHECK.urRise - 1e-9;
+    let tone, verdict;
+    if (num(j.avg) && j.avg >= CHECK.jobsOk && !urUp) { tone = "up"; verdict = "예, 유지되고 있어요"; }
+    else if (num(j.avg) && j.avg > 0) { tone = "mix"; verdict = "버티고는 있지만 힘이 빠지고 있어요"; }
+    else { tone = "down"; verdict = "아니요, 약해지고 있어요"; }
+    let text = `${perName(ev.period)} 일자리 ${fv(ev, "nfp", d)}, 최근 ${j.n}개월 평균 ${fv(ev, "nfp", j.avg)}(수정치 반영).`;
+    if (num(j.urNow)) text += ` 실업률 ${fmt(j.urNow, 1)}%` + (num(j.urOld) ? `(${perName(j.urOldPer)} ${fmt(j.urOld, 1)}%)` : "") + ".";
+    return { tone, verdict, text, src: "근거: " + evLabel(ev) + "." + nextLine(["us_jobs"]) };
+  }
+  function priceItems() {
+    const out = [];
+    [["us_cpi", "CPI"], ["us_pce", "PCE"]].forEach(([sid, name]) => {
+      const ev = latestOf(sid);
+      if (!ev) return;
+      [["yoy", ""], ["core_yoy", " 근원"]].forEach(([k, sub]) => {
+        const v = vOf(ev, k), p = revisedPrev(ev, k);
+        if (num(v.actual) && num(p)) out.push({ ev, k, name: name + sub, cur: v.actual, prev: p, s: sgn(v.actual - p) });
+      });
+    });
+    return out;
+  }
+  function answerPriceEasing() {
+    const items = priceItems();
+    if (!items.length) return WAIT("CPI·PCE 결과가 아직 없어요.");
+    const down = items.filter((x) => x.s < 0).length, up = items.filter((x) => x.s > 0).length, half = items.length / 2;
+    let tone, verdict;
+    if (down > half) { tone = "down"; verdict = "예, 약해지고 있어요"; }
+    else if (up > half) { tone = "up"; verdict = "아니요, 오히려 커지고 있어요"; }
+    else { tone = "mix"; verdict = "아직 뚜렷하지 않아요"; }
+    let text = items.map((x) => `${x.name} ${fmt(x.prev, 1)}→${fmt(x.cur, 1)}%`).join(" · ") + ` (전년비, ${items.length}개 중 ${down}개 둔화).`;
+    const cpi = latestOf("us_cpi"), en = cpi && vOf(cpi, "energy_yoy").actual;
+    if (num(en) && en >= 10) text += ` 에너지가 1년 전보다 ${fmt(en, 1)}% 올라 가장 큰 부담이에요.`;
+    const srcs = [...new Set(items.map((x) => x.ev))].map(evLabel).join(", ");
+    return { tone, verdict, text, src: "근거: " + srcs + "." + nextLine(["us_cpi", "us_pce"]) };
+  }
+  function answerSpending() {
+    const r = latestOf("us_retail"), p = latestOf("us_pce"), g = latestOf("us_gdp");
+    const items = [];
+    if (r) {
+      const c = vOf(r, "control_mom").actual, m = vOf(r, "mom").actual;
+      if (num(m)) items.push({ name: `소매판매 ${perName(r.period)}`, v: m, ev: r, k: "mom", core: false });
+      if (num(c)) items.push({ name: "통제그룹", v: c, ev: r, k: "control_mom", core: true });
+    }
+    if (p && num(vOf(p, "spending_mom").actual)) items.push({ name: `개인지출 ${perName(p.period)}`, v: vOf(p, "spending_mom").actual, ev: p, k: "spending_mom", core: true });
+    if (g && num(vOf(g, "consumption").actual)) items.push({ name: `${perName(g.period)} 실질 소비(연율)`, v: vOf(g, "consumption").actual, ev: g, k: "consumption", core: true });
+    const core = items.filter((x) => x.core);
+    if (!core.length) return WAIT("소매판매·개인지출 결과가 아직 없어요.");
+    const pos = core.filter((x) => x.v > 0).length;
+    let tone, verdict;
+    if (pos === core.length) { tone = "up"; verdict = "예, 이어가고 있어요"; }
+    else if (pos >= core.length / 2) { tone = "mix"; verdict = "이어가지만 주춤한 곳이 있어요"; }
+    else { tone = "down"; verdict = "아니요, 지출을 줄이고 있어요"; }
+    let text = items.map((x) => `${x.name} ${fv(x.ev, x.k, x.v)}`).join(" · ") + ".";
+    if (r) {
+      const c = vOf(r, "control_mom").actual, m = vOf(r, "mom").actual, ex = vOf(r, "exautogas_mom").actual;
+      if (num(m) && num(ex) && m - ex >= CHECK.gasGap) text += ` 다만 소매판매 증가는 주로 자동차·주유소에서 나왔어요.`;
+      else if (num(c) && c > 0 && c < CHECK.retailOk) text += ` 다만 통제그룹 증가 속도는 느려졌어요.`;
+    }
+    const srcs = [...new Set(items.map((x) => x.ev))].map(evLabel).join(", ");
+    return { tone, verdict, text, src: "근거: " + srcs + "." + nextLine(["us_retail", "us_pce", "us_gdp"]) };
+  }
+
+  // 보고서별 핵심 질문
+  function answerJobsReport() {
+    const ev = latestOf("us_jobs");
+    if (!ev) return WAIT("고용보고서 결과가 아직 없어요.");
+    const j = jobsView(ev), w = vOf(ev, "ahe_yoy").actual, cpi = latestOf("us_cpi", kstTime(ev));
+    const c = cpi ? vOf(cpi, "yoy").actual : null, real = num(w) && num(c) ? w - c : null;
+    const ok = num(j.avg) ? j.avg >= CHECK.jobsOk : vOf(ev, "nfp").actual >= CHECK.jobsOk;
+    let tone, verdict;
+    if (ok && real == null) { tone = "up"; verdict = "일자리는 받쳐 주고 있어요 (임금 확인 대기)"; }
+    else if (ok && real >= 0) { tone = "up"; verdict = "예, 일자리와 임금 모두 받쳐 주고 있어요"; }
+    else if (ok) { tone = "mix"; verdict = "일자리는 받쳐 주지만, 실질 임금은 줄고 있어요"; }
+    else if (real != null && real >= 0) { tone = "mix"; verdict = "일자리는 약해지고, 임금이 버텨 주는 정도예요"; }
+    else { tone = "down"; verdict = "아니요, 받쳐 주는 힘이 약해지고 있어요"; }
+    let text = `일자리 최근 ${j.n}개월 평균 ${fv(ev, "nfp", j.avg)}.`;
+    if (num(w)) text += ` 시급 전년비 ${fmt(w, 1)}%` + (num(c) ? ` vs 직전 CPI ${fmt(c, 1)}% → 실질 ${real >= 0 ? "+" : ""}${fmt(real, 1)}%p.` : ".");
+    else text += " 임금은 다음 자동 업데이트에서 채워져요.";
+    return { ev: [ev], tone, verdict, text };
+  }
+  function answerCpiReport() {
+    const ev = latestOf("us_cpi");
+    if (!ev) return WAIT("CPI 결과가 아직 없어요.");
+    const comps = [["yoy", "전체"], ["core_yoy", "근원"], ["energy_yoy", "에너지"]].map(([k, name]) => {
+      const v = vOf(ev, k), p = revisedPrev(ev, k);
+      return num(v.actual) && num(p) ? { name, cur: v.actual, prev: p, s: sgn(v.actual - p) } : null;
+    }).filter(Boolean);
+    if (!comps.length) return { ev: [ev], ...WAIT("항목별 결과가 아직 없어요.") };
+    const down = comps.filter((x) => x.s < 0), up = comps.filter((x) => x.s > 0);
+    let tone, verdict;
+    if (down.length >= 2) { tone = "down"; verdict = `예, ${comps.length}개 중 ${down.length}개 항목에서 둔화됐어요`; }
+    else if (down.length === 1) { tone = "mix"; verdict = `${down[0].name}만 둔화됐어요`; }
+    else if (up.length === comps.length) { tone = "up"; verdict = "아니요, 모든 항목이 오히려 올랐어요"; }
+    else { tone = "eq"; verdict = "둔화가 보이지 않아요"; }
+    const text = comps.map((x) => `${x.name} ${fmt(x.prev, 1)}→${fmt(x.cur, 1)}%`).join(" · ") + " (전년비)." + nextLine(["us_cpi"]);
+    return { ev: [ev], tone, verdict, text };
+  }
+  function answerRetailReport() {
+    const ev = latestOf("us_retail");
+    if (!ev) return WAIT("소매판매 결과가 아직 없어요.");
+    const m = vOf(ev, "mom").actual, c = vOf(ev, "control_mom").actual, ex = vOf(ev, "exautogas_mom").actual;
+    const base = num(c) ? c : m;
+    let tone, verdict;
+    if (base >= CHECK.retailOk) { tone = "up"; verdict = "탄탄하게 유지되고 있어요"; }
+    else if (base > 0) { tone = "mix"; verdict = "유지되지만 힘은 약해요"; }
+    else { tone = "down"; verdict = "주춤했어요"; }
+    let lead;
+    if (Array.isArray(ev.drivers) && ev.drivers.length) lead = `${ev.drivers[0].label}(${ev.drivers[0].pp > 0 ? "+" : ""}${fmt(ev.drivers[0].pp, 2)}%p)`;
+    else if (num(m) && num(ex) && Math.abs(m - ex) >= CHECK.gasGap) lead = "자동차·주유소";
+    else lead = "특정 항목 쏠림 없이 고르게";
+    let text = `전체 ${fv(ev, "mom", m)} · 자동차·주유소 제외 ${fv(ev, "exautogas_mom", ex)} · 통제그룹 ${fv(ev, "control_mom", c)}. 변화를 이끈 항목: ${lead}.`;
+    if (ev.note) text += ` (${ev.note})`;
+    return { ev: [ev], tone, verdict, text };
+  }
+  function answerGdpPce() {
+    const p = latestOf("us_pce"), g = latestOf("us_gdp");
+    if (!p && !g) return WAIT("GDP·PCE 결과가 아직 없어요.");
+    const per = p ? p.period : null;
+    const cpi = per && eventFor("us_cpi", per), rt = per && eventFor("us_retail", per), jb = per && eventFor("us_jobs", per);
+    const pa = (k) => (p ? vOf(p, k).actual : null);
+    const checks = [];
+    if (p && cpi && num(pa("yoy")) && num(vOf(cpi, "yoy").actual)) {
+      const a = sgn(vOf(cpi, "yoy").actual - revisedPrev(cpi, "yoy")), b = sgn(pa("yoy") - revisedPrev(p, "yoy"));
+      checks.push({ name: "물가", ok: a === b, text: `CPI 전년비 ${word("ttag", "price", a)} · PCE 전년비 ${word("ttag", "price", b)}` });
+    }
+    if (p && rt && num(pa("spending_mom")) && num(vOf(rt, "mom").actual)) {
+      const a = sgn(vOf(rt, "mom").actual), b = sgn(pa("spending_mom"));
+      checks.push({ name: "소비", ok: a === b, text: `소매판매 ${fv(rt, "mom", vOf(rt, "mom").actual)} · 개인지출 ${fv(p, "spending_mom", pa("spending_mom"))}` });
+    }
+    if (p && jb && num(pa("income_mom"))) {
+      const n = knownValues("us_jobs", "nfp")[per];
+      if (num(n)) checks.push({ name: "소득", ok: sgn(n) === sgn(pa("income_mom")),
+        text: `일자리 ${fv(jb, "nfp", n)}(수정치) · 개인소득 ${fv(p, "income_mom", pa("income_mom"))}` });
+    }
+    if (g && num(vOf(g, "gdp").actual)) {
+      const gv = vOf(g, "gdp").actual, cons = vOf(g, "consumption").actual;
+      const spendUp = p ? sgn(pa("spending_mom")) >= 0 : true;
+      checks.push({ name: "성장", ok: (gv > 0) === spendUp && (!num(cons) || cons > 0 === spendUp),
+        text: `GDP ${fv(g, "gdp", gv)}(${perName(g.period)} ${g.estimate || ""})` + (num(cons) ? ` · 실질 소비 ${fv(g, "consumption", cons)}` : "") });
+    }
+    const evs = [p, g].filter(Boolean);
+    if (!checks.length) return { ev: evs, ...WAIT("같은 달 고용·CPI·소매판매 결과와 맞춰 볼 수 있을 때 답해요.") };
+    const bad = checks.filter((x) => !x.ok);
+    let tone, verdict;
+    if (!bad.length) { tone = "ok"; verdict = "예, 앞서 본 흐름과 일치해요"; }
+    else if (bad.length === 1) { tone = "mix"; verdict = `대체로 일치해요 (${bad[0].name}만 어긋남)`; }
+    else { tone = "down"; verdict = "어긋나는 곳이 많아요"; }
+    let text = checks.map((x) => `${x.name}: ${x.text} ${x.ok ? "✓" : "✗"}`).join(" · ") + ".";
+    if (per) text = `${perName(per)} 고용·CPI·소매판매와 비교 — ` + text;
+    if (p && num(pa("income_mom")) && num(pa("spending_mom")) && pa("spending_mom") - pa("income_mom") >= 0.1)
+      text += ` 다만 소득(${fv(p, "income_mom", pa("income_mom"))})보다 지출(${fv(p, "spending_mom", pa("spending_mom"))})이 더 늘었어요.`;
+    return { ev: evs, tone, verdict, text };
+  }
+  const REPORTS = [
+    { kind: "jobs", title: "고용보고서", q: "일자리와 임금이 소비를 뒷받침하고 있는가?", f: answerJobsReport },
+    { kind: "cpi", title: "CPI", q: "물가 둔화가 여러 항목에서 나타나고 있는가?", f: answerCpiReport },
+    { kind: "retail", title: "소매판매", q: "소비가 얼마나 유지되고 있으며, 어떤 항목이 변화를 이끌었는가?", f: answerRetailReport },
+    { kind: "gdppce", title: "GDP와 PCE", q: "성장·소득·소비·물가가 앞서 확인한 흐름과 일치하는가?", f: answerGdpPce },
+  ];
+  const BIG = [
+    ["일자리는 유지되고 있는가?", answerJobsHeld],
+    ["물가 상승 압력은 약해지고 있는가?", answerPriceEasing],
+    ["소비자는 지출을 이어가고 있는가?", answerSpending],
+  ];
+  function ansEl(r) { // → 확인 결과
+    const p = el("p", "ans t-" + r.tone);
+    p.append(el("span", "qlabel", "확인 결과"), document.createTextNode(r.verdict));
+    return p;
+  }
+  function renderChecks() {
+    if (!CAL) return;
+    const big = document.getElementById("check-big");
+    big.replaceChildren();
+    BIG.forEach(([q, f]) => {
+      const r = f(), card = el("article", "qcard");
+      card.append(el("h3", "", `“${q}”`), ansEl(r), el("p", "", r.text));
+      if (r.src) card.append(el("p", "src", r.src));
+      big.append(card);
+    });
+    const box = document.getElementById("check-reports");
+    box.replaceChildren();
+    REPORTS.forEach((rp) => {
+      const r = rp.f(), card = el("article", "rcard k-" + rp.kind);
+      const h = el("h3", "", rp.title);
+      if (r.ev && r.ev.length) h.append(el("small", "", r.ev.map((e) => `${periodTxt(e.period)}${e.estimate ? " " + e.estimate : ""}`).join(" · ")));
+      const q = el("p", "rq");
+      q.append(el("span", "qlabel", "질문"), document.createTextNode(`“${rp.q}”`));
+      card.append(h, q, ansEl(r), el("p", "", r.text));
+      (r.ev || []).forEach((e) => {
+        if ((r.ev || []).length > 1) card.append(el("h4", "", evLabel(e)));
+        card.append(lensList(e));
+      });
+      box.append(card);
+    });
+    document.getElementById("check").hidden = false;
+    document.getElementById("check-reports-wrap").hidden = false;
   }
 
   function renderCalendar() {
@@ -908,12 +1463,13 @@
       const a = el("article");
       a.append(el("div", "dday" + (n <= 1 ? " hot" : ""), n === 0 ? "오늘" : n === 1 ? "내일" : "D-" + n));
       a.append(el("h3", "", sm.title));
-      a.append(el("p", "", `${pr.md} ${pr.time}${e.period ? " · " + periodTxt(e.period) : ""}${e.tentative ? " · 날짜 잠정" : ""}`));
+      a.append(el("p", "", `${pr.md} ${pr.time}${e.period ? " · " + periodTxt(e.period) : ""}${e.estimate ? " " + e.estimate : ""}${e.tentative ? " · 날짜 잠정" : ""}`));
       const m = sm.metrics[0], v = e.values[0];
       a.append(el("p", "exp", v.forecast != null ? `예상 ${m.label} ${fmtVal(v.forecast, m)}` : `이전 ${m.label} ${fmtVal(v.previous, m)}`));
       soon.append(a);
     });
 
+    renderChecks();
     const list = document.getElementById("cal-list");
     list.replaceChildren();
     const cut = now - 21 * 86400e3; // 기본은 최근 3주 + 앞으로
