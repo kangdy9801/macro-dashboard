@@ -107,3 +107,25 @@ VKOSPI는 한국거래소 Open API에서만 안정적으로 받을 수 있어 �
 
 ## 직접 갱신하기
 Actions 탭 → 시세 데이터 업데이트 → Run workflow
+
+---
+
+## 경제 일정 자동화 (2026-11 추가)
+
+기존 `scripts/update_calendar.py`(FRED/ECOS 실제치, 이전치, 수정치)는 유지합니다.
+새 자동화는 매번 다음 순서로 실행됩니다.
+
+1. `scripts/update_schedule.py`: **공식적으로 날짜·시간을 확인할 수 있는** 미국 CPI/고용(BLS ICS), 미국 PCE/GDP(BEA ICS), 미국 FOMC(Federal Reserve 회의 일정)를 수집합니다. 이미 존재하는 일정과 일치시키고 새 일정만 추가하며 변경된 발표 시각은 `data/schedule_history.json`에 기록합니다. 데이터 발표가 이미 지난 일정은 임의로 바꾸지 않습니다. 시차는 `America/New_York` → `Asia/Seoul`로 변환하여 서머타임을 자동 반영합니다.
+2. `scripts/update_calendar.py`: 기존 실제치·이전치·수정치 수집에 이어 이번 주 Forex Factory 예상치를 확인합니다. **이전에 Forex Factory에서 자동 채운 예상치만** 발표 전 갱신하며, 기존 수동 예상치는 덮어쓰지 않습니다. 예상치가 변할 때마다 `data/forecast_history.json`에 저장합니다. 새로 자동 채운 값에는 `forecast_source`와 `forecast_as_of`가 붙습니다.
+3. `scripts/validate_calendar.py`: 날짜, 지표, 수치 및 중복 ID를 검증하고 누락된 발표 결과·미래 일정 부족은 경고로 출력하며 `data/calendar_health.json`에 점검 결과를 남깁니다.
+
+### 운영상 중요한 제한
+
+- **한국 CPI/고용/금통위, 미국 소매판매 발표 일정은 이번 버전에서 신규 자동 생성하지 않습니다.** 안정적으로 파싱 가능한 공식 발표 일정 인터페이스를 검증하기 전에는 추정 날짜를 생성하지 않고 기존 수동 일정을 보존합니다. `calendar_health.json`의 35일 이상 미래 일정 부족 경고를 확인하세요.
+- 시장 예상치는 통계기관의 공식 발표치가 아닙니다. 현재 Forex Factory 주간 JSON을 사용하는 기존 코드를 유지하되, 제공처의 접근 정책 및 재사용 허용 범위를 확인하고 운영해야 합니다. API 실패 시 이전 값을 최신값처럼 갱신하지 않습니다.
+- 공식 사이트의 일정 형식이 바뀌거나 접속이 차단될 수 있습니다. 세 공식 소스 중 **모두** 실패해도 기존 일정과 시세·발표치 자동화는 계속 실행합니다. 실패는 로그에 경고하며 확인된 날짜가 없으면 새 일정을 만들지 않습니다.
+- GitHub Actions를 처음 사용할 때 `Settings → Secrets and variables → Actions`에 기존 `ECOS_API_KEY`와 `KRX_API_KEY`를 필요한 경우 등록하세요. 새 일정 수집용 추가 키는 없습니다.
+- `schedule_history.json`, `forecast_history.json`은 append-only 기록입니다. 불필요한 대량 증가가 생기면 기간별 아카이브로 분리하세요.
+- 로컬 검증: `pip install requests beautifulsoup4`, `python -m unittest discover -s tests -v`, `python scripts/validate_calendar.py`.
+
+공식 출처: [BLS ICS](https://www.bls.gov/schedule/news_release/bls.ics), [BEA ICS](https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics), [FOMC 회의 일정](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm).

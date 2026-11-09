@@ -1,6 +1,6 @@
 """경제 일정(data/calendar.json)의 '결과'와 '이전' 값을 자동으로 채웁니다. (GitHub Actions에서 실행)
 
-- 일정(발표 날짜·시간)과 예상치는 data/calendar.json 에서 손으로 관리합니다.
+- 공식 발표 일정은 scripts/update_schedule.py가 우선 추가하며 미지원 일정은 수동 관리합니다.
 - 이 스크립트는 발표 시간이 지난 일정 중 '결과'가 비어 있는 칸만 채웁니다.
   손으로 넣은 값은 절대 덮어쓰지 않습니다.
 - 결과가 채워지면, 같은 지표의 다음 일정 '이전' 칸도 비어 있을 때 채웁니다.
@@ -22,7 +22,7 @@
     기준금리 : 722Y001 / 0101000
     CPI      : 901Y009 (총지수) · 901Y010 (식료품 및 에너지 제외, 에너지) → 전년동월비·전월비 %
     고용     : '경제활동인구' 통계표의 취업자(전년 같은 달 대비 증감)·실업률
-- 미국 예상치: Forex Factory 이번 주 일정(JSON)에서 예상치가 비어 있는 칸만 채움 (실패해도 무시)
+- 미국 예상치: Forex Factory 주간 JSON으로 자동 수집한 예상치만 발표 전 갱신, 변경 이력 저장. 수동 예상치는 보호합니다.
 """
 import csv
 import datetime as dt
@@ -401,33 +401,66 @@ def ff_number(text, metric):
     return v
 
 
-def fill_ff_forecasts(events):
+def fill_ff_forecasts(events, now=None, history_path=None):
+    """Refresh only automatically sourced, pre-release forecasts.
+
+    Pre-existing manually entered forecasts are left untouched. An append-only
+    snapshot history records initial automatic values and any subsequent changes.
+    """
+    now = now or dt.datetime.now(KST)
+    history_path = history_path or os.path.join(HERE, "..", "data", "forecast_history.json")
     try:
         items = get(FF_URL, tries=2).json()
+        if not isinstance(items, list):
+            raise ValueError("unexpected Forex Factory response")
     except Exception as e:
-        print(f"[ff] 이번 주 예상치를 못 받았어요: {e}")
+        print(f"::warning::[ff] 예상치를 못 받았어요: {e}")
         return 0
+    snapshots = []
     n = 0
     for it in items:
         if it.get("country") != "USD" or not it.get("forecast"):
             continue
         for pat, sid, key in FF_MAP:
-            if not re.match(pat, str(it.get("title", "")).strip()):
+            if not re.match(pat, str(it.get("title", "")).strip(), re.I):
                 continue
             try:
-                when = dt.datetime.fromisoformat(it["date"]).astimezone(KST)
-            except Exception:
+                when = dt.datetime.fromisoformat(it["date"])
+                if when.tzinfo is None:
+                    continue  # unzoned dates cannot be safely matched
+                when = when.astimezone(KST)
+            except (ValueError, TypeError):
+                continue
+            if when <= now:  # never update forecasts after the release
                 continue
             for ev in events:
                 if ev["series"] != sid or abs(release_time(ev) - when) > dt.timedelta(hours=3):
                     continue
                 for v in ev["values"]:
-                    if v["key"] == key and v.get("forecast") is None:
-                        val = ff_number(it["forecast"], key)
-                        if val is not None:
-                            v["forecast"] = val
-                            n += 1
-                            print(f"[ff] {ev['id']} {key} 예상치 {val}")
+                    if v["key"] != key:
+                        continue
+                    if v.get("forecast") is not None and v.get("forecast_source") != "Forex Factory":
+                        continue  # preserve manually curated data
+                    val = ff_number(it["forecast"], key)
+                    if val is None or not (-10000 <= val <= 10000):
+                        continue
+                    if v.get("forecast") == val:
+                        continue
+                    old = v.get("forecast")
+                    v["forecast"] = val
+                    v["forecast_source"] = "Forex Factory"
+                    v["forecast_as_of"] = now.isoformat(timespec="minutes")
+                    snapshots.append({"observed_at": now.isoformat(timespec="minutes"),
+                                      "event_id": ev["id"], "metric": key,
+                                      "previous_forecast": old, "forecast": val,
+                                      "source": "Forex Factory", "release_kst": ev["release_kst"]})
+                    n += 1
+                    print(f"[ff] {ev['id']} {key} 예상치 {old} → {val}")
+    if snapshots:
+        history = json.load(open(history_path, encoding="utf-8")) if os.path.exists(history_path) else []
+        with open(history_path, "w", encoding="utf-8") as f:
+            json.dump(history + snapshots, f, ensure_ascii=False, indent=2)
+            f.write("\n")
     return n
 
 
@@ -570,7 +603,7 @@ def main():
 
     changed += fill_revisions(events, now)
     changed += fill_retail_drivers(events, now)
-    changed += fill_ff_forecasts(events)
+    changed += fill_ff_forecasts(events, now)
 
     if changed:
         cal["updated"] = now.isoformat(timespec="minutes")
