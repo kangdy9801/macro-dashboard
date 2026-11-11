@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T15:07+09:00",
+ "updated": "2026-11-11T11:09+09:00",
  "about": "경제 일정(한국 시간). 일정·예상치는 손으로 고치고, 결과·이전 값은 매일 자동으로 채웁니다. 손으로 넣은 값은 덮어쓰지 않습니다.",
  "series": {
   "us_rate": {
@@ -932,7 +932,7 @@
     {
      "key": "mom",
      "forecast": 0.3,
-     "actual": null,
+     "actual": 0.4,
      "previous": 0.6
     },
     {
@@ -944,7 +944,7 @@
     {
      "key": "core_mom",
      "forecast": 0.2,
-     "actual": null,
+     "actual": 0.3,
      "previous": 0.3
     },
     {
@@ -956,7 +956,7 @@
     {
      "key": "energy_mom",
      "forecast": null,
-     "actual": null,
+     "actual": 0.7,
      "previous": 5.2
     }
    ]
@@ -1221,7 +1221,7 @@
      "key": "mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.4
     },
     {
      "key": "core_yoy",
@@ -1233,7 +1233,7 @@
      "key": "core_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.3
     },
     {
      "key": "energy_yoy",
@@ -1245,7 +1245,7 @@
      "key": "energy_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.7
     }
    ]
   },
