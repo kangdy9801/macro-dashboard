@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-11T11:09+09:00",
+  "checked_at": "2026-11-11T15:55+09:00",
   "errors": [],
   "warnings": [
     "us_jobs: no scheduled event at least 35 days ahead; source/manual review needed",
