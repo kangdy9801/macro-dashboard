@@ -187,5 +187,12 @@
     "field": "created",
     "to": "2027-12-22T22:30",
     "source": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics"
+  },
+  {
+    "at": "2026-11-13T11:52:14+09:00",
+    "event_id": "us_rate-2027-11-18",
+    "field": "created",
+    "to": "2027-11-18T04:00",
+    "source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
   }
 ]

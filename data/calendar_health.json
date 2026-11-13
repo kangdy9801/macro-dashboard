@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-12T16:32+09:00",
+  "checked_at": "2026-11-13T11:52+09:00",
   "errors": [],
   "warnings": [
     "us_jobs: no scheduled event at least 35 days ahead; source/manual review needed",
@@ -8,5 +8,5 @@
     "kr_cpi: no scheduled event at least 35 days ahead; source/manual review needed",
     "kr_jobs: no scheduled event at least 35 days ahead; source/manual review needed"
   ],
-  "event_count": 54
+  "event_count": 55
 }

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-12T12:18+09:00",
+ "updated": "2026-11-13T11:52+09:00",
  "about": "경제 일정(한국 시간). 일정·예상치는 손으로 고치고, 결과·이전 값은 매일 자동으로 채웁니다. 손으로 넣은 값은 덮어쓰지 않습니다.",
  "series": {
   "us_rate": {
@@ -1960,6 +1960,23 @@
     },
     {
      "key": "spending_mom",
+     "forecast": null,
+     "actual": null,
+     "previous": null
+    }
+   ]
+  },
+  {
+   "id": "us_rate-2027-11-18",
+   "series": "us_rate",
+   "release_kst": "2027-11-18T04:00",
+   "period": null,
+   "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+   "schedule_source": "FOMC",
+   "tentative": true,
+   "values": [
+    {
+     "key": "rate",
      "forecast": null,
      "actual": null,
      "previous": null
