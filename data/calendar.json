@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T11:52+09:00",
+ "updated": "2026-11-16T16:01+09:00",
  "about": "경제 일정(한국 시간). 일정·예상치는 손으로 고치고, 결과·이전 값은 매일 자동으로 채웁니다. 손으로 넣은 값은 덮어쓰지 않습니다.",
  "series": {
   "us_rate": {
@@ -990,9 +990,11 @@
    "values": [
     {
      "key": "mom",
-     "forecast": null,
+     "forecast": 0.2,
      "actual": null,
-     "previous": 0.8
+     "previous": 0.8,
+     "forecast_source": "Forex Factory",
+     "forecast_as_of": "2026-11-16T16:01+09:00"
     },
     {
      "key": "exautogas_mom",
