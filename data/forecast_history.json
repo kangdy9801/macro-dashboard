@@ -7,5 +7,14 @@
     "forecast": 0.2,
     "source": "Forex Factory",
     "release_kst": "2026-11-17T22:30"
+  },
+  {
+    "observed_at": "2026-11-17T13:45+09:00",
+    "event_id": "us_retail-2026-10",
+    "metric": "mom",
+    "previous_forecast": 0.2,
+    "forecast": 0.1,
+    "source": "Forex Factory",
+    "release_kst": "2026-11-17T22:30"
   }
 ]
