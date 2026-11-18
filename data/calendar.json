@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T13:45+09:00",
+ "updated": "2026-11-18T12:50+09:00",
  "about": "경제 일정(한국 시간). 일정·예상치는 손으로 고치고, 결과·이전 값은 매일 자동으로 채웁니다. 손으로 넣은 값은 덮어쓰지 않습니다.",
  "series": {
   "us_rate": {
@@ -991,7 +991,7 @@
     {
      "key": "mom",
      "forecast": 0.1,
-     "actual": null,
+     "actual": 0.2,
      "previous": 0.8,
      "forecast_source": "Forex Factory",
      "forecast_as_of": "2026-11-17T13:45+09:00"
@@ -999,14 +999,56 @@
     {
      "key": "exautogas_mom",
      "forecast": null,
-     "actual": null,
+     "actual": 0.5,
      "previous": 0.2
     },
     {
      "key": "control_mom",
      "forecast": null,
-     "actual": null,
+     "actual": 0.6,
      "previous": 0.1
+    }
+   ],
+   "revisions": [
+    {
+     "period": "2026-09",
+     "key": "control_mom",
+     "from": 0.1,
+     "to": 0.5
+    },
+    {
+     "period": "2026-08",
+     "key": "mom",
+     "from": 1.3,
+     "to": 1.5
+    },
+    {
+     "period": "2026-08",
+     "key": "control_mom",
+     "from": 1.2,
+     "to": 1.6
+    }
+   ],
+   "drivers": [
+    {
+     "label": "그 밖의 소매(통제그룹)",
+     "pp": 0.32
+    },
+    {
+     "label": "자동차·부품",
+     "pp": -0.3
+    },
+    {
+     "label": "주유소",
+     "pp": 0.14
+    },
+    {
+     "label": "건축자재",
+     "pp": 0.03
+    },
+    {
+     "label": "외식",
+     "pp": 0.03
     }
    ]
   },
@@ -1261,19 +1303,19 @@
      "key": "mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.2
     },
     {
      "key": "exautogas_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.5
     },
     {
      "key": "control_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.6
     }
    ],
    "tentative": true
