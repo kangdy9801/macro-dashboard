@@ -16,5 +16,41 @@
     "forecast": 0.1,
     "source": "Forex Factory",
     "release_kst": "2026-11-17T22:30"
+  },
+  {
+    "observed_at": "2026-11-23T17:00+09:00",
+    "event_id": "us_pce-2026-10",
+    "metric": "core_mom",
+    "previous_forecast": null,
+    "forecast": 0.3,
+    "source": "Forex Factory",
+    "release_kst": "2026-11-25T22:30"
+  },
+  {
+    "observed_at": "2026-11-23T17:00+09:00",
+    "event_id": "us_gdp-2026-Q3s",
+    "metric": "gdp",
+    "previous_forecast": null,
+    "forecast": 3.5,
+    "source": "Forex Factory",
+    "release_kst": "2026-11-25T22:30"
+  },
+  {
+    "observed_at": "2026-11-23T17:00+09:00",
+    "event_id": "us_pce-2026-10",
+    "metric": "income_mom",
+    "previous_forecast": null,
+    "forecast": 0.4,
+    "source": "Forex Factory",
+    "release_kst": "2026-11-25T22:30"
+  },
+  {
+    "observed_at": "2026-11-23T17:00+09:00",
+    "event_id": "us_pce-2026-10",
+    "metric": "spending_mom",
+    "previous_forecast": null,
+    "forecast": 0.4,
+    "source": "Forex Factory",
+    "release_kst": "2026-11-25T22:30"
   }
 ]

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T12:50+09:00",
+ "updated": "2026-11-23T17:00+09:00",
  "about": "경제 일정(한국 시간). 일정·예상치는 손으로 고치고, 결과·이전 값은 매일 자동으로 채웁니다. 손으로 넣은 값은 덮어쓰지 않습니다.",
  "series": {
   "us_rate": {
@@ -1060,9 +1060,11 @@
    "values": [
     {
      "key": "gdp",
-     "forecast": null,
+     "forecast": 3.5,
      "actual": null,
-     "previous": 3.4
+     "previous": 3.4,
+     "forecast_source": "Forex Factory",
+     "forecast_as_of": "2026-11-23T17:00+09:00"
     },
     {
      "key": "consumption",
@@ -1099,21 +1101,27 @@
     },
     {
      "key": "core_mom",
-     "forecast": null,
+     "forecast": 0.3,
      "actual": null,
-     "previous": 0.3
+     "previous": 0.3,
+     "forecast_source": "Forex Factory",
+     "forecast_as_of": "2026-11-23T17:00+09:00"
     },
     {
      "key": "income_mom",
-     "forecast": null,
+     "forecast": 0.4,
      "actual": null,
-     "previous": 0.2
+     "previous": 0.2,
+     "forecast_source": "Forex Factory",
+     "forecast_as_of": "2026-11-23T17:00+09:00"
     },
     {
      "key": "spending_mom",
-     "forecast": null,
+     "forecast": 0.4,
      "actual": null,
-     "previous": 0.5
+     "previous": 0.5,
+     "forecast_source": "Forex Factory",
+     "forecast_as_of": "2026-11-23T17:00+09:00"
     }
    ],
    "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
