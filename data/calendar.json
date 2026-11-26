@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23T17:00+09:00",
+ "updated": "2026-11-26T13:20+09:00",
  "about": "경제 일정(한국 시간). 일정·예상치는 손으로 고치고, 결과·이전 값은 매일 자동으로 채웁니다. 손으로 넣은 값은 덮어쓰지 않습니다.",
  "series": {
   "us_rate": {
@@ -1061,7 +1061,7 @@
     {
      "key": "gdp",
      "forecast": 3.5,
-     "actual": null,
+     "actual": 4.3,
      "previous": 3.4,
      "forecast_source": "Forex Factory",
      "forecast_as_of": "2026-11-23T17:00+09:00"
@@ -1069,7 +1069,7 @@
     {
      "key": "consumption",
      "forecast": null,
-     "actual": null,
+     "actual": 4.2,
      "previous": 3.8
     }
    ],
@@ -1084,25 +1084,25 @@
     {
      "key": "yoy",
      "forecast": null,
-     "actual": null,
+     "actual": 3.8,
      "previous": 3.6
     },
     {
      "key": "mom",
      "forecast": null,
-     "actual": null,
+     "actual": 0.3,
      "previous": 0.5
     },
     {
      "key": "core_yoy",
      "forecast": null,
-     "actual": null,
+     "actual": 3.3,
      "previous": 3.1
     },
     {
      "key": "core_mom",
      "forecast": 0.3,
-     "actual": null,
+     "actual": 0.3,
      "previous": 0.3,
      "forecast_source": "Forex Factory",
      "forecast_as_of": "2026-11-23T17:00+09:00"
@@ -1110,7 +1110,7 @@
     {
      "key": "income_mom",
      "forecast": 0.4,
-     "actual": null,
+     "actual": 0.7,
      "previous": 0.2,
      "forecast_source": "Forex Factory",
      "forecast_as_of": "2026-11-23T17:00+09:00"
@@ -1118,14 +1118,34 @@
     {
      "key": "spending_mom",
      "forecast": 0.4,
-     "actual": null,
+     "actual": 0.3,
      "previous": 0.5,
      "forecast_source": "Forex Factory",
      "forecast_as_of": "2026-11-23T17:00+09:00"
     }
    ],
    "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
-   "schedule_source": "BEA"
+   "schedule_source": "BEA",
+   "revisions": [
+    {
+     "period": "2026-09",
+     "key": "yoy",
+     "from": 3.6,
+     "to": 3.7
+    },
+    {
+     "period": "2026-09",
+     "key": "income_mom",
+     "from": 0.2,
+     "to": 0.3
+    },
+    {
+     "period": "2026-09",
+     "key": "spending_mom",
+     "from": 0.5,
+     "to": 0.6
+    }
+   ]
   },
   {
    "id": "kr_rate-2026-11-26",
@@ -1136,7 +1156,7 @@
     {
      "key": "rate",
      "forecast": 3.25,
-     "actual": null,
+     "actual": 3.25,
      "previous": 3.0
     }
    ],
@@ -1338,13 +1358,13 @@
      "key": "gdp",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 4.3
     },
     {
      "key": "consumption",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 4.2
     }
    ],
    "estimate": "확정치",
@@ -1360,37 +1380,37 @@
      "key": "yoy",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 3.8
     },
     {
      "key": "mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.3
     },
     {
      "key": "core_yoy",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 3.3
     },
     {
      "key": "core_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.3
     },
     {
      "key": "income_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.7
     },
     {
      "key": "spending_mom",
      "forecast": null,
      "actual": null,
-     "previous": null
+     "previous": 0.3
     }
    ],
    "source_url": "https://www.bea.gov/news/schedule/ics/online-calendar-subscription.ics",
